@@ -11,8 +11,8 @@ description: >
   TYPESCRIPT 공부
 ---
 
-- toc
-  {:toc}
+* toc
+{:toc}
 
 ## Typescript 공부
 

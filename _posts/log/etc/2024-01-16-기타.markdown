@@ -11,8 +11,8 @@ description: >
   기타 등등
 ---
 
-- toc
-  {:toc}
+* toc
+{:toc}
 
 ## 기타
 

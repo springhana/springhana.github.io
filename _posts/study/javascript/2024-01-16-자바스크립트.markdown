@@ -11,8 +11,8 @@ description: >
   JAVASCRIPT 공부
 ---
 
-- toc
-  {:toc}
+* toc
+{:toc}
 
 ## JAVASCRIPT 공부
 

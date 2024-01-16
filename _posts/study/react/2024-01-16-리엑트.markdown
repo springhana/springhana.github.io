@@ -11,8 +11,8 @@ description: >
   REACT 공부
 ---
 
-- toc
-  {:toc}
+* toc
+{:toc}
 
 ## REACT 공부
 

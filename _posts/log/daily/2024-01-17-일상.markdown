@@ -10,9 +10,8 @@ categories:
 description: >
   일상 블로그
 ---
-
-- toc
-  {:toc}
+* toc
+{:toc}
 
 # 일상
 
