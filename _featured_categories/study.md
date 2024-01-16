@@ -20,8 +20,8 @@ description: >
 - [Coding]{:.heading.flip-title} --- 코딩 테스트
 
 [CS]: /cs/
-[JavaScript]: /study/javascript/
-[TypeScript]: /study/typescript/
-[React]: /study/react/
-[Next]: /study/next/
-[Next]: /study/next/
+[JavaScript]: /javascript/
+[TypeScript]: /typescript/
+[React]: /react/
+[Next]: /next/
+[Next]: /next/
