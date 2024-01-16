@@ -16,7 +16,7 @@ description: >
 * [CS]{:.heading.flip-title} --- CS 지식
 * [JavaScript]{:.heading.flip-title} --- 자바스크립트
 * [TypeScript]{:.heading.flip-title} --- 타입스크립트
-* [BlogReactetc]{:.heading.flip-title} --- 리엑트
+* [React]{:.heading.flip-title} --- 리엑트
 
 [CS]: /cs/
 [JavaScript]: /javascript/
