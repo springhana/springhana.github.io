@@ -1,7 +1,8 @@
 ---
 layout: post
 related_posts:
-  - /log/etc
+  - /log
+  - /etc
 title: TEST
 date: "2024-01-17 04:24:02 +0900"
 categories:

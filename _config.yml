@@ -53,34 +53,34 @@ menu:
     url: /study/
     submenu:
       - title: CS
-        url: /study/cs/
+        url: /cs/
       - title: JAVASCRIPT
-        url: /study/javascript/
+        url: /javascript/
       - title: TYPESCRIPT
-        url: /study/typescript/
+        url: /typescript/
       - title: REACT
-        url: /study/react/
+        url: /react/
       - title: NEXT
-        url: /study/next/
+        url: /next/
       - title: 코딩 테스트
-        url: /study/coding/
+        url: /coding/
   - title: LOG
     url: /log/
     submenu:
       - title: 일상
-        url: /log/daily/
+        url: /daily/
       - title: 기타
-        url: /log/etc/
+        url: /etc/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
-legal:
-  - title: LICENSE
-    url: /LICENSE/
-  - title: NOTICE
-    url: /NOTICE/
-  - title: CHANGELOG
-    url: /CHANGELOG/
+#legal:
+#  - title: LICENSE
+#    url: /LICENSE/
+#  - title: NOTICE
+#    url: /NOTICE/
+#  - title: CHANGELOG
+#    url: /CHANGELOG/
 
 # This text will appear in a `<small>` tag in the footer of every page.
 copyright: © 2021. All rights reserved.
@@ -96,7 +96,7 @@ paginate_path: /:num/
 # ---------------------------------------------------------------------------------------
 
 #theme: jekyll-theme-hydejack
-remote_theme: hydecorp/hydejack@v9
+#remote_theme: hydecorp/hydejack@v9
 
 # Customizaton
 # ----------------------------------------------------------------------------------------
