@@ -2,30 +2,30 @@
 # Must be the same as `author` in `_config.yml`.
 # Change `author1` to your shortname.
 author1:
-  name:              봄이슝
-  email:             https://github.com/springhana
+  name: 봄이슝
+  email: https://github.com/springhana
 
   # Used at the bottom of each page and at the top of the `about` layout
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
-  about:             |
+  about: |
     안녕하세요. CS 지식/개발에 필요한 문법/블로그입니다.⭐
-    
+
   # Open `_data/authors.yml` to edit this text.
 
   # This photo will be used in the about section
   picture:
-    path:            image/AdobeStock_142755488.jpeg
+    path: image/AdobeStock_142755488.jpeg
     # srcset is optional, but can be used to provide higher res versions for retina displays
     srcset:
-      1x:            /image/AdobeStock_142755488.jpeg
-      2x:            /image/AdobeStock_142755488.jpeg
+      1x: /assets/img/logo.jpeg
+      2x: /assets/img/logo.jpeg
 
   # Social media icons in sidebar
   # Comment/uncommet to show/hide
   # Rearrange to change the order in which they appear
   social:
     # twitter:         <username>
-    github:            springhana
+    github: springhana
     # email:           <mail@domain.tld>
     # rss:             https://<url>/feed.xml
     # facebook:        <username>
@@ -63,7 +63,6 @@ author1:
     # paypal:          <username>
     # download:        <url>
     # keybase          <username>
-
 # Another author (optional)
 # author2:
 #  name:              <firtname> <lastname>
