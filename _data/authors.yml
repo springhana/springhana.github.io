@@ -8,17 +8,17 @@ author1:
   # Used at the bottom of each page and at the top of the `about` layout
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about:             |
-    안녕하세요. CS 지식/JS,TS,REACT 등 문법/블로그입니다.⭐
+    안녕하세요. CS 지식/개발에 필요한 문법/블로그입니다.⭐
     
-    Open `_data/authors.yml` to edit this text.
+  # Open `_data/authors.yml` to edit this text.
 
   # This photo will be used in the about section
   picture:
     path:            image/AdobeStock_142755488.jpeg
     # srcset is optional, but can be used to provide higher res versions for retina displays
     srcset:
-      1x:            image/AdobeStock_142755488.jpeg
-      2x:            image/AdobeStock_142755488.jpeg
+      1x:            /image/AdobeStock_142755488.jpeg
+      2x:            /image/AdobeStock_142755488.jpeg
 
   # Social media icons in sidebar
   # Comment/uncommet to show/hide
