@@ -8,11 +8,11 @@ categories:
   - log
   - etc
 description: >
-  테스트.
-comments: true
-published: true
+  기타 등등
 ---
 
-## 테스트 포스트
+## 기타
 
-테스트입니다.
+# 블로그
+
+기타 등등을 기록하는 블로그

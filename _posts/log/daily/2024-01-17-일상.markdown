@@ -8,11 +8,11 @@ categories:
   - log
   - daily
 description: >
-  테스트.
-comments: true
-published: true
+  일상 블로그
 ---
 
-## 테스트 포스트
+## 일상
 
-테스트입니다.
+# 블로그
+
+일상을 기록하자!!

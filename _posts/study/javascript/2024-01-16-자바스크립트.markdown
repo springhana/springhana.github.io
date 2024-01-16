@@ -1,0 +1,18 @@
+---
+layout: post
+related_posts:
+  - /study/javascript
+title: TEST
+date: "2024-01-16 04:24:02 +0900"
+categories:
+  - study
+  - javascript
+description: >
+  JAVASCRIPT 공부
+---
+
+## JAVASCRIPT 공부
+
+# 블로그
+
+JAVASCRIPT 공부하는 블로그

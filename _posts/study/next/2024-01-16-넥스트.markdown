@@ -1,0 +1,18 @@
+---
+layout: post
+related_posts:
+  - /study/next
+title: TEST
+date: "2024-01-16 04:24:02 +0900"
+categories:
+  - study
+  - next
+description: >
+  NEXT 공부
+---
+
+## NEXT 공부
+
+# 블로그
+
+Next 공부하는 블로그
