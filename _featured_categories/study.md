@@ -19,7 +19,7 @@ description: >
 - [Next]{:.heading.flip-title} --- 리엑트
 
 [CS]: /cs/
-[JavaScript]: /javascript/
-[TypeScript]: /typescript/
-[React]: /react/
-[Next]: /next/
+[JavaScript]: /study/javascript/
+[TypeScript]: /study/typescript/
+[React]: /study/react/
+[Next]: /study/next/

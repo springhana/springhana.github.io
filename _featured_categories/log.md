@@ -15,5 +15,5 @@ description: >
 - [Daily]{:.heading.flip-title} --- 일상 기록
 - [ETC]{:.heading.flip-title} --- 기타 등등
 
-[Daily]: /daily/
-[ETC]: /etc/
+[Daily]: /log/daily/
+[ETC]: /log/etc/

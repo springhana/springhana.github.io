@@ -53,25 +53,24 @@ menu:
     url: /study/
     submenu:
       - title: CS
-        url: /cs/
+        url: /study/cs/
       - title: JAVASCRIPT
-        url: /javascript/
+        url: /study/javascript/
       - title: TYPESCRIPT
-        url: /typescript/
+        url: /study/typescript/
       - title: REACT
-        url: /react/
+        url: /study/react/
       - title: NEXT
-        url: /next/
+        url: /study/next/
       - title: 코딩 테스트
-        url: /coding/
+        url: /study/coding/
   - title: LOG
     url: /log/
     submenu:
       - title: 일상
-        url: /daily/
+        url: /log/daily/
       - title: 기타
-        url: /etc/
-        
+        url: /log/etc/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
