@@ -47,18 +47,18 @@ author:
 
 # Add links to the sidebar.
 menu:
-  - title: About
+  - title: ABOUT
     url: /about/
-  - title: Study
+  - title: STUDY
     url: /study/
     submenu:
       - title: CS
         url: /cs/
-      - title: JavaScript
+      - title: JAVASCRIPT
         url: /javascript/
-      - title: TypeScript
+      - title: TYPESCRIPT
         url: /typescript/
-      - title: React
+      - title: REACT
         url: /react/
 
 # Add links to the footer.
