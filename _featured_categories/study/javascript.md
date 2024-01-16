@@ -1,6 +1,5 @@
 ---
-layout: post
-category: study
+layout: list
 bigtitle: JavaScript
 description: >
   자바스크립트 공부
@@ -11,4 +10,5 @@ addons:
   - comments
 list: true
 order: 2
+sitemap: true
 ---
