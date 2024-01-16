@@ -1,6 +1,6 @@
 ---
 layout: list
-bigtitle: Blog
+bigtitle: Study
 sitemap: true
 hide_description: false
 
@@ -16,8 +16,10 @@ description: >
 - [JavaScript]{:.heading.flip-title} --- 자바스크립트
 - [TypeScript]{:.heading.flip-title} --- 타입스크립트
 - [React]{:.heading.flip-title} --- 리엑트
+- [Next]{:.heading.flip-title} --- 리엑트
 
 [CS]: /cs/
 [JavaScript]: /javascript/
 [TypeScript]: /typescript/
 [React]: /react/
+[Next]: /next/

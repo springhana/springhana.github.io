@@ -60,6 +60,18 @@ menu:
         url: /typescript/
       - title: REACT
         url: /react/
+      - title: NEXT
+        url: /next/
+      - title: 코딩 테스트
+        url: /coding/
+  - title: LOG
+    url: /log/
+    submenu:
+      - title: 일상
+        url: /daily/
+      - title: 기타
+        url: /etc/
+        
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
