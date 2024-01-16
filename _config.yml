@@ -50,14 +50,17 @@ author:
 menu:
   - title:             About
     url:               /about/
-  - title:             CS
-    url:               /cs/
-  - title:             JavaScript
-    url:               /javascript/
-  - title:             TypeScript
-    url:               /typescript/
-  - title:             React
-    url:               /react/
+  - title:             Study
+    url:               /study/
+    submenu:  
+      - title:             CS
+        url:               /cs/
+      - title:             JavaScript
+        url:               /javascript/
+      - title:             TypeScript
+        url:               /typescript/
+      - title:             React
+        url:               /react/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
