@@ -24,4 +24,4 @@ description: >
 [TypeScript]: /typescript/
 [React]: /react/
 [Next]: /next/
-[Next]: /next/
+[Coding]: /coding/
