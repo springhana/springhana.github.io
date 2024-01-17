@@ -274,7 +274,7 @@ hydejack:
   hide_dates: false
 
   # TODO
-  hide_last_modified: true
+  hide_last_modified: false
 
   # Note that dark mode only works in the PRO version of Hydejack.
   dark_mode:
