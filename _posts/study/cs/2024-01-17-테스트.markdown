@@ -9,6 +9,8 @@ categories:
   - cs
 description: >
   CS 지식
+image: /assets/img/side-bar-bg.jpg
+sitemap: false
 ---
 
 * toc
