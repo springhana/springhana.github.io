@@ -1,0 +1,21 @@
+---
+layout: post
+related_posts:
+  - /log/etc
+title: 기타
+categories:
+  - log
+  - etc
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  기타 등등
+---
+
+* toc
+{:toc}
+
+## 기타
+
+# 블로그
+
+기타 등등을 기록하는 블로그
