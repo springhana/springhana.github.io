@@ -89,7 +89,7 @@ copyright: © 2021. All rights reserved.
 permalink: /:categories/:title/
 
 # Pagination configuration (used by the `blog` layout)
-paginate: 6
+paginate: 10
 paginate_path: /:num/
 
 # Theme
