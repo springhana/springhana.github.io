@@ -3,7 +3,7 @@
 
 # Uncomment and set the URL of your site (with protocol, e.g. `https://`)
 # NOTE: You don't need to provide this property when hosting on GitHub Pages or Netlify.
-url: https://springhana.github.io
+# url:                   https://username.github.io
 
 # Uncomment and set the "base URL" of your site.
 # When your site is in a subdirectory, set to `/<name of directory>`,
@@ -19,15 +19,15 @@ url: https://springhana.github.io
 lang: ko-KR, en-US
 
 # The title of your blog. Used in the sidebar and the browser tab.
-title: 봄이슝의 블로그
+title: SANG MIN's
 
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description: >
-  코딩 잘하고 싶은 블로그입니다.
+  sangmin's small start of develog.
 
 # A shorter description for the sidebar.
-tagline: 일단 해보자!!
+tagline: Develog / Game blog
 
 # A list of keywords for your blog
 keywords: []
@@ -35,13 +35,13 @@ keywords: []
 # A (square) logo for your site.
 # If provided, it will be shown at the top of the sidebar.
 # It also used by the `jekyll-seo-tag` plugin.
-logo: /assets/img/logo.jpeg
+logo: /assets/img/sangmin2ya.png
 
 # This should be the same author as first entry in `_data/authors.yml`.
 author:
   # Used by `jekyll-feed`:
-  name: sunghwan kim
-  email: https://github.com/springhana
+  name: SANGMIN PARK
+  email: netboy0524@gmail.com
   # # Used by `jekyll-seo-tag`:
   # twitter:             <username>
 
@@ -49,44 +49,40 @@ author:
 menu:
   - title: ABOUT
     url: /about/
-  - title: STUDY
-    url: /study/
+  - title: STUDY LOG
+    url: /studylog/
     submenu:
-      - title: CS
-        url: /cs/
-      - title: JAVASCRIPT
-        url: /javascript/
-      - title: TYPESCRIPT
-        url: /typescript/
-      - title: REACT
-        url: /react/
-      - title: NEXT
-        url: /next/
-      - title: 코딩 테스트
-        url: /coding/
-  - title: LOG
-    url: /log/
+      - title: OS
+        url: /os/
+      - title: NETWORK
+        url: /network/
+      - title: HYDEJACK
+        url: /hydejack/
+  - title: GAME DEVELOG
+    url: /gamedevelog/
     submenu:
-      - title: 일상
-        url: /daily/
-      - title: 기타
-        url: /etc/
+      - title: UNREAL ENGINE
+        url: /unrealengine/
+  - title: GAME ANALYSIS
+    url: /gameanalysis/
+  - title: BAEKJOON
+    url: /baekjoon/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
-# legal:
-#   - title: LICENSE
-#     url: /LICENSE/
-#   - title: NOTICE
-#     url: /NOTICE/
-#   - title: CHANGELOG
-#     url: /CHANGELOG/
+legal:
+  - title: LICENSE
+    url: /LICENSE/
+  - title: NOTICE
+    url: /NOTICE/
+  - title: CHANGELOG
+    url: /CHANGELOG/
 
 # This text will appear in a `<small>` tag in the footer of every page.
 copyright: © 2021. All rights reserved.
 
 # Format of the permalinks
-permalink: /:categories/:year-:month-:day-:title/
+permalink: /:categories/:title/
 
 # Pagination configuration (used by the `blog` layout)
 paginate: 10
@@ -187,7 +183,7 @@ kramdown:
 
 # Setting a disqus shortname will enable the comment section on
 # pages with `comments: true` in the front matter.
-disqus: https://springhana.github.io/
+disqus: https-sangmin2ya-github-io
 
 # Setting a tinyletter username will enable the newsletter subscription box.
 # PRO version only!
@@ -348,7 +344,7 @@ plugins:
 # ---------------------------------------------------------------------------------------
 
 # Where you proof that you own this site (used by jekyll-seo-tag)
-# google_site_verification: <verification-id>
+google_site_verification: lpVTACcMxeh_76b508obNUCP6eLXiUwktG5C3oITLWc
 # -- or --
 # webmaster_verifications:
 #   google:              <verification-id>
