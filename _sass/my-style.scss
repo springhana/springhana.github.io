@@ -166,3 +166,8 @@
   width: 140px !important;
   height: 140px !important;
 }
+
+// navbar
+.navbar > .content::before {
+  box-shadow: none;
+}
