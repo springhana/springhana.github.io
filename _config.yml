@@ -150,10 +150,10 @@ defaults:
       sitemap: false
 
   # # You can use the following to enable comments on all posts.
-  # - scope:
-  #     type:            posts
-  #   values:
-  #     comments:        true
+   - scope:
+       type:            posts
+     values:
+       comments:        true
 
   # `jekyll-seo-tag` will mark collection outputs as `BlogPosting`,
   # but we want them to be `WebPage`s:
@@ -187,7 +187,7 @@ kramdown:
 
 # Setting a disqus shortname will enable the comment section on
 # pages with `comments: true` in the front matter.
-# disqus:                <username>
+disqus: https://springhana.github.io/
 
 # Setting a tinyletter username will enable the newsletter subscription box.
 # PRO version only!
@@ -244,7 +244,7 @@ hydejack:
   no_third_column: false
 
   # Set to `true` if you don't like oversized headlines on large screens.
-  no_large_headings: false
+  no_large_headings: true
 
   # Set to `true` if you do not want to expose your resume and projects
   # in machine-readable formats.
@@ -274,7 +274,7 @@ hydejack:
   hide_dates: false
 
   # TODO
-  hide_last_modified: false
+  hide_last_modified: true
 
   # Note that dark mode only works in the PRO version of Hydejack.
   dark_mode:
