@@ -1,5 +1,6 @@
 ---
 layout: list
+category: study
 bigtitle: coding
 description: >
   코딩 테스트 공부
@@ -10,5 +11,4 @@ addons:
   - comments
 list: true
 order: 5
-sitemap: true
 ---

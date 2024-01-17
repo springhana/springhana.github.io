@@ -1,5 +1,6 @@
 ---
 layout: list
+category: study
 bigtitle: cs
 description: >
   CS 지식
@@ -10,5 +11,4 @@ addons:
   - comments
 list: true
 order: 1
-sitemap: true
 ---

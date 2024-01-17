@@ -1,7 +1,5 @@
 ---
 layout: post
-related_posts:
-  - /log/etc
 title: 기타
 categories:
   - log

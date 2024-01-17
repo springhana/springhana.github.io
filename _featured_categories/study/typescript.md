@@ -1,5 +1,6 @@
 ---
 layout: list
+category: study
 bigtitle: TypeScript
 description: >
   타입스크립트 공부
@@ -10,5 +11,4 @@ addons:
   - comments
 list: true
 order: 4
-sitemap: true
 ---

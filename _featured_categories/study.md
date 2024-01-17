@@ -1,11 +1,10 @@
 ---
 layout: list
-bigtitle: Study
-sitemap: true
-hide_description: false
-
+title: STUDY
+slug: study
 description: >
   공부 주요 블로그
+sitemap: false
 ---
 
 # Study

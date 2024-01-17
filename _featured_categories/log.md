@@ -1,11 +1,11 @@
 ---
 layout: list
-bigtitle: 기록
-sitemap: true
-hide_description: false
-
+title: LOG
+slug: log
 description: >
   기록하는 블로그
+sitemap: false
+
 ---
 
 # Study

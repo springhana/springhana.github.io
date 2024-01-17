@@ -1,5 +1,6 @@
 ---
 layout: list
+category: log
 bigtitle: ETC
 description: >
   기타 등등
@@ -10,5 +11,4 @@ addons:
   - comments
 list: true
 order: 2
-sitemap: true
 ---

@@ -1,5 +1,6 @@
 ---
 layout: list
+category: study
 bigtitle: React
 description: >
   리엑트 공부
@@ -10,5 +11,4 @@ addons:
   - comments
 list: true
 order: 3
-sitemap: true
 ---
