@@ -3,7 +3,6 @@ layout: post
 related_posts:
   - /log/etc
 title: 기타
-date: "2024-01-16 04:24:02 +0900"
 categories:
   - log
   - etc
