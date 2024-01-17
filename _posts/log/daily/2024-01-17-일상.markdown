@@ -7,6 +7,7 @@ date: '2024-01-17 04:24:02 +0900'
 categories:
   - log
   - daily
+permalink: '/:categories/:year/:month/:day/:title/'
 description: >
   일상 블로그
 ---
