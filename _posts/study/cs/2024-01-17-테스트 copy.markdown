@@ -1,7 +1,5 @@
 ---
 layout: post
-related_posts:
-  - /study/cs
 title: 테스트
 categories:
   - study
