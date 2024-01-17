@@ -9,7 +9,7 @@ categories:
   - cs
 description: >
   CS 지식
-image: /assets/img/side-bar-bg.jpg
+image: /assets/img/sidebar-bg.jpg
 sitemap: false
 ---
 
