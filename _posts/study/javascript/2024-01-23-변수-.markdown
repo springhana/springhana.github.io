@@ -20,9 +20,12 @@ description: >
 <br/>
 - 자바스크립트 코드를 `계산(평가,evaluation)`하려면 먼저 10, 20, + 라는 `기호(리터럴,literal과 연산자,operator)`의 의미를 알고 있어야 하며, 10 * 20이라는 `식(표현식,expression)`의 의미도 `해석(파싱,parsion)`할 수 있어야 한다.
 
-<img src="/assets/img/javascript/memory_cell.png" />
 
 > 메모리(memory)는 데이터를 저장할 수 있는 메모리 셀(memory)의 집합체다.
+
+<br/>
+
+<img src="/assets/img/javascript/memory_cell.png" />
 
 <br/>
 
@@ -44,4 +47,4 @@ description: >
 값이 저장될 메모리 주소는 코드는 코드가 실행될 대 메모리의 상황에 따라 임의로 결정된다. **따라서 메모리 주소를 통해 값에 직접 접근하려는 시도는 올바른 방법이 아니다.**
 <br/>
 
-<img src="/assets/img/javascript/memory_assign.png" />
+<img src="/assets/img/javascript/memory_cell.png" />
