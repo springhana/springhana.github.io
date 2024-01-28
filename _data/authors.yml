@@ -9,6 +9,8 @@ author1:
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about: |
     안녕하세요. CS 지식/개발에 필요한 문법/블로그입니다.⭐
+    <a href="https://springhana.github.io/">깃허브 블로그</a>
+    <a href="https://velog.io/@springhana/posts">velog 블로그</a>
 
   # Open `_data/authors.yml` to edit this text.
 
