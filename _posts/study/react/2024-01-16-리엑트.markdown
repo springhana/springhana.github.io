@@ -6,6 +6,7 @@ title: REACT
 categories:
   - study
   - react
+image: /assets/img/react/modern-react-book.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
   REACT 공부
