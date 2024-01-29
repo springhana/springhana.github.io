@@ -1,0 +1,21 @@
+---
+layout: post
+related_posts:
+  - /study/javascript/2024-01-23-변수-.markdown
+title: 변수
+categories:
+  - study
+  - javascript
+image: /assets/img/javascript/modern-javascript-book.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  모던 자바스크립트 Deep Dive: 자바스크립트의 기본 개념과 동작 원리 - 05장 표현식과 문
+---
+
+* toc
+{:toc}
+
+
+값
+
+# 표현식과 문
