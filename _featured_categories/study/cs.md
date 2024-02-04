@@ -1,7 +1,7 @@
 ---
 layout: list
 category: study
-bigtitle: cs
+bigtitle: CS
 description: >
   CS 지식
 related_posts:
