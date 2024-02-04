@@ -1,7 +1,7 @@
 ---
 layout: list
 category: study
-bigtitle: Cs
+bigtitle: ComputerScience
 description: >
   CS 지식
 related_posts:
