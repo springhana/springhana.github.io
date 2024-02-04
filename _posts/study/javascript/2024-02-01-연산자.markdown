@@ -1,7 +1,9 @@
 ---
 layout: post
-related_posts:
+
+:
   - _posts/study/javascript/2024-01-31-데이터 타입.markdown
+  - _posts/study/javascript/2024-02-04-제어문.markdown
 title: 연산자
 categories:
   - study
@@ -78,11 +80,11 @@ typeof 'Hi' // -> string
 <br>
 
 ## **단항 산술 연산자**
->**이항(binary) 산술 연산자**는 2개의 피연산자를 산술 연산하여 숫자 값을 만든다.
+>**단항(unary) 산술 연산자**는 2개의 피연산자를 산술 연산하여 숫자 값을 만든다.
 
 <br>
 
-|이항 산술 연산자|의미|부수 효과|
+|단항 산술 연산자|의미|부수 효과|
 |:---:|:---:|:---:|
 |++|증가|⭕|
 |--|감소|⭕|
