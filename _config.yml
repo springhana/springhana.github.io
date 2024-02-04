@@ -52,8 +52,6 @@ menu:
   - title: STUDY
     url: /study/
     submenu:
-      - title: CS
-        url: /cs/
       - title: JAVASCRIPT
         url: /javascript/
       - title: TYPESCRIPT
@@ -62,6 +60,8 @@ menu:
         url: /react/
       - title: NEXT
         url: /next/
+      - title: cs 지식
+        url: /computerscience/
       - title: 코딩 테스트
         url: /coding/
   - title: LOG
