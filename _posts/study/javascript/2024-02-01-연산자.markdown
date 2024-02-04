@@ -1,7 +1,6 @@
 ---
 layout: post
-
-:
+related_posts:
   - _posts/study/javascript/2024-01-31-데이터 타입.markdown
   - _posts/study/javascript/2024-02-04-제어문.markdown
 title: 연산자

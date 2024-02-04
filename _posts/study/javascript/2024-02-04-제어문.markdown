@@ -1,7 +1,6 @@
 ---
 layout: post
-
-:
+related_posts:
   - _posts/study/javascript/2024-02-01-연산자.markdown
 title: 제어문
 categories:
