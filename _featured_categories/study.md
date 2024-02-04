@@ -15,12 +15,12 @@ sitemap: false
 - [TypeScript]{:.heading.flip-title} --- 타입스크립트
 - [React]{:.heading.flip-title} --- 리엑트
 - [Next]{:.heading.flip-title} --- 넥스트
-- [CS]{:.heading.flip-title} --- 컴퓨터 지식
+- [Cs]{:.heading.flip-title} --- 컴퓨터 지식
 - [Coding]{:.heading.flip-title} --- 코딩 테스트
 
 [JavaScript]: /javascript/
 [TypeScript]: /typescript/
 [React]: /react/
 [Next]: /next/
-[CS]: /cs/
+[Cs]: /cs/
 [Coding]: /coding/
