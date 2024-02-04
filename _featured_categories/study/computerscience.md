@@ -3,7 +3,7 @@ layout: list
 category: study
 bigtitle: ComputerScience
 description: >
-  CS 지식
+  ComputerScience 공부
 related_posts:
   -
 addons:

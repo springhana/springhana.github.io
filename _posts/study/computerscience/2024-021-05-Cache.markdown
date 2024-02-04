@@ -1,8 +1,8 @@
 ---
 layout: post
 related_posts:
-  - /study/cs
-title: Cache  
+  - _posts/study/computerscience/
+title: Cache
 categories:
   - study
   - computerscience
@@ -15,4 +15,4 @@ description: >
 * toc
 {:toc}
 
-# 1. 캐시란?
+# Cache 란?
