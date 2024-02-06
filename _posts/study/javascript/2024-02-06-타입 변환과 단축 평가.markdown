@@ -2,7 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-02-04-제어문.markdown
-title: 제어문
+title: 타입 변환과 단축 평가
 categories:
   - study
   - javascript
