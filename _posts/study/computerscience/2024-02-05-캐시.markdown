@@ -1,7 +1,7 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/computerscience/2024-02-05-쿠기 세션 그리고 토큰.markdown
+  - _posts/study/computerscience/2024-02-06-쿠기 세션 그리고 토큰.markdown
 title: 캐시
 categories:
   - study
