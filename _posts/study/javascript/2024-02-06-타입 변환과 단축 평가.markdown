@@ -1,7 +1,8 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/javascript/2024-02-04-제어문.markdown
+  - _posts/study/javascript/2024-02-04-제어문.markdown 
+  - _posts/study/javascript/2024-02-08-객체 리터럴
 title: 타입 변환과 단축 평가
 categories:
   - study
@@ -311,7 +312,7 @@ if (!'')        console.log('' + ' is falsy value');
 
   <br>
 
-  ## 숫자 타입으로 변환
+  ## **숫자 타입으로 변환**
 
   숫자 타입이 아닌 값을 숫자 타입으로 변환하는 방법은 다음과 같다.
 
@@ -358,7 +359,7 @@ if (!'')        console.log('' + ' is falsy value');
 
 <br>
 
-## 불리언 타입으로 변환
+## **불리언 타입으로 변환**
 
 불리언 타입이 아닌 값을 불리언 타입으로 변환하는 방법은 다음과 같다.
 
