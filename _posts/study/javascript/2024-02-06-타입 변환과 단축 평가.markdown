@@ -2,7 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-02-04-제어문.markdown 
-  - _posts/study/javascript/2024-02-08-객체 리터럴
+  - _posts/study/javascript/2024-02-08-객체 리터럴.markdown 
 title: 타입 변환과 단축 평가
 categories:
   - study
