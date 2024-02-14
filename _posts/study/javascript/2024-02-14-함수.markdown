@@ -1,0 +1,17 @@
+---
+layout: post
+related_posts:
+  - _posts/study/javascript/2024-02-11-원시 값과 객체의 비교.markdown
+title: 함수
+categories:
+  - study
+  - javascript
+image: /assets/img/javascript/modern-javascript-book.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  모던 자바스크립트 Deep Dive: 자바스크립트의 기본 개념과 동작 원리 - 12장 함수
+---
+
+* toc
+{:toc}
+
