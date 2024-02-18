@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-02-11-원시 값과 객체의 비교.markdown
+  - _posts/study/javascript/2024-02-18-스코프.markdown.markdown
 title: 함수
 categories:
   - study
