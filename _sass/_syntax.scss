@@ -11,11 +11,11 @@ div .highlight {
 }
 .highlight,
 .highlight .w {
-  color: #d0d0d0;
+  // color: #d0d0d0;
   background-color: #f0f3f9;
 }
 .highlight .err {
-  color: #f0f3f9;
+  // color: #f0f3f9;
   background-color: #ac4142;
 }
 .highlight .c,
@@ -33,14 +33,14 @@ div .highlight {
 .highlight .nt {
   color: #f4bf75;
 }
-.highlight .o,
-.highlight .ow {
-  color: #d0d0d0;
-}
-.highlight .p,
-.highlight .pi {
-  color: #d0d0d0;
-}
+// .highlight .o,
+// .highlight .ow {
+//   color: #d0d0d0;
+// }
+// .highlight .p,
+// .highlight .pi {
+//   color: #d0d0d0;
+// }
 .highlight .gi {
   color: #90a959;
 }
@@ -117,10 +117,3 @@ div .highlight {
   color: #90a959;
 }
 
-.h1_ {
-  color: #ef854d;
-}
-
-.h2_ {
-  color: #7cb2db;
-}
