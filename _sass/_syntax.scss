@@ -12,10 +12,10 @@ div .highlight {
 .highlight,
 .highlight .w {
   color: #d0d0d0;
-  background-color: #151515;
+  background-color: #f0f3f9;
 }
 .highlight .err {
-  color: #151515;
+  color: #f0f3f9;
   background-color: #ac4142;
 }
 .highlight .c,
@@ -49,7 +49,7 @@ div .highlight {
 }
 .highlight .gh {
   color: #6a9fb5;
-  background-color: #151515;
+  background-color: #f0f3f9;
   font-weight: bold;
 }
 .highlight .k,
@@ -115,4 +115,12 @@ div .highlight {
 }
 .highlight .ss {
   color: #90a959;
+}
+
+.h1_ {
+  color: #ef854d;
+}
+
+.h2_ {
+  color: #7cb2db;
 }
