@@ -23,7 +23,15 @@ description: >
 
 ## **🛠️ 참고**
 
-## <ul class="related-posts">
+<ul>
+  <il>
+    <a href="" id="markdown-toc-원시-값과-객체의-비교">
+      <span>원시 값과 객체의 비교</span>
+    </a>
+  </li>
+</ul>
+
+<ul class="related-posts">
   <li class="h6">
     <div>
       <a href="https://springhana.github.io/study/javascript/2024/02/11/%EC%9B%90%EC%8B%9C-%EA%B0%92%EA%B3%BC-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%B9%84%EA%B5%90/" class="flip-title">
