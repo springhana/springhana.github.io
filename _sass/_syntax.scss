@@ -12,7 +12,7 @@ div .highlight {
 .highlight,
 .highlight .w {
   // color: #d0d0d0;
-  background-color: #f0f3f9;
+  background-color: #F4EBE6;
 }
 .highlight .err {
   // color: #f0f3f9;
@@ -49,7 +49,7 @@ div .highlight {
 }
 .highlight .gh {
   color: #6a9fb5;
-  background-color: #f0f3f9;
+  background-color: #F4EBE6;
   font-weight: bold;
 }
 .highlight .k,
@@ -123,4 +123,14 @@ h1 {
 
 h2 {
   color: #a0c8db;
+}
+
+.p_ {
+  color: white;
+  background: green;
+  padding: 3px;
+}
+
+.purple_ {
+  color: purple;
 }
