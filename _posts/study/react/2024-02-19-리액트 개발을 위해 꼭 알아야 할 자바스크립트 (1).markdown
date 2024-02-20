@@ -17,7 +17,7 @@ description: >
 
 본격적으로 리액트 다루기에 앞서, 리액트 코드의 기반이 되는 자바스크립트에 대해 먼저 알아보고자 한다.
 
-# 자바스크립트의 동등 비교
+# 1. 자바스크립트의 동등 비교
 
 리액트의 가상 DOM과 실제 DOM의 비교, 리액트 컴포넌트가 렌더링할지를 판단하는 방법, 변수나 함수의 메모이제이션 등 모든 작업은 자비스크립트의 동등 비교를 기반으로 한다. 자바스크립트의 이러한 동등 비교는 어떻게 수행되는지, 이를 리액트에서 어떻게 활용하고 있는지 살펴보자.
 
@@ -502,5 +502,446 @@ function App() {
 위 코드에서 props는 객체다. 그리고 기본적으로 **리액트는 props에서 꺼내온 값을 기준으로 렌더링을 수행하기 때문에 일반적인 케이스에서는 얕은 비교로 충분할 것이다.** 이러한 특성을 안다면 props에 또 다른 객체를 넘겨준다면 리액트 렌더링이 예상치 못하게 작동한다는 것을 알 수 있다.
 
 ```jsx
+import {memo, useEffect, useState } from "react"
 
+type Props = {
+  counter: number
+}
+
+const Component = memo((props: Props) => {
+  useEffect(()=>{
+    console.log('Component has been readered!')
+  })
+
+  return <h1>{props.counter}</h1>
+})
+
+type DeeperProps = {
+  counter: {
+    counter: number
+  }
+}
+
+const DeeperComponents = memo((props: DeeperProps) => {
+  useEffect(()=> {
+    console.log('Deeper Components has been redered!')
+  })
+
+  return <h1>{props.counter.counter}</h1>
+})
+
+export default function App() {
+  const [, setCouner] = useState(0)
+
+  function handleClick() {
+    setCounter((prev) => prev + 1)
+  }
+
+  return (
+    <div className="App">
+      <Component counter={100} />
+      <DeeperComponent counter={{counter: 100}} />
+      <button onClick={handleClick}>+</button>
+    </div>
+  )
+}
 ```
+
+이와 같이 props가 깊어지는 경우, 즉 한 객체 안에 또다른 객체가 있을 경우 React.memo는 컴포넌트에 실제로 변경된 값 없음에도 불구하고 메모이제이션된 컴포넌트를 반환하지 못한다.
+
+즉, Component는 props.counter가 존재하지만, DeeperComponent는 props.counter.counter에 props가 존재한다.
+
+상위 컴퍼넌트인 App에서 버튼을 클릭해서 강제로 렌더링을 일으킬 경우, shallowEqual을 사용하는 Component 함수는 위 로직에 따라 정확히 객체 간 비교를 수행해서 렌더링을 방지해 주었지만 DeepComponent 함수는 제대로 비교하지 못해 memo가 작동하지 않는 모습을 볼 수 있다.
+
+<br>
+
+--- 
+
+# 2. 함수
+
+**🛠️ 참고**
+
+<ul class="related-posts">
+  <li class="h6">
+    <div>
+      <a href="https://springhana.github.io/study/javascript/2024/02/14/%ED%95%A8%EC%88%98/" class="flip-title">
+        <span>함수</span>
+      </a>
+    </div>
+  </li>
+</ul>
+
+<br>
+
+## **함수란 무엇인가?**
+
+자바스크립트에서 함수란 작업을 수행하거나 값을 계산하는 등의 과정을 표현하고, 이를 하나의 블록으로 감싸서 실행 단위로 만들어 놓은 것을 의미한다.
+
+```js
+function sum(a, b) {
+  return a + b
+}
+
+sum(10, 24) // 34
+```
+
+먼저 `function`으로 시작해 `}`로 끝나는 부분까지가 함수를 정의한 부분이다. 
+
+- `function` 뒤에 오는 것이 **함수명**
+
+- 함수의 입력값으로 받는 a, b를 각각 **매개변수**
+
+- `return`으로 작성된 것이 **반환값**이다.
+
+- sum 뒤에 넘겨준 두 개의 값 10과 24를 **인자**라고 한다.
+
+<br>
+
+리액트에서 컴포넌트를 만드는 함수도 이러한 기초적인 형태를 따르는 것을 알 수 있다.
+
+```tsx
+function Component(props) {
+  return <div>{props.hello}</div>
+}
+```
+
+Component라고 하는 함수를 선언하고 매개변수로는 일반적으로 props라고 부르는  단일 객체를 받으면 return 문으로 JSX를 반환한다.
+
+<br>
+
+## **함수를 정의하는 4가지 방법**
+
+<strong class="p_">함수 선언문</strong>
+
+자바스크립트에서 함수를 선언할 때 가장 일반적으로 사용하는 방식이다.
+
+```js
+function add(a, b) {
+  return a + b
+}
+```
+
+함수 선언문은 표현식이 아닌 일반 문(statement)으로 분류한다. 표현식이란 무언가 값을 산출하는 구문을 의미한다. 즉, 앞선 함수 선언으로는 어떠한 값도 표현되지 않았으므로 표현식이 아닌 문으로 분류된다.
+
+<br>
+
+```js
+const sum = function sum(a, b) {
+  return a + b
+}
+
+sum(10, 24) // 34
+```
+
+자바스크립트 엔진이 코드의 문맥에 따라 동일한 함수를 문이 아닌 표현식으로 해석하는 경우가 있기 때문이다. 위와 같은 이름을 가진 형태의 함수 리터럴은 코드 문맥에 따라 전자와 같은 선언문으로도, 후자와 같은 표현식으로도 사용될 수 있음을 알고 있어야 한다.
+
+<br>
+
+<strong class="p_">함수 표현식</strong>
+
+프로그래밍 세계에서 일급 객체란 다른 객체들에 일반적으로 적용 가능한 연산을 모두 지원하는 객체를 의미한다. 
+
+자바스크립트에서 함수는 일급 객체다.
+
+함수는 다른 함수의 매개변수가 될 수도 있고, 반환값이 될 수도 잇으며, 앞에서 본 것처럼 할당도 가능하므로 일급 객체가 되기 위한 조건을 모두 갖추고 있다.
+
+```js
+const sum = function add(a, b) {
+  // 함수 몸통에서 현재 실행 중인 함수를 참조하는 데 사용할 수 있다.
+  // 이는 단순히 코드에 대한 이해를 돕기 위한 예제 코드고,
+  // 실제 프로덕션 코드에서는 절대로 사용해서는 안 된다.
+  console.log(arguments.callee.name)
+  return a + b
+}
+
+sum(10, 24)
+
+//add
+add(10, 24) // Uncaught TypeError: add is not defined
+```
+
+실제로 함수를 호출하기 위해서는 사용된 것은 sum임을 알 수 있다. 그리고 add는 식제 함수 내부에서만 유효한 식별자일 뿐, 함수를 외부에서 호출하는 데에는 사용할 수 없는 식별자다.
+
+<br>
+
+<strong class="p_">함수 표현식과 선언 식의 차이</strong>
+
+**함수 표현식과 함수 선언 식의 가장 큰 차이점은 호이스팅(hoising)이다.**
+
+> **호이스팅**<br>
+> 함수의 호이스팅이라 함은, 함수 선언문이 마치 코드 맨 앞단에 작성된 것처럼 동작하는 자바스크립트의 특징을 의미한다. 
+
+```js
+hello() // hello
+
+function hello() {
+  console.log('hello')
+}
+
+hello() // hello
+```
+
+**함수의 호이스팅은 함수에 대한 선언을 실행 전에 미리 메모리에 등록하는 적업을 의미한다.** 이러한 함수의 호이스팅이라는 특징 덕분에 함수 선언문이 미리 메모리에 등록됐고, 코드의 순서에 상관없이 정상적으로 함수를 호출할 수 있게 된 것이다.
+
+반면 함수 표현식은 함수를 변수에 할당했다. 변수도 마찬가지로 호이스팅이 일어난다. 
+
+그러나 함수의 호이스팅과는 다르게, 호이스팅되는 시점에서 var의 경우에는 undefined로 초기화한다는 차이가 있다.
+
+```ts
+console.log(typeof hello === 'undefined') // true
+
+hello() // Uncaught TypeError: hello is not a function
+
+var hello = function () {
+  console.log('hello')
+}
+
+hello()
+```
+
+함수와 다르게 변수는, **런타임 이전에 undefined로 초기화되고, 할당문이 실행되는 시점, 런타임 시점에 함수가 할당되어 작동한다는 것을 알 수 있다.**
+
+함수를 자유롭게 선언하고 어디서든 자유롭게 호출하고 싶거나, 변수 선언과 다르게 명시적으로 함수를 구별하고 싶을 때는 함수 선언문이 더 좋을 수 있다. 함수 선언문은 함수가 선언된 위치에 상관없이 함수 호이스팅의 특징을 살리면 어디서든 호출할 수 있고, 또 변수 선언과 뚜렷하게 구별되는 차이점이 있다
+
+<br>
+
+<strong class="p_">Function 생성자</strong>
+
+```js
+const add = new Function('a', 'b', 'return a + b')
+
+add(10, 24) // 34
+```
+
+코드 작성 관점에서만 보더라도 매개변수, 그리고 함수의 몸통을 모두 문자열로 작성해야 한다.
+
+생성자 함수 방식을 함수를 만드는 것은 권장되지 않는다.
+
+<br>
+
+<strong class="p_">화살표 함수</strong>
+
+ES6에서 새롭게 추가된 함수 생성 방식으로 최근 자바스크립트 개발자들 사이에서 각광받는 함수 정의 방식이다. 
+
+function이라는 키워드 대신 `=>` 라는 화살표를 활용해서 함수를 만드는데, 아무래도 타이핑할 글자수가 줄어든다는 측면에서 많이 사용되는 것이 아닌가 싶다.
+
+```js
+const add = (a, b) => {
+  return a + b
+}
+
+const add = (a, b) => a + b
+```
+
+화살표 함수는 겉보기와 다르게 앞서 언급한 함수 생성 방식과 몇 가지 차이점이 있다.
+
+- 화살표 함수에서는 constructor를 사용할 수 없다. 즉, 생성자 함수로 화살표 함수를 사용하는 것은 불가능하다.
+
+    ```js
+    const Car = (name) => {
+      this.name = name
+    }
+
+    // uncaught TypeError: Car is not a constructor
+    const myCar = new Car('하이')
+    ```
+
+- 화살표 함수에서는 arguments가 존재하지 않는다.
+
+    ```js
+    function hello() {
+      console.log(arguments)
+    }
+
+    // Argument(3) [1, 2, 3, callee: f, Symbol (Symbol.iterator): f]
+    hello(1, 2, 3)
+
+    const hi = () => {
+      console.log(arguments)
+    }
+
+    // Uncaught ReferenceError: arguments is not defined
+    hi(1, 2, 3)
+    ```
+
+- 화살표 함수에서는 함수 자체의 바인딩을 갖지 않는다.
+
+  화살표 함수 내부에서 this를 참조하면 상위 스코프인 this를 그대로 따르게 된다.
+
+  ```js
+  class Component extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        conter: 1,
+      }
+    }
+
+    functionCountUp() {
+      console.log(this) // undefined
+      this.setState((prev) => ({counter: prev.counter + 1}))
+    }
+
+    ArrorFunctionCountUp = () => {
+      console.log(this) // class Component
+      this.setState((prev) => ({counter: prev.counter + 1}))
+    }
+
+    render() {
+      return (
+        <div>
+          {/* Cannot read properties of undefined (reading 'setState') */}
+          <button onClick={this.functionCountUp}>일반 함수</button>
+          {/* 정상적으로 작동한다. */}
+          <button onClick={this.ArrorFunctionCountUp}>화살표 함수</button>
+        </div>
+      )
+    }
+  }
+  ```
+
+> **this** <br>
+> 자신이 속한 객체나 자신이 생성할 인스턴스를 가리키는 값이다. <br>
+> 이 this는 화살표 함수 이전까지는 함수를 정의할 대 결정되는 것이 아니라, 함수가 어떻게 호출되느냐에 따라 동적으로 결정된다. 만역 함수가 일반 함수로서 호출된다면, 그 내부의 this는 전역 객체를 가리키게 된다.
+
+<br>
+
+별도의 작업을 추가로 하지 않고 this를 접근할 수 있는 방법이 바로 화살표 함수인 것이다. 이러한 차이점은 바벨에서도 확인할 수 있다.
+
+```js
+// before:
+const hello = () => {
+  console.log(this)
+}
+
+function hi() {
+  console.log(this)
+
+}
+
+// after: 바벨에서는 이렇게 변환한다.
+var _this = void 0
+
+var hello = function hello() {
+  // 바벨에서 화살표 함수 내부의 _this 자체를 undefined로 바꿔버린다.
+  console.log(_this)
+}
+
+function hi() {
+  console.log(this)
+}
+```
+
+화살표 함수는 this가 선언되는 시점에 이미 상위 스코프로 결정돼 있어 미리 _this를 받아서 사용하는 모습과 다르게, 일반 함수는 호출하는 런타임 시점에 결정되는 this를 그대로 따르는 모습이다.
+
+<br>
+
+## **다양한 함수 살펴보기**
+
+<strong class="p_">즉시 실행 함수</strong>
+
+즉시 실행 함수(Immediaely Invoked Function Expression, 일반적으로 IIFE라고 부른다.)는 말 그래도 함수를 정의하고 그 순간 즉시 실행되는 함수를 의미한다. 단 한번만 호출되고, 다시금 호출할 수 없는 함수다.
+
+```js
+(function (a, b) {
+  return a + b
+})(10, 24); // 34
+
+((a, b) => {
+  return a + b
+},
+)(10, 24) // 34
+```
+
+즉시 실행 함수는 한 번 선언하고 호출된 이후부터는 더 이상 재호출이 불가능하다. 그래서 일반적으로는 즉시 실행 함수에 이름을 붙이지 않는다.
+
+이러한 즉시 실행 함수의 특성을 활용하면 글로벌 스코프를 오명시키지 않는 독립적인 함수 스코프를 운영할 수 있다는 장점을 얻을 수 있다.
+
+<br>
+
+<strong class="p_">고차 함수</strong>
+
+앞서 언급했듯이 자바스크립트 함수가 일급 객체라는 특징을 할용하면 함수를 인수로 받거나 결과로 새로운 함수를 반환시킬 수 있다. 이런 역할을 하는 함수를 고차 함수(Higher Order Function)라고 한다. 
+
+```js
+// 함수를 매개변수로 받는 대표적인 고차 함수, Arror.prototype.map
+const doubledArray = [1, 2, 3].map((item) => item * 2)
+
+doubledArray // [2, 4, 6]
+
+// 험수를 반환하는 고차 함수의 예
+const add = function(a) {
+  // a가 존재하는 클로저를 생성
+  return function (b) {
+    // b를 인수로 받아 두 합을 반환하는 또 다른 함수를 생성
+    return a + b
+  }
+}
+
+add(1)(3) // 4
+```
+
+이러한 특징을 활용해 추후에 다룰 함수형 컴포넌트를 인수로 받아 새로운 함수형 컴포넌트를 반환하는 고차 함수를 만들 수 있다.
+
+이런 컴포넌트를 고차 함수와 유사하게 고차 컴포넌트(Higher Order Component)라고 부르는데, 고차 함수형 컴포넌트를 만들면 컴포넌트 내부에서 공통으로 괸리되는 로직을 분리해 관리할 수 있어 효율적으로 리팩토링 할 수 있다.
+
+<br>
+
+## **함수를 만들 때 주의해야 할 사항**
+
+함수를 만들기 전에 좋은 함수는 무엇이고 또 함수를 만들 때 무엇을 조심해야 하는지 살펴보자.
+
+<strong class="p_">함수의 부수 효과를 최대한 억제하라</strong>
+
+함수의 부수 효과(side-effect)란 함수 내의 작동으로 인해 함수가 아닌 함수 외부에 영향을 끼치는 것을 의미한다.
+
+- 부수 효과가 없는 함수를 순수 함수
+
+- 부수 효과가 존재하는 함수를 비순수 함수
+
+순수 함수는 부수 효과가 없고, 언제 어디서 어떠한 상황에서도 동일한 인수를 받으면 동일한 결과를 반환해야 한다. 그리고 이러한 작동 와중에 외부에 어떠한 영향도 미쳐서는 안 된다.
+
+```jsx
+function PureComponent(props) {
+  const {a, b} = props
+  return <div>{a + b}</div>
+}
+```
+
+부수 효과는 웹 애플리케이션 개발에 있어 피할 수 없는 요소 중 하나다.
+
+부수 효과를 만드는 것은 애플리케이션을 만들면서 피할 수 없는 요소지만 이러한 부수 효과를 최대한 억제할 수 있는 방향으로 함수를 설계해야 한다. 리액트의 관점에서 본다면 부수 효과를 처리하는 훅인 useEffect의 작동을 최소화하는 것이 그 일환이라 할 수 있다. 
+
+useEffect의 사용은 피할 수 없지만 최소한의 줄임으로써 함수의 역할을 좁히고, 버그를 줄이며, 컴포넌트의 안정성을 높일 수 있다.
+
+<br>
+
+<strong class="p_">가능한 한 함수를 작게 만들어라</strong>
+
+ESLint에는 max_lintes-per-function이라는 규칙이 있다.
+
+함수당 코드의 길이가 길어질수록 코드 냄새(문제를 일으킬 여지가 있는 코드)가 날 확률이 커지고, 내부에서 무슨 일이 일어나는지 추적하기 어려워진다. 이 규칙에서는 기본값으로 50줄 이상이 넘어가면 과독하게 커진 함수로 분류하고 경고 메시지를 출력한다.
+
+하나의 함수에서 너무나 많은 일을 하지 않게 하는 것이다.
+
+함수는 하나의 일을, 그 하나만 잘하면 된다.(Do One Thing and Do It Well). 그것이 함수의 원래 목적인 재사용성을 높일 수 있는 방법이다.
+
+<br>
+
+<strong class="p_">누구나 이해할 수 있는 이름을 붙여라</strong>
+
+함수나 변수에 이름을 붙이는 건 시간이 갈수록 어려워지는 문제다. 나만 보고 이해하는 프로젝트를 만들 때 혹은 프로젝트 첫 삽을 뜨고 얼마 되지 않았을 때에는 크게 문제가 되지 않지만, 점차 코드가 커지고 비즈니스 로직이 들어가는 코드가 많아질수록 더욱 어려움에 빠지게 된다.
+
+가능한 한 함수 이름은 간결하고 이해하기 쉽게 붙이는 것이 좋다.
+
+또한, 리액트에서 사용하는 `useEffect`나 `useCallback` 등의 혹에 넘겨주는 콜백 함수에 네이밍을 붙여준다면 가독성에 도움이 된다.
+
+```tsx
+useEffect(function apiRequest() {
+ // ... do something
+}, [])
+```
+
+useEffect의 콜백 함수에 이름을 붙여준다고 한들 apiRequest()와 같은 형태로 호출하거나 접근할 수 있는 것은 아니다. 
+
+그러나 useEffect 같은 부수 효과를 일으키는 함수가 많아질수록 굳이 useEffect 코드를 유심히 살표보지 않더라도 어떤 일을 하는지, 도 어떻게 작동하는지를 단번에 알아채는데 도움이 될 것이다.
