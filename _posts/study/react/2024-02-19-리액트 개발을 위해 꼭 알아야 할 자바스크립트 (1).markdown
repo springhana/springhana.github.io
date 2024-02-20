@@ -23,28 +23,21 @@ description: >
 
 ## **🛠️ 참고**
 
-<h3>
-  <a href="https://springhana.github.io/study/javascript/2024/02/11/%EC%9B%90%EC%8B%9C-%EA%B0%92%EA%B3%BC-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%B9%84%EA%B5%90/" id="markdown-toc-원시-값과-객체의-비교">
+<h3 markdown>
+    <a href="https://springhana.github.io/study/javascript/2024/02/11/%EC%9B%90%EC%8B%9C-%EA%B0%92%EA%B3%BC-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%B9%84%EA%B5%90/" id="markdown-toc-원시-값과-객체의-비교">
     <span>원시 값과 객체의 비교</span>
   </a>
 </h3>
 
-<ul class="related-posts">
-  <li class="h6">
-    <div>
-      <a href="https://springhana.github.io/study/javascript/2024/02/11/%EC%9B%90%EC%8B%9C-%EA%B0%92%EA%B3%BC-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%B9%84%EA%B5%90/" class="flip-title">
-        <span>원시 값과 객체의 비교</span>
-      </a>
-    </div>
-  </li>
-   <li class="h6">
-    <div>
-      <a href="https://springhana.github.io/study/javascript/2024/02/01/%EC%97%B0%EC%82%B0%EC%9E%90/" class="flip-title">
-        <span>원시 값과 객체의 비교</span>
-      </a>
-    </div>
-  </li>
-</ul>
+<h3 markdown>
+    <a href="https://springhana.github.io/study/javascript/2024/01/31/%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%83%80%EC%9E%85/" id="markdown-toc-데이터-타입">
+      <span>데이터 타입</span>
+    </a>
+</h3>
+
+
+
+
 
 ## **자바스크립트의 데이터 타입**
 
