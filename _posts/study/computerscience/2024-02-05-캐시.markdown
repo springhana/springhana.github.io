@@ -24,7 +24,7 @@ description: >
 
 <br>
 
-<img src="/assets/img/javascript/cache.png" alt="캐시 저장소"/>
+<img src="/assets/img/computerscience/cache.png" alt="캐시 저장소"/>
 
 <br>
 
@@ -46,7 +46,7 @@ description: >
 
 <br>
 
-<img src="/assets/img/javascript/cache_result.png" alt="파레토 법칙" />
+<img src="/assets/img/computerscience/cache_result.png" alt="파레토 법칙" />
 
 <br>
 
@@ -68,7 +68,7 @@ description: >
 
 <br>
 
-<img src="/assets/img/javascript/cache_area.png" alt="캐시 지역성" />
+<img src="/assets/img/computerscience/cache_area.png" alt="캐시 지역성" />
 
 ## **시간적 지역성**
 >**특정 데이터가 한번 접근되었을 경우 가까운 미래에 또 한번 데이터에 접근할 가능성이 높은 것**을 말한다. 즉, 한번 가져왔던 데이터를 또 쓸 일이 있다는 의미를 말한다.
@@ -99,7 +99,7 @@ description: >
 
 <br>
 
-<img src="/assets/img/javascript/cache_2.png" alt="캐시 사용 구조"/>
+<img src="/assets/img/computerscience/cache_2.png" alt="캐시 사용 구조"/>
 
 <br>
 
