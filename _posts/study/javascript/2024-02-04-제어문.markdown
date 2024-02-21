@@ -329,13 +329,6 @@ console.log(days); // 29
 
 <br>
 
->**반목문 대체 기능?** <br>
->- 자바스크립트는 배열을 순회할 때 사용하는 `forEach 메서드` 
->- 객체의 프로퍼티를 열거할 때 사용하는 `for ..in`문 <br>
->- 이터러블을 순회할 수 있는 `for ...of`문 (ES6)
-
-<br>
-
 ## **for 문**
 >`for` 문은 조건식이 거짓으로 평가될 때까지 코드 블록을 반복  실행한다.
 
@@ -595,37 +588,6 @@ do {
 
 - **`break`문 처럼 반복문을 탈출하지는 않는다.**
 
-```js
-var string = 'Hello World.';
-var search = 'l';
-var index;
-
-// 문자열은 유사배열이므로 for 문으로 순회할 수 있다.
-for (var i = 0; i < string.length; i++) {
-  // 문자열의 개별 문자가 'l'이면
-  if (string[i] === search) {
-    index = i;
-    break; // 반복문을 탈출한다.
-  }
-}
-
-console.log(index); // 2
-
-// 참고로 String.prototype.indexOf 메서드를 사용해도 같은 동작을 한다.
-console.log(string.indexOf(search)); // 2
-```
-
-위 예제의 `for`문은 다음 코드와 동일하게 동작한다.
-
-```js
-for (var i = 0; i < string.length; i++) {
-  // 'l'이면 카운트를 증가시킨다.
-  if (string[i] === search) count++;
-}
-```
-
-<br>
-
 - **`if`문 내에서 실행햐야 할 코드가 길다면 들여쓰기가 한 단계 더 깊어지므로 `continue`문을 사용하는 편이 가독성이 더 좋다.**
 
   ```js
@@ -634,8 +596,6 @@ for (var i = 0; i < string.length; i++) {
     // 'l'이면 카운트를 증가시킨다.
     if (string[i] === search) {
       count++;
-      // code
-      // code
       // code
     }
   }
@@ -646,8 +606,6 @@ for (var i = 0; i < string.length; i++) {
     if (string[i] !== search) continue;
 
     count++;
-    // code
-    // code
     // code
   }
   ```

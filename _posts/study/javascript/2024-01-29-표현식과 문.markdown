@@ -169,10 +169,6 @@ x + 3; // -> 6
 
 <br>
 
-<img src="/assets/img/javascript/token.png"/>
-
-<br>
-
 ## **문(statement)**
 문은 명령문이라고도 부른다. 즉, 문은 컴퓨터에 내리는 명령이다.
 
