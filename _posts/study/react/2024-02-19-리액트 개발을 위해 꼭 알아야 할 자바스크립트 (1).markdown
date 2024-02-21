@@ -1,7 +1,7 @@
 ---
 layout: post
 related_posts:
-  - /study/react
+  - _posts/study/react/2024-02-21-리액트 개발을 위해 꼭 알아야 할 자바스크립트 (2).markdown
 title: 리액트 개발을 위해 꼭 알아야 할 자바스크립트 (1)
 categories:
   - study
