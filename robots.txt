@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: /blog/       # 깃허브 블로그의 경로에 해당하는 디렉토리를 로봇에게 제한
