@@ -17,14 +17,12 @@ description: >
 
 # 5. 이벤트 루프와 비동기 통신의 이해
 
-자바스크립트는 싱글 스레드에서 작동하기 때문에 한 번에 하나의 작업만 동기 방식으로 처리할 수 있다.
+자바스크립트는 싱글 스레드에서 작동하기 때문에 한 번에 하나의 작업만 동기 방식으로 처리한다.
 
 > **동기 방식** <br>
 > 동기는 직렬 방법으로 작업을 처리하는 것을 의미
 
-무조건 응답을 받은 이후에야 다른 작업을 처리할 수 있다. 그 동안은 모든 작업은 대기 한다.
-
-<br>
+응답을 받은 이후에야 다른 작업을 처리할 수 있다. 그 동안은 모든 작업은 대기 한다.
 
 > **비동기 방식** <br>
 > 비동기란 병렬 방식으로 작업을 처리하는 것을 의미
@@ -41,23 +39,15 @@ description: >
 
 하나의 프로세스에서는 여러 개의 스레드를 만들 수 있고, 스레드까리는 메모리를 공유할 수 있어 여러 작업을 동시에 할 수 있다.
 
-자바스크립트가 멀티 스레드가 아닌 싱글 스레드로 설계된 이유는 내부적으로 처리가 복잡하다는 단점과 하나의 스레드가 문제가 생기면 같이 공유하는 다른 스레드에도 동시에 문제가 생길 수 일어날 수 있는 문제가 있다.
-
 - 자바스크립트는 "Run-to-completion"의 특징이 있다.
 
 > Run-to-completion <br>
 > 하나의 코드가 실행하는 데 오래 걸리면 뒤에 있는 코드가 실행되지 않는다
 
-자바스크립트에서 비동기 함수를 선언할려면 async 사용하여 여러 작업을 동시에 실행할 수 있는 방법도 있다.
-
-<br>
-
 ## **이벤트 루프란?**
 
 > 이벤트 루프 <br>
 > 자바스크립트 런타임 외부에서 자바스크립트의 비동기 실행을 돕기 위해 만들어진 장치
-
-<br>
 
 <strong class="green_">호출과 이벤트 루프</strong>
 
@@ -87,9 +77,541 @@ function foo() {
 }
 ```
 
-setTimeout()을 사용하면 정확하게 몇초 뒤에 실행된다는 것을 보장 못한다.
-
 이벤트 루프는 테스크 큐를 한 개 이상 가지고 있다.
 
 > **테스트 큐** <br>
 > 실행햐야 할 태스크의 집합을 의미
+
+테스트 큐는 `set` 형태를 가진다.
+
+태스크  큐에서 의미하는 '실행해야 할 태스크'라는 것은 비동기 함수의 콜백 함수나 이벤트 핸들러 등을 의미한다.
+
+이벤트 루프의 역할은 호출 스택에 실행 중인 코드가 있는지, 그리고 태스크 큐에 대기 중인 함수가 있는지 반복해서 확인하는 역할이다.
+
+비동기 함수는 자바스크립트 코드가 동기식으로 실행되는 메인 스레드가 이닌 태스크 큐가 할당되는 별도의 스레드에서 수행된다. 
+
+## 태스크 큐와 마이크로 태스크 큐
+
+이벤트 루프는 하나의 마이크로 태스크 큐를 갖고 있다.
+
+마이크로 태스크에는 대표적으로 Promise가 있다. 이 마이크로 태스크 큐는 기존 태스크 큐보다 우선권을 갖는다. 
+
+```js
+function foo() {
+  console.log('foo')
+}
+
+function bar() {
+  console.log('bar')
+}
+
+function baz() {
+  console.log('baz')
+}
+
+setTimeout(foo, 0)
+
+Promise.resolve().then(bar).then(baz)
+```
+
+
+- 태스크 큐: setTimeout, setinterval, setImmdiate
+
+- 마이크로 태스크 큐: process, nextTick, Promises, queueMicroTask, MutaionObserver
+
+먼저 마이크로 태스크 큐를 생행하고, 이 마이크로 테스크 큐를 실행한 뒤에 랜더링이 일어난다. 각 마이크로 태스크 큐 작업이 끝날 때마다 한 번식 렌더링할 기회를 얻게 된다.
+
+# 리액트에서 자주 사용하는 자바스크립트 문법
+
+## **구조 분해 할당**
+
+>배열 또는 객체의 값을 말 그대로 분해해 개별 변수에 즉시 할당하는 것을 의미한다.
+
+주로 어떤 객체나 배열에서 선언문 없이 즉시 분해해 변수를 선언하고 할당하고 싶을 때 사용한다.
+
+<strong class="green_">배열 구조 분해 할당</strong>
+
+```js
+const array = [1, 2, 3, 4 5]
+
+const [frist, second, third, ...arrayRest] = araay
+// first 1
+// second 2
+// third 3
+// arrayRest[4, 5]
+```
+
+`useState` 함수는 2개 짜리 배열로 반환하는 함수이다.
+
+```jsx
+const [value, setValue] = useState()
+```
+
+첫 번째 값으로 value, 두 번째 값으로 setter로 사용 가능하다.
+
+배열의 구조 분해 할당은 `,` 의 위치에 따라 값이 결정된다.
+
+```jsx
+const array = [1, 2, 3, 4 5]
+const [first, , , , fifth] = array // 2, 3, 4는 아무런 표현식이 없으므로 변수 할당이 생략돼 있다.
+
+first // 1
+fifth // 5
+```
+
+배열 분해 할당에는 기본값을 선언할 수도 있다.
+
+```jsx
+const array = [1, 2]
+const [a = 10, b = 10, c = 10] = array
+// a 1
+// b 2
+// c 10
+```
+
+반드시 **undefined일 때만 기본값을 사용한다는 것이다.**
+
+```jsx
+const [a = 1, b = 2, c = 1, d = 1, e = 1] = [undefined, null, 0, '']
+a // 1
+b // null
+c // 0
+d // ''
+e // 1
+```
+
+특정값  이후의 값을 배열로 선언하고 싶다면 전개 연산자(spread operator)인 `...` 사용할 수 있다.
+
+```jsx
+const array = [1, 2, 3, 4, 5]
+const [first, ...rest] = array
+
+// first 1
+// rest[2, 3, 4, 5]
+```
+
+`...` 을 사용하면 나머지 모든 값을 해당 변수에 배열로 넣게 된다. 어디서부터 어디까지 할당할지 예측할 수 있는 뒤쪽에서만 가능하다.
+
+<strong class="green_">객체 구조 분해 할당</strong>
+
+> 객체에서 값을 꺼내온 뒤에 할당하는 것을 말한다.
+
+```jsx
+const object = {
+a: 1,
+b: 1,
+c: 1,
+d: 1,
+e: 1,
+}
+
+const {a, b, c, ...objectRest } = object
+// a 1
+// b 2
+// c 3
+// objectRest = {d: 1, e: 1}
+```
+
+새로운 이름으로 다시 할당하는 것도 가능하다.
+
+```js
+const object = {
+a: 1,
+}
+
+const { a: first } = object
+// first 1
+```
+
+기본값을 주는 것도 가능하다.
+
+```jsx
+const object = {
+a: 1,
+}
+
+const { a = 10 } = object
+// a 1
+```
+
+이러한 방식은 리액트 컴포넌트인 props에서 값을 바로 꺼내올 때 매우 자주 쓰는 방식이기도 하다.
+
+계산된 속성 이름 방식도 가능하다.
+
+```jsx
+const key = 'a'
+const object = {
+a: 1,
+b: 1,
+}
+
+const { [key]: a } = object
+
+// a = 1
+```
+
+반드시 이름을 선언하는 `:a` 와 같은 변수 네이밍이 필요하다. 
+
+전개 연산자 `...` 를 사용하면 나머지 값을 모두 가져올 수 있다.
+
+```jsx
+const object = {
+ a: 1,
+ b: 1,
+ c: 1,
+ d: 1,
+ e: 1,
+}
+
+const { a, b, ...rest } = object
+// rest {c: 1, d: 1, e: 1}
+```
+
+전개 연산자는 순서가 중요하다.
+
+## **전개 구문**
+
+>배열이나, 객체, 문자열과 같이 순회할 수 있는 값에 대해 말 그대로 전개해 간결하게 사용할 수 있는 구문이다.
+
+<strong class="green_">배열의 전개 구문(spread operator)</strong>
+
+배열 내부에서 `...` 배열을 사용하면 해당 배열을 마치 전개하는 것처럼 선언하고, 이를 내부 배열에서 활용할 수 있다. 
+
+```jsx
+const arr1 = ['a', 'b']
+const arr2 = arr1
+
+arr1 === arr2 // true 내용이 아닌 참조를 복새했기 때문에 true가 반환된다.
+
+const arr1 = ['a', 'b']
+const arr2 = [...arr1]
+
+arr1 === arr2 // false 실제로 값만 복사했을 뿐, 참조는 다르므로 false가 반환된다.
+```
+
+
+<strong class="green_">객체의 전개 구문(spread operator)</strong>
+
+객체를 새로 만들 때 이 전개 구문을 사용할 수 있다.
+
+```js
+const obj1 = {
+ a: 1,
+ b: 2,
+}
+
+const obj2 = {
+ c: 3,
+ d: 4,
+}
+
+const newObj = { ...obj1, ...obj2 }
+// {"a": 1, "b": 2,"c": 3, "d": 4}
+```
+
+객체 전개 구문에 있어서 순서가 중요하다.
+
+## **객체 초기자**
+
+>객체를 선언할 때 객체에 넣고자 하는 키와 값을 가지고 있는 변수가 이미 존재한다면 해당 값을 간결하게 넣어줄 수 있는 방식이다.
+
+```jsx
+const a = 1
+const b = 2
+
+const obj = {
+ a,
+ b,
+}
+
+// {a: 1,b: 2}
+```
+
+객체 초기자를 사용할 경우 객체를 좀 더 간편하게 선언할 수 있기 때문에 매우 유용하다.
+
+## **Array 프로토타입의 메서드: map, filter, reduce, forEach**
+
+`Array.prototype.map`, `Array.prototype.filter`, `Array.prototype.reduce`는 모두 배열과 관련된 메서드다.
+
+<strong class="green_">Array.prototype.map</strong>
+
+>인수로 전달받은 배열과 똑같은 길이의 새로운 배열을 반환하는 메서드다. 배열의 각 아이템을 순회하면서 각 아이템을 콜백으로 연산한 결과로 구성된 배열을 만들 수 있다.
+
+```jsx
+const arr = [1, 2, 3, 4, 5]
+const doubleArr = arr.map((item) => item * 2)
+// [2, 4, 6, 8, 10]
+```
+
+<strong class="green_">Array.prototype.filter</strong>
+
+>메서드는 콜백 함수를 인수로 받는데, 이 콜백 함수에서 `truthy` 조건을 만족하는 경우에만 해당 원소를 반환하는 메서드다. 
+
+`filter` 의 결과에 따라 원본 배열의 길이 이하의 새로운 배열이 반환된다. 
+
+```jsx
+const arr = [1, 2, 3, 4, 5]
+const doubleArr = arr.filter((item) => item % 2 === 0)
+// [2, 4]
+```
+
+<strong class="green_">Array.prototype.reduce</strong>
+
+>콜백 함수와 함께 초깃값을 추가로 인수를 받는데, 이 초기값에 따라 배열이나 객체, 또는 이 외의 다른 무언가를 반환할 수 있는 메서드다.
+
+`reduce` 콜백 함수는 실행하고, 이를 초기값에 누적해 결과를 반환한다.
+
+```jsx
+const arr = [1, 2, 3, 4, 5]
+const sum = arr.reduce((result, item) => {
+ return result + item
+}, 0)
+// 15
+```
+
+- `0` 은 reduce의 결과를 누적할 초기값이다.
+- 첫 번째 인수는 초기값의 현재값을 의미한다.
+- 두 번째 인수는 현재 배열의 아이템을 의미한다.
+
+```jsx
+const arr = [1, 2, 3, 4, 5]
+
+// [200, 400]
+const result = arr.reduce((result, item) => {
+ if (item % 2 === 0) {
+  result.push(item * 100)
+ }
+ return result
+}, [])
+```
+
+<strong class="green_">Array.prototype.forEach</strong>
+
+> 콜백 함수를 받아 배열을 순회하면서 단순히 그 콜백 함수가 실행하기만 하는 메서드다.
+
+```jsx
+const arr = [1, 2, 3]
+
+arr.forEach((item) => console.log(item))
+// 1, 2, 3
+```
+
+`forEach` 는 아무런 반환값이 없다. 콜백 함수 내부에서 반환을 해도 모두 의미 없는 값이 된다. (undefiined)
+
+또 순간 에러로  프로세스를 종료하지 않는 이상 멈출 수 없다. `break` , `return` 을 사용해도 멈출 수 없다.
+
+`return` 같은 경우는 콜백 함수의 `return` 으로 간주한다.
+
+## **삼항 조건 연산자**
+
+>3개의 피연산자를 만들 수 있는 문법이다.
+
+```jsx
+const value = 10
+const result value % 2 === 0 ? "짝수" : "홀수"
+// 짝수
+```
+
+
+	true/false를 판별할 수 있는 조건문 ? 참일 경우 반환 값 : 거짓일 때 반환 값
+
+# 선택이 아닌 필수, 타입스크립트
+
+## **타입스크립트란?**
+
+타입스크립트는 **타입 체크를 정적으로 런타임이 아닌 빌드(트랜스파일) 타임에 수행할 수 있게 해준다.**
+
+```ts
+function test(a: number, b: number) {
+ return a / b
+}
+```
+
+## **리택트 효과를 효과적으로 작성하기 위한 타입스크립트 활용법**
+
+<strong class="green_">any 대신 unknown을 사용하자</strong>
+
+`any`는 정말로 불가피할 때만 사용해야 하는 타입이다.
+
+```ts
+function doSomething(callback: any) {
+ callback()
+}
+
+// 타입스크립트에서 에러가 발생하지 않느느다. 그러나 이 코드는 실행 시 에러가 발생한다.
+doSomething(1)
+```
+
+`any` 대신 불가피하게 아직 타입을 단정할 수 없는 경우에는 `unknown`을 사용하는 것이 좋다.
+
+`unknown`은 모든 값을 할당할 수 있는 top type으로, 어떠한 값도 할당할 수 있다. 대신 바로 사용하는 것은 불가능하다.
+
+```ts
+function doSomething(callback: unknown) {
+ if (typeof callback === 'function') {
+  callback()
+ }
+
+ throw new Error('callback은 함수여야 합니다.')
+}
+```
+
+`typeof`를 사용해서 `unknown`에 직접 접근하는 대신 해당 값이 원하는 타입일 때만 의도대로 작동하게 했다.
+
+top type 반대인 bottom type은 `never` 타입이며 어떠한 타입도 들어올 수 없음을 의미한다.
+
+코드상으로 존재가 불가능한 타입을 나타낼 때 `never`가 사용된다.
+
+리액트의 경우 빈 props는 어떠한 props도 받아들이지 않는다는 뜻으로 사용이 가능하다.
+
+<strong class="green_">타입 가드를 적극 활용하자</strong>
+
+타입을 사용하는 쪽에서는 최대한 타입을 좁히는 것이 좋다. 이러한 타입을 좁히는 데 도움을 주는 것이 바로 타입 가드다.
+
+<strong class="blue_">instanceof와 typeof</strong>
+
+> instanceof는 지정한 인스턴스가 특정 클래스의 인스턴스인지 확인할 수 있는 연산자다.
+
+```ts
+if (e instanceof UnAuthorizedError) {
+  // do something ...
+}
+
+if (e instanceof UnAuthorizedError) {
+ // do something ...
+}
+```
+
+> typeof 연산자는 자료형을 확인하는데 사용된다.
+
+```ts
+if (typeof value === 'string') {
+  // do something ...
+}
+
+if (typeof value === "undefined") {
+  // nothing to do
+}
+```
+
+<strong class="blue_">in</strong>
+
+> in은 property in object로 사용돠는데, 주로 어떤 객체에 키가 존재하는지 확인하는 용도로 사용된다.
+
+
+```ts
+interface Student {
+ age: number
+ score: number
+}
+
+interface Teacher {
+ name: string
+}
+
+function doSchool(person: Student | Teacher) {
+ if('age' in person){
+  person.age // person은 Student
+  person.score
+ }
+
+ if('name' in person){
+  person.name // person은 Teacher
+ }
+}
+```
+
+<strong class="blue_">제네릭</strong>
+
+> 함수나 클래스 내부에서 단일 타입이 아닌 다양한 타입에 대응할 수 있도록 도와주는 도구다.
+
+제네릭을 사용하면 타입만 다른 비슷한 작업을 하는 컴포넌트를 단일 제네릭 컴포넌트로 선언해 간결하게 작성할 있다.
+
+```ts
+function getFirstAndLast<T>(list: T[]): [T, T]{
+ return [list[0], list[list.length - 1]]
+}
+
+const [first, last] = getFirstAndLst([1, 2, 3, 4, 5])
+
+first // number
+last // number
+
+const [frist, last] = getFirstAndLst(['a', 'b', 'c', 'd', 'e'])
+
+first // string
+last // string
+```
+
+`T` 라는 제네릭을 선언해, 이를 각각 배열의 요소의 반환 값의 요소로 사용한다.
+
+제네릭에도 네이밍을 할 수 있으며 적절한 네이밍하는 것이 좋다.
+
+<strong class="green_">인덱스 시그니처</strong>
+
+> 객체의 키를 정의하는 방식을 의미한다.
+
+```ts
+type Hello = {
+ [key: string]: string
+}
+
+const hello: Hello = {
+ hello: 'hello',
+ hi: 'hi',
+}
+
+hello['hi'] // hi
+hello['안녕'] // undefined
+```
+
+`[key: string]` 이 인덱스 시그니처이며 원하는 타입을 부여할 수 있다.
+
+```ts
+type Hellp = Record<'hello' | 'hi', string>
+```
+
+`Record<key, value>` 를 사용하면 객체의 타입에 각각 원하는 키와 값을 넣을 수 있다.
+
+`Object.keys` 를 사용할 경우 강제로 `string[]`을 반환하며 이 문제를 해결할려면 `keyof`를 사용해서 할 수 있다.
+
+```ts
+Object.keys(hello).map((key) => {
+ const value = hello[key as keyof Hello]
+ return value
+})
+```
+
+## **타입스크립트 전환 가이드**
+
+<strong class="green_">tsconfig.json 먼저 작성하기</strong>
+
+타입스크립트를 작성할 수 있는 환경을 만드는 것, 최상위 디렉토리에 `tsconfig.json`을 생성해 줘야 한다.
+
+```json
+{
+ "compilerOptions" : {
+   "outDir": "./dist",
+   "allowJs": true,
+   "target": "es5",
+ },
+ "include": ["./src/**/*"]
+}
+```
+
+- `outDir` : `ts`나 `js`가 만들어진 결과를 넣어두는 폴더
+- `allowJs` : `.js` 파일을 허용하는지 여부
+- `target` : 결과물이 될 자바스크립트 버전
+- `include` : 트랜스파일할 자바스크립트 타입스크립트 파일을 지정
+
+<strong class="green_">JSDoc과 @ts-check를 활용해 점지적으로 전환하기</strong>
+
+파일 최상단에 `//@ts-check`를 선언하고, JSDoc을 활용해 변수나 함수에 타입을 제공하면 타입스크립트 컴파일러가 자바스크립트 파일의 타입을 확인한다.
+
+<strong class="green_">타입 기반 라이브러리 사용을 위해 @types 모듈 설치하기</strong>
+
+타입스크립트에서 라이브러리를 정상적으로 사용하기 위해서는 `@types`라 불리는 DefiniteTyped를 설치해야 하며 작성되지 않은 코드에 대한 타입을 제공하는 라이브러리다.
+
+<strong class="green_">파일 단위로 조금씩 전환하기</strong>
+
+차분히 수정해 조금씩 타입스크립트로 전환해보자
