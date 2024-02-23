@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-02-18-스코프.markdown
+  - _posts/study/javascript/2024-02-23-let, const 키워드와 블록 레벨 스코프.markdown
 title: 전역 변수의 문제점
 categories:
   - study
