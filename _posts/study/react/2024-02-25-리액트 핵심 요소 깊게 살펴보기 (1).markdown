@@ -1,0 +1,306 @@
+---
+layout: post
+related_posts:
+  - _posts/study/react/2024-02-21-리액트 개발을 위해 꼭 알아야 할 자바스크립트 (3).markdown
+title: 리액트 핵심 요소 깊게 살펴보기 (1)
+categories:
+  - study
+  - react
+image: /assets/img/react/modern-react-book.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  모던 리액트 Deep Dive: 리액트의 핵심 개념과 동작 원리부터 Next.js까지, 리액트의 모든 것 - 02장 리액트 핵심 요소 깊게 살펴보기 (1)
+---
+
+* toc
+{:toc}
+
+# 1. JSX란?
+
+JSX는 XML과 유사한 내장형 구문이며, 리액트에 종속이지 않은 독자적인 문법이다.
+
+```jsx
+// SyntaxError: Unexpected token '<'
+const Component = (
+	<div className="hello">
+		<input type="text" value="hello" />
+	</div>
+)
+```
+
+JSX가 주로 사용되는 곳은 리액트 내부에서 반환하는 HTML과 자바스크립트 코드이지만 꼭 그것에 한정돼 있는 것은 아니다. 즉, JSX는 HTML, XML 외에도 다른 구문으로도 확장될 수 있게끔 고려돼 있으며 최대한 구문을 간결하고 친숙하게 작성할 수 있도록 설계돼 있다.
+
+## **JSX의 정의**
+
+JSX는 기본적으로 JSXElement, JSXAttributes, JSXChildren, JSXString라는 4가지 컴포넌트를 기반으로 구성돼 있다.
+
+<strong class="green_">JSXElemnet</strong>
+
+JSX를 구성하는 가장 기본 요소로, HTML의 요소(element)와 비슷한 역할을 한다.
+
+- `JSXOpeningElement`: 일반적으로 볼 수 있는 요소다. 
+
+	- 예:  `<JSXElement JSXAttributes(optional)>`
+
+- `JSXClosingElement`: `JSXOpeningElement` 가 종료됐음을 알리는 요소다.
+
+	- 예: `<JSXElement />`
+
+- `JSXClosingElement`: 요소가 시작되고, 스스로 종료되는 형태를 의미한다. 
+
+	- 예: `<JSXElement JSXAttributes(optional) />`
+
+- `JSXFragment`: 아무런 요소가 없는 형태로, `JSXSelfClosingElement` 형태를 띌 수 없다.
+	- 예: `<>JSXChildren(optional)</>`
+
+<strong class="blue_">JSXElementName</strong>
+
+`JSXElementName`은 `JSXElement`의 요소 이름으로 쓸 수 있는 것을 의미한다.
+
+- `JSXIdentifier`: JSX 내부에서 사용할 수 있는 식별자를 의미한다.
+
+- `JSXNamespaceName`: `JSXIndentifier` `:` `JSXIdentifier`의 조합이다. 
+
+- `JSXMemberExpression`: `JSXIdentifier` `.` `JSXIdentifier`의 조합이다.
+
+<strong>JSXAttributes</strong>
+
+`JSXElemnet`에 부여할 수 있는 속성을 의미한다. 
+
+- `JSXSpreadAttributes`: 자바스크립트의 전개 연산자와 동일한 역할을 한다고 볼 수 있다.
+
+	- `{...AssignmentExpression}`
+
+- `JSXAttribute`: 속성을 나타내는 키와 값으로 짝을 이루어서 표현한다. 
+
+	- `JSXAttributeName`: 속성의 키값
+	- `JSXAttributeValue`: 속성의 키에 할당할 수 있는 값으로, 다음 중 하나를 만족해야 한다.
+		- "큰 따옴표로 구성된 문자열"
+		- '작은 따옴표로 구성된 문자열'
+		- `{ AssigmentExpression }`
+		- `JSXElement`
+
+- `JSXFragment`: 값으로 별도 속성을 갖지 않는 형태의 JSX 요소가 들어갈 수 있다. 
+
+<strong class="green_">JSXChildren</strong>
+
+`JSXElement`의 자식 값을 나타낸다. JSX는 부모와 자식 관계를 나타낼 수 있으며, 그 자식을 `JSXChildren`이라고 한다.
+
+- `JSXChild`: `JSXChildren`을 이루는 기본 단위다. 단어의 차이에서 알 수 있듯이 `JSXChildren`은 `JSXChild`를 0개 이상 가질 수 있다.
+
+	- `JSXText`: `{,<,>,}`을 제외한 문자열
+	 - `JSXElement`: 값으로 다른 JSX 요소가 들어갈 수 있다.
+	 - `JSXFragment`: 값으로 빈 JSX 요소인 `<></>`가 들어갈 수 있다.
+	 - `{JSXChildExpression (optional)}`: 이 `JSXChildExpression`은 자바스크립트의 `AssignmentExpression`을 의미한다. 
+
+
+<strong class="green_">JSXString</strong>
+
+`JSXAttributeValue`와 `JSXText`는 HTML과 JSX 사이에 복사와 붙여넣기를 쉽게 할 수 있도록 설계돼 있다. HTML에서 사용 가능한 문자열은 모두 `JSXString`에서도 가능하다.
+
+문자열은,  **"큰 따옴표로 구성된 문자열", '작은따옴표로 구성된 문자열', 혹은 `JSXText`를 의미한다.**
+
+## **JSX는 어떻게 자바스크립트에서 변환될까?**
+
+자바스크립트에서 JSX가 변환되는 방식을 알려면 리액트에서 JSX를 변환하는 `@babel/plugin-transform-react-jsx` 플로그를 알아야 한다. 이 플로그인은 JSX 구문을 자바스크리브가 이해할 수  있는 형태로 변환한다.
+
+**JSX 반환값이 결국 `React.createElement`** 로 귀결된다.
+
+---
+
+# 2. 가상 DOM과 리액트 파이버
+
+리액트는 실제 DOM이 아닌 가상 DOM을 운영한다.
+
+## **DOM과 브라우저 렌더링 과정**
+
+DOM은 웹페이지에 대한 인터페이스로 브라우저가 **웹페이지의 콘텐츠와 구조를 어떻게 보여줄지에 대한 정보**를 담고 있다.
+
+1. 브라우저가 사용자가 요청한 주소를 방문해 HTML 파일로 다운로드한다.
+2. 브라우저의 렌더링 엔진은 HTML을 파싱해 DOM 노드로 구성된 트리(DOM)를 만든다.
+3. 2번 과정에서 CSS 파일을 만나면 해당 CSS 파일도 다운로드한다.
+4. 브라우저의 렌더링 엔진은 이 CSS도 파싱해 CSS 노드로 구성된 트리(CSSOM)를 만든다.
+5. 브라우저는 2번에서 만든 DOM 노드를 순회하는데, 여기서 모든 노드를 방문하는 것이 아니고 사용자 눈에 보이는 노드만 방문한다. 즉, `display: none`과 같이 사용자 화면에 보이지 않는다. 이는 트리를 분석하는 과정을 조금이라도 빠르게 하기 위해서다.
+6. 5번에서 제외된, 눈에 보이는 노드를 대상으로 해당 노드에 대한 CSSOM 정보를 찾고 여기서 발견한 CSS 스타일 정보를 이 노드에 적용한다. 이 DOM 노드에 CSS를 적용하는 과정은 크게 두 가지로 나눌 수 있다.
+
+## **가상 DOM의 탄생 배경**
+
+브라우저가 웹페이지를 렌더링하는 과정은 매우 복잡하고 비용이 많이 든다. 사용자의 인터렉션으로 웹페이지가 변경되는 상황 또한 고려해야 한다.
+
+이러한 문제점을 해결하기위해 만들어진 것이 가상 DOM이다. 
+
+가상 DOM은 리액트가 관리하는 가상의 DOM을 의미한다. 가상 DOM은 웹페이지가 표시해야 할 DOM을 일단 메모리에 저장하고 리액트가 실제 변경에 대한 준비가 완료됐을 때 실제 브라우저의 DOM에 반영한다. (react-dom)
+
+그러나 무조건 빠른 것이 아니라 리액트의 이 가상 DOM 방식은 웬만한 애플리케이션을 만들 수 있을 정도로 충분히 빠르다는 것이다.
+
+## **가상 DOM을 위한 아키텍처, 리액트 파이버**
+
+가상 DOM과 렌더링 과정 최적화를 가능하게 해주는 것이 바로 리액트 파이버(React Fiber)다.
+
+<strong class="green_">리액트 파이버란?</strong>
+
+리액트 파이버는 리액트에서 관리하는 평범한 자바스크립트 객체다. 파이버는 파이버 재조정자가 관리하는데, 가상 DOM과 실제 DOM을 비교해 변경 사항을 수집하며, 이 둘 사이에 차이가 있으면 변경에 관련된 정보를 가지고 있는 파이버를 기준으로 화면에 렌더링을 요청하는 역할을 한다. 
+
+리액트 파이버의 목표는 리액트 웹 애플리케이션에서 발생하는 애니메이션 레이아웃, 사용자 인터랙션에 올바른 결과물을 만드는 반응성 문제를 해결하는 것이다.
+
+- 작업을 작은 단위로 분할하고 쪼갠 다음, 우선순위를 매긴다.
+
+- 이러한 작업을 일시 중지하고 나중에 다시 시작할 수 있다.
+
+- 이전에 했던 작업을 재사용하거나 필요하지 않은 경우에는 폐기할 수 있다.
+
+이러한 모든 과정이 비동기로 일어난다.
+
+기존 렌더링 스택의 비효율성을 타파하기 위해 파이버라는 개념을 탄생시킨다.
+
+파이버는 일단 하나의 작업 단위로 구성돼 있다. 리액트는 이러한 작업 단위를 하나씩 처리하고 `finishedWork()`라는 작업으로 마무리한다. 그리고 이 작업을 커밋해 실제 브라우저 DOM에 가사적인 변경 사항을 만들어 낸다.
+
+- 랜더 단계에서 리액트는 사용자에게 노출되지 않는 모든 비동기 작업을 수행한다. 파이버의 작업, 우선순위를 지정하거나 중지시키거나 버리는 등의 작업이 일어난다.
+
+- 커밋 단계에서는 앞서 언급한 것처럼 DOM에 실제 변경 사항을 반영하기 위한 작업, `commitWork()`가 실행되는데, 동기식으로 일어나고 중단될 수도 없다.
+
+```jsx
+function FiberNode(
+    this: $FlowFixMe,
+    tag: WorkTag,
+    pendingProps: mixed,
+    key: null | string,
+    mode: TypeOfMode
+) {
+    // Instance
+    this.tag = tag;
+    this.key = key;
+    this.elementType = null;
+    this.type = null;
+    this.stateNode = null;
+
+    // Fiber
+    this.return = null;
+    this.child = null;
+    this.sibling = null;
+    this.index = 0;
+
+    this.ref = null;
+    this.refCleanup = null;
+
+    this.pendingProps = pendingProps;
+    this.memoizedProps = null;
+    this.updateQueue = null;
+    this.memoizedState = null;
+    this.dependencies = null;
+
+    this.mode = mode;
+
+    // Effects
+    this.flags = NoFlags;
+    this.subtreeFlags = NoFlags;
+    this.deletions = null;
+
+    this.lanes = NoLanes;
+    this.childLanes = NoLanes;
+
+    this.alternate = null;
+}
+```
+
+**ⓒ** [https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactFiber.js#L135](https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactFiber.js#L135)
+
+파이버는 단순히 자바스크립트 객체로 구성돼 있다.
+
+리액트 요소는 렌더링이 발생할 때마다 새롭게 생성되지만 **파이버는 재사용된다.**
+
+```js
+function createFiber(
+    tag: WorkTag,
+    pendingProps: mixed,
+    key: null | string,
+    mode: TypeOfMode
+): Fiber {
+    // $FlowFixMe[invalid-constructor]: the shapes are exact here but Flow doesn't like constructors
+    return new FiberNode(tag, pendingProps, key, mode);
+}
+
+export function createFiberFromElement(
+    element: ReactElement,
+    mode: TypeOfMode,
+    lanes: Lanes
+): Fiber {
+    let source = null;
+    let owner = null;
+
+    const type = element.type;
+    const key = element.key;
+    const pendingProps = element.props;
+    const fiber = createFiberFromTypeAndProps(
+        type,
+        key,
+        pendingProps,
+        source,
+        owner,
+        mode,
+        lanes
+    );
+    return fiber;
+}
+
+export function createFiberFromFragment(
+    elements: ReactFragment,
+    mode: TypeOfMode,
+    lanes: Lanes,
+    key: null | string
+): Fiber {
+    const fiber = createFiber(Fragment, elements, key, mode);
+    fiber.lanes = lanes;
+    return fiber;
+}
+```
+
+**ⓒ** [https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactFiber.js#L229](https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactFiber.js#L229)
+
+**ⓒ** [https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactFiber.js#L648](https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactFiber.js#L648)
+
+파이버는 하나의 element에 하나에 생생되는 1:1 관계를 가지고 있다. 
+
+선언된 주요 속성들
+
+- `tag`: 파이버는 하나의 element에 하나가 생성되는 1:1 관계를 가지고 있다. 여기서 1:1로 매칭된 정보를 가지고 있는 것이 `tag`다.  
+
+- `stateNode`: 파이버 자체에 대한 참조(reference) 정보를 가지고 있다.
+  
+- `child`, `sibling`, `return`: 파이버 간의 관계 개념을 나타내는 속성이다.
+
+파이버는 state가 변경되거나 생명주기 메서드가 실행되거나 DOM의 변경이 필요한 시점 등에 실행된다. 리액트가 파이버를 처리할 때마다 이러한 작업을 직접 바로 처리하기도 하고 스케줄링하기도 한다. 
+
+작업들은 작은 단위로 나눠서 처리할 수도, 애니메이션과 같이 우선순위가 높은 작업은 가능한 빠르게 처리하거나, 낮은 작업을 연기시키는 등 좀 더 유연하게 처리된다.
+
+<strong class="green_">리액트 파이버 트리</strong>
+
+파이버 트리는 사실 리액트 내부에서 두 개가 존재한다. 하나는 현재 모습을 담은 파이버 트리이고, 다른 하나는 작업 중인 상태를 나타내는 `workInProgress`트리다. 
+
+<strong class="orange_">더블 버퍼링</strong>
+
+리액트 파이버의 작업이 끝나면 리액트는 단순히 포인터만 변경해 `workInProgress` 트리를 현재 트리로 바꿔버린다. 
+
+현재 UI 렌더링을 위해 존재하는 트리인 current를 기준으로 모든 작업이 시작된다. 여기에서 만약 업데이터가 발생하면 파이버는 리액트에서 새로 받은 데이터로 새로운 `workInProgress` 트리를 빌드하기 시작한다. 
+
+이 `workInProgress` 트리를 빌드하는 작업이 끝나면 다음 렌더링에 이 트리를 사용한다. 그리고 이 `workInProgress` 트리가 UI에 최종적으로 렌더링되어 반영이 완료되면 current가 이 `workInProgress`로 변경된다.
+
+<strong class="green_">파이버의 작업 순서</strong>
+
+1. 리액트는 `beginWork()` 함수를 실행해 파이버 작업을 수행하는데, 더 이상 자식이 없는 파이버를 만날 때까지 트리 형식으로 시작된다.
+  
+2. 1번에서 작업이 끝났다면 그다음 `completeWork()` 함수를 실행해 파이버 작업을 완료한다.
+  
+3. 형제가 있다면 형제로 넘어간다.
+
+4. 2번, 3번이 모두 끝났다면 `return`으로 돌아가 자신의 작업이 완료됐음을 알린다.
+
+`setState`등으로 업데이트가 발생하면 리액트에서 만든 current 트리가 존재하고, `setState`로 인한 업데이트 요청을 받아 `workInProgress` 트리를 다시 빌드하기 시작한다.(빌드 과정 동일)
+
+- `가급적 새로운 파이버를 생성하지 않는다`를 의미한다.
+
+## **파이버 가상 DOM**
+
+리액트 컴포넌트에 대한 정보를 1:1로 가지고 있는 것이 파이버이며, 이 파이버는 리액트 아키텍처 내부에서 비동기로 이뤄진다. 
+
+메모리상에서 먼저 수행해서 최종적인 결과물만 실제 브라우저 DOM에 적용하는 것이다.
