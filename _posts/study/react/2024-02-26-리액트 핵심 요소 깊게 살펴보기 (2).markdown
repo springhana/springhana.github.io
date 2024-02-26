@@ -1,0 +1,346 @@
+---
+layout: post
+related_posts:
+  - _posts/study/react/2024-02-21-리액트 개발을 위해 꼭 알아야 할 자바스크립트 (3).markdown
+title: 리액트 핵심 요소 깊게 살펴보기 (2)
+categories:
+  - study
+  - react
+image: /assets/img/react/modern-react-book.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  모던 리액트 Deep Dive: 리액트의 핵심 개념과 동작 원리부터 Next.js까지, 리액트의 모든 것 - 02장 리액트 핵심 요소 깊게 살펴보기 (2)
+---
+
+* toc
+{:toc}
+
+![[modern-react-book.png]]
+
+# 클래스형 컴포넌트와 함수형 컴포넌트
+
+함수형 컴포넌트에 훅이 등장한 이후 함수 컴포넌트에서 상태나 생명주기 메서드 비슷한 작업을 흉내 낼 수 있게 되자 상대적으로 보일러플레이트가 복잡한 클래스형 컴포넌트보다 함수형 컴포넌트를 더 많이 쓰기 시작했다.
+
+## 클래스형 컴포넌트
+
+기본적으로 클래스형 컴포넌트를 만들려면 클래스를 선언하고 `extends`로 만들고 싶은 컴포넌트를 `extends`해야 한다.
+
+`extends` 구문에 넣을 수 있는 클래스다.
+
+- `React.Component`
+- `React.PureComponent`
+
+이 둘의 차이점은 클래스형 컴포넌트인 `shouldComponentUpdate`를 다루는데 있다.
+
+```jsx
+import React from "react";
+
+// props 타입을 선언한다.
+interface SampleProps {
+  required?: boolean;
+  text: string;
+}
+
+// state 타입을 선언한다.
+interface SampleState {
+  count: number;
+  isLimited?: boolean;
+}
+
+// Component에 제네릭으로 props, state를 순서대로 넣어준다.
+class SampleComponent extends React.Component<SampleProps, SampleState> {
+
+  // constructor에서 props를 넘겨주고, state의 기본값을 설정한다.
+  private constructor(props: SampleProps) {
+    super(props);
+    this.state = {
+      count: 0,
+      isLimited: false,
+    };
+  }
+
+  // render 내부에서 쓰일 함수를 선언한다.
+  private handleClick = () => {
+    const newValue = this.state.count + 1;
+    this.setState({ count: newValue, isLimited: newValue >= 10 });
+  };
+
+  // render에서 이 컴포넌트가 렌더링할 내용을 정의한다.
+  public render() {
+    // props와 state 값을 this, 즉 해당 클래스에서 꺼낸다.
+    const {
+      props: { required, text },
+      state: { count, isLimited },
+    } = this;
+
+    return (
+      <h2>
+        Sample Component
+        <div>{required ? "필수" : "필수아님"}</div>
+        <div>문자: {text}</div>
+        <div>count: {count}</div>
+        <button onClick={this.handleClick} disabled={isLimited}>
+          증가
+        </button>
+      </h2>
+    );
+  }
+}
+
+export default SampleComponent;
+```
+
+- `constructor()`: 컴포넌트 내부에 이 생성자 함수가 있다면 컴포넌트가 초기화되는 시점에 호출된다. 여기서는 컴포넌트의 `state`를 초기화할 수 있다. 
+
+- `props`: 함수에 인수를 넣는 것과 비슷하게, 컴포넌트에 특정 속성을 전달하는 용도로 쓰인다. 
+
+- `state`: 클래스형 컴포넌트 내부에서 관리하는 값을 의미한다. 이 값은 항상 객체여야만 한다. 이 값에 변화가 있을 때마다 리렌더링이 발생한다.
+
+- 메서드: 렌더링 함수 내부에서 사용되는 함수이며, 보통 DOM에서 발생하는 이벤트와 함께 사용된다. 
+	- 이를 만드는 방식은 크게 3가지로 나뉜다.
+	- 🛠️`constructor`에서 `this` 바인드를 하는 방법
+	- 화살표 함수를 쓰는 방법
+	- 렌더링 함수 내부에서 함수를 새롭게 만들어 전달하는 방법
+
+<strong class="green_">클래스형 컴포넌트인 생명주기 메서드</strong>
+
+클래스형 컴포넌트의 많은 코드가 생명주기 메서드에 의존하고 있다.
+
+**생명주기 메서드가 실행되는 시점**
+
+- 마운트(mount): 컴포넌트 마운트(생성)되는 시점
+- 업데이트(update): 이미 생성된 컴포넌트의 내용이 변경(업데이트)되는 시점
+- 언마운트(unmount): 컴포넌트가 더이상 존재하지 않는 시점
+
+**생명주기 메서드**
+
+`render()`
+- 실행 시점: **마운트**와 **업데이트** 과정에서 일어난다.
+- 이 함수는 컴포넌트가 UI를 렌더링하기 위해서 쓰인다.
+- 클래스형 컴포넌트의 유일한 필수 값으로 항상 쓰인다.
+- `render()`함수는 항상 순수해야 하며 부수 효과가 없어야 한다. (같은 입력값(props 또는 state)이 들어가면 같은 결과물을 반환해야 한다.)
+	- `this.setState`를 호출해서는 안 된다.
+	- `state`를 변경하는 일은 클래스형 컴포넌트의 메서드나 다른 생명주기 메서드 내부에서 발생해야 한다.
+
+`componentDidMount()`
+- 실행 시점: **마운트**되고 준비가 됐다면 그다음으로 호출된다.
+	- 컴포넌트가 **마운트**되고 준비되는 즉시 실행된다.
+- 함수 내부에서는 `this.setState()`로 `state`값을 변경하는 것이 가능하다.
+	- `this.seState`를 호출했다면 `state`가 변경되고, 그리고 그 즉시 다시 한번 렌더링을 시도하는데, 이 작업은 브라우저가 실제로 UI를 업데이트하기 전에 실행되어 사용자가 변경되는 것을 눈치챌 수 없게 만든다.
+
+`componentDidUpdate()`
+- 실행 시점: 컴포넌트 **업데이트**가 일어난 이후 바로 실행된다.
+- `state` 나 `props`의 변화에 따라 DOM을 업데이트 하는데 쓰인다.
+- `this.setState`를 사용할 수 있다.
+	- 적절한 조건문으로 감싸지 않는다면 `this.setState`가 계속해서 호출되는 일이 발생할 수 있다. (성능적으로 좋지 못함)
+
+```jsx
+componentDidUpdate(prevProps: MyComponentProps, prevState: MyComponentState) {
+  if (this.props.someValue !== prevProps.someValue) {
+    this.setState({ /* update state */ });
+  }
+}
+```
+
+`componentWillUnMound()`
+- 실행 시점: 컴포넌트가 **언마운트**되거나 **더 이상 사용되지 않기 직전**에서 호출된다.
+- 메모리 누수나 불필요한 작동을 막기 위해 클린업 함수를 호출하기 위한 최적의 위치다. 
+- `this.setState`를 사용할 수 없다.
+
+`shouldComponentUpdate()`
+- 실행 시점: `state`나 `props`의 변경으로 리액트 컴포넌트가 다시 리렌더링 되는 전 호출
+- 불필요한 리렌더링을 막아준다. (`setState`가 불렸지만, `state`값이 변화가 없는 경우)
+- 특정한 성능 최적화 상황에서만 고려해야 한다.
+```jsx
+  shouldComponentUpdate(nextProps: CounterProps, nextState: CounterState) {
+    return nextProps.value !== this.props.value;
+  }
+```
+- `Component`와 `PureComponent`의 차이점은 이 생명주기를 다루는데 있다.
+	- `Component`의 경우 `state`가 업데이트되는 대로 렌더링이 일어난다.
+	- `PureComponent`는 `state`의 값이 업데이트되지 않아서 렌더링이 일어나지 않는다.
+		- `PureComponent`는 `state`값에 대해 얕은 비교를 수행해 결과가 다를 때만 렌더링을 수행한다.
+
+`static getDerivedStateFromProps()`
+- 실행 시점: `render()`를 호출하기 직전에 호출된다.
+- `static`으로 선언돼 있던 `this`에 접근할 수 없다는 것이다.
+	- 반환하는 객체는 해당 객체의 내용이 모두 `state`로 들어간다.
+	- `null`을 반환하면 아무런 일도 일어나지 않는다.
+
+`getSnapShotBeforeUpdate()`
+- 실행 시점: DOM이 업데이트되기 직전에 호출된다.
+- 반환되는 값은 `componentDidUpdate`로 전달된다.
+```jsx
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+  // Are we adding new items to the list?
+  // Capture the scroll position so we can adjust scroll later.
+  if (prevProps.list.length < this.props.list.length) {
+    const list = this.listRef.current;
+    return list.scrollHeight - list.scrollTop;
+  }
+  return null;
+}
+
+componentDidUpdate(prevProps, prevState, snapshot) {
+  // If we have a snapshot value, we've just added new items.
+  // Adjust scroll so these new items don't push the old ones out of view.
+  // (snapshot here is the value returned from getSnapshotBeforeUpdate)
+  if (snapshot !== null) {
+    const list = this.listRef.current;
+    list.scrollTop = list.scrollHeight - snapshot;
+  }
+}
+```
+
+<strong class="blue_">리액트 생명주기 다이어그램</strong>
+
+<img src="/assets/img/react/lifecycle.png" />
+
+`getDerivedStateFromError()`
+- 자식 컴포넌트에서 에러가 발생했을 때 호출되는 에러 메서드다.
+- `state`메서드로, `error`를 인수로 받는다.
+	- `error`는 하위 컴포넌트에서 발생한 에러를 말한다.
+- 반드시 `state`값을 반환해야 한다.
+	- 실행 시점때문이다.
+	- 하위 컴포넌트에서 에러가 발생했을 경우에 어떻게 자식 리액트 컴포넌트를 렌더링할지 결정하는 용도로 제공되는 메서드이기 때문에 반드시 미리 정의해 둔 `state`값을 반환해야 한다.
+- 렌더링 과정에서 호출되는 메서드이기 때문에 부수 효과를 발생시켜서는 안 된다.
+
+`componentDidCatch`
+- `getDerivedStateFromError`에서 에러를 잡고 `state`를 결정한 이후에 실행된다.
+- 두 개의 인수를 받는데, 첫 번째는 `error`, 두 번째로 정확한 정보를 담고 있는 `info`다.
+- `getDerivedStateFromError()`에서 하지 못했던 부수 효과를 수행할 수 있다.
+	- 커밋 단계에서 실행되기 때문이다.
+- 리액트에서 에러 발생 시 이 메서드에서 제공하는 에러 정보를 바탕으로 로깅하는 등의 용도로 사용할 수 있다.
+- ErrorBounday, 에러 경계 컴포넌트를 만들기 위한 목적으로 많이 사용된다.
+- ErrorBounday의 경계 외부에 있는 에러는 잡을 수 없다.
+- ErrorBounday를 여러 개 선언해서 컴포넌트별로 에러 처리를 다르게 적용할 수 있다.
+	- 에러가 발생한 컴포넌트 트리 영역만 별도로 처리해서 애플리케이션 전체에 에러가 전파되어 표시되는 것을 방지할 수 있다.
+- `componentDidCatch`는 개발 모드와 프로덕션 모드에서 다르게 동작한다.
+	- 개발 모드에서는 에러가 발생하면 window.enerror나 window.addEventListener('error', callback)과 같은 메서드가 `componentDidCatch`에서 잡은 오류를 마찬가지로 잡을 수 있다.
+	- 프로덕션 모드에서는 `componentDidCatch`로 잡히지 않은 에러만 window까지 전파된다.
+
+<strong>클래스 컴포넌트의 한계</strong>
+
+- 데이터의 흐름을 추적하기 어렵다
+- 애플리케이션 내부 로직의 재사용이 어렵다
+- 기능이 많아질수록 컴포넌트의 크기가 커진다
+- 클래스는 함수에 비해 상대적으로 어렵다
+- 코드 길이를 최적화하기 어렵다: 최종 결과물인 번들 크기를 줄이는 데도 어려움을 겪는다.
+- 핫 리로딩을 하는 데 상대적으로 불리하다
+  - 핫 리로딩 시에 `instance` 새로 생성하고 `state`를 읽어버린다.
+  - 핫 리로딩(hot reloading)이란 코드에 변경 사항이 발생했을 때 앱을 다시 시작하지 않고서도 해당 변경된 코드만 업데이트해 변경 사항을 빠르게 적용하는 기법을 말한다.
+
+## 함수형 컴포넌트
+
+`render` 내부에서 필요한 함수를 선언할 때 `this` 바인딩을 조심할 필요도 없으며, `state`는 객체가 아닌 각각의 원시값으로 관리되어 휠씬 사용하기가 편해졌다. 물론 `state`는 객체도 관리할 수 있다.
+
+렌더링하는 코드인 `render`에서도 굳이 `this`를 사용하지 않더라도 `props`와 `state`에 접근할 수 있게 됐다.
+
+## 함수형 컴포넌트 vs 클래스형 컴포넌트
+
+<strong class="green_">생명주기 메서드의 부재</strong>
+
+함수형 컴포넌트는 클래스형 컴포넌트의 생명주기 메서드가 존재하지 않는다.
+
+함수형 컴포넌트는 `useEffect`혹을 생명주기 메서드인 `componentDidMount`, `componentDidUpdate`, `componentDidUnmount`를 비슷하게 구현할 수있다. `useEffect`는 생명주기를 위한 훅이 아니며 컴포넌트의 `state`를 할용해 동기적으로 부수 효과를 만드는 매커니즘이다.
+
+<strong class="green_">함수형 컴포넌트와 렌더링된 값</strong>
+
+함수형 컴포넌트는 렌더링된 값을 고정하고, 클래스형 컴포넌트는 그렇지 못한다.
+
+클래스형 컴포넌트는 `props`의 값을 항상 `this`로부터 가져오며 `props`는 외부에서 변경되지 않는 이상 불변 값이지만 `this`가 가리키는 객체, 즉 컴포넌트의 인스턴스의 맵버는 변경 가능한(mutable)값이다. 
+
+함수형 컴포넌트는 `props`를 인수로 받고 컴포넌트는 그 값을 변경할 수 없고, 해당 값을 그대로 사용하게 된다. `state`도 마찬가지다.
+
+함수형 컴포넌트는 렌더링이 일어날 때마다 그 순간의 값인 `props`와 `state`를 기준으로 렌더링된다. `props`와 `state`가 변경된다면, 다시 한 번 그 값을 기준으로 함수가 호출된다고 볼 수 있다.
+
+---
+
+# 4. 렌더링은 어떻게 일어나는가?
+
+**리액트의 렌더링**은 브라우저에 필요한 DOM 트리를 만드는 과정을 의미한다. 리액트도 브라우저와 마찬가지로 이 렌더링 작업을 위한 자체적인 렌더링 프로세스가 있다.
+
+왜냐하면 레더링은 시간과 리소스를 소비해 수행되는 과정으로, 이 비용은 모두 웹 애플리케이션을 방문하는 사용자에게 청구되며, 시간이 길어지고 복잡해질수록 유저의 사용자 경험을 저해하기 때문이다.
+
+## 리액트의 렌더링이란?
+
+리액트에서의 렌더링이란 리액트 애플리케이션 트리 안에 있는 모든 컴포넌트들이 현재 자신들이 가지고 있는 `props`와 `state`의 값을 기반으로 어떻게 UI를 구성하고 이를 바탕으로 어떤 DOM 결과를 브라우저에 제공할 것인지 계산한느 일련의 과정을 의미한다.
+
+만약 컴포넌트가 `props`와 `state`와 같은 상태값을 가지고 있지 않다면 오직 해당 컴포넌트가 반환하는 JSX 값에 기반해 렌더링이 일어나게 된다.
+
+## 리액트의 렌더링이 일어나는 이유
+
+1. 최초 렌더링: 처음 애플리케이션 진입 시 리액트는 브라우저에 이 정보를 제공하기 위해 최초 렌더링을 수행한다.
+
+2. 리렌더링: 최초 렌더링이 발생한 이후로 발생하는 모든 렌더링을 의미한다.
+	- 클래스형 컴포넌트
+		- `setState`가 실행되는 경우
+		- `forceUpdate`가 실행되는 경우
+	- 함수형 컴포넌트
+		- `useState()`의 두 번째 배열 요소인 `setter`가 실행되는 경우
+		- `useReducer()`의 두 번째 배열 요소인 `dispatch`가 실행되는 경우
+	-  컴포넌트의 `key props`가 변경되는 경우
+		- 리액트에서 `key`는 리렌더링이 발생하는 동안 형제 요소들 사이에서 동일한 요소를 식별하는 값이다.
+		- 리액트 파이버기 두 트리사이에서 리렌더링이 필요한 컴포넌트를 최소화하기 위해 `key`가 필요하다.
+		- `key` 값이 바뀌면, 강제로 리렌더링을 일으키는 것이 가능하다.
+	- `props`가 변경되는 경우
+	- 부모 컴포넌트가 렌더링될 경우
+
+리액트에서 렌더링이 일어나는 경우는 앞에서 나열한 시나리오 뿐이다.
+
+## 리액트의 렌더링 프로세스
+
+렌더링 프로세스가 시작되면 리액트는 컴포넌트의 루트에서부터 아래쪽으로 내려가면서 업데이트가 필요하다고 지정돼 있는 모든 컴포넌트를 찾는다. 만약 업데이트가 필요하다고 지정돼 있는 컴포넌트를 발견하면 
+- 클래스형 컴포넌트의 경우에는 내부의 `render()` 함수를 실행
+- 함수형 컴포넌트의 겨우에는 `FunctionCopmonent()` 그 자체를 호출한 뒤에, 그 결과물을 저장
+한다.
+
+렌더링 프로세스가 실행되면서 이런 과정을 거쳐 각 컴포넌트의 렌더링 결과물을 수집한 다음, 리액트의 새로운 트리인 가상 DOM과 비교해 실제 DOM에 반영하기 위한 모든 변경 사항을 수집한다.
+
+이러한 재조정 과정이 모두 끝나면 모든 변경 사항을 하나의 동기 시퀸스로 DOM에 적용해 변경된 결과물이 보이게 된다.
+
+리액트의 렌더링은 렌더 단계와 커밋 단계라는 총 두 단계로 분리되어 실행된다.
+
+## 렌더와 커밋
+
+**렌더 단계(Render Phase)**
+
+컴포넌트를 렌더링하고 변경 사항을 계산하는 모든 작업을 말한다. 즉, 렌더링 프로세스에서 컴포넌트를 실행해(`render()` 또는 `return`)이 결과와 이전 가상 DOM을 비교하는 과정을 거쳐 변경이 필요한 컴포넌트를 체크하는 단계다. 여기서 비교하는 것은 크게 세 가지로, (`type`, `props`, `key` 다.)
+
+**커밋 단계(Commit Phase)**
+
+렌더 단계의 변경 사항을 실제 DOM에 적용해 사용자에게 보여주는 과정을 말한다. 이 단계가 끝나야 비로소 브라우저의 렌더링이 발생한다.
+
+리액트가 먼저 DOM을 커밋 단계에서 업데이트한다면 이렇게 만들어진 모든 DOM 노드 및 인스턴스를 기리키도록 리액트 내부의 참조를 업데이트한다. 그다음, 생명주기 개념이 있는 
+- 클래스형 컴포넌트에서는 `componentsDisMount`, `componentDidUpdate` 메서드를 호출하
+- 함수형 컴포넌트에서는 `useLayoutEffect` 혹을 호출
+한다.
+
+**리액트의 렌더링이 일어난다고 해서 무조건 DOM 업데이트가 일어나는 것은 아니라는 것이다.** 
+
+리액트의렌더링은 꼭 가시적인 변경이 일어나지 않아도 발생할 수 있다. 렌더링 과정 중 첫 번째 단계인 렌더 단계에서 변경 사항을 감지할 수 없다면 커밋 단계가 생략되어 브라우저의 DOM 업데이트가 일어나지 않을 수 있다.
+
+<img src="/assets/img/react/lifecycle_class.png" />
+
+---
+
+# 5. 컴포넌트와 함수의 무거운 연산을 기억해 두는 메모이제이션
+
+리액트에서 제공하는 API 중 `useMemo`, `useCallback` 훅과 고차 컴포넌트인 `memo`는 리액트에서 발생하는 렌더링을 최소한으로 줄이기 위해서 제공된다.
+
+## 필요한 곳만 추가하자
+
+메모제이션은 모든 것을 해결할 수 있는 마법과 같은 것이 아니다. 메모이제이션에도 비용이 들며 값을 비교하고 렌더링 또는 재계산이 필요한지 확인하는 작업, 그리고 이전에 결과물을 저장해 두었다가 다시 꺼내와야 한다는 두 가지 비용이 있다.
+
+## 모두 추가하자
+
+잘못된 `memo`를 지불해야 하는 비용은 바로 `props`에 대한 얕은 비교가 발생하면서 지불해야 하는 비용이다.
+
+`memo`를 하지 않았을 때 발생할 수 있는 문제는 다음과 같다.
+
+- 렌더링을 함으로써 발생하는 비용
+- 컴포넌트 내부의 복잡한 로직의 재실행
+- 그리고 위 두기지 모두가 모든 자식 컴포넌트에서 반복해서 일어남
+- 리액트가 구 트리와 신규 트리를 비교
+
+메모이제이션은 하지 않는 것보다 메모이제이션을 했을 때 더 많은 이점을 누릴 수 있으며 이것이 비록 섣부른 초기화라 할지라도 했을 때 누릴 수 있는 이점, 이를 실수로 빠트렸을 때 처러야 할 위험 비용이 더 크기 때문에 최적화에 대한 확신이 없다면 가능한 모든 곳에 메모이제이션을 활용한 최적화를 하는 것이 좋다.
