@@ -1,0 +1,372 @@
+---
+layout: post
+related_posts:
+  - _posts/study/react/2024-02-21-리액트 개발을 위해 꼭 알아야 할 자바스크립트 (3).markdown
+title: 리액트 훅 깊게 살펴보기 (1)
+categories:
+  - study
+  - react
+image: /assets/img/react/modern-react-book.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  모던 리액트 Deep Dive: 리액트의 핵심 개념과 동작 원리부터 Next.js까지, 리액트의 모든 것 - 03장 리액트 훅 깊게 살펴보기 (1)
+---
+
+* toc
+{:toc}
+
+# 1. 리액트의 모든 훅 파헤하기
+
+훅은 클래스형 컴포넌트에서만 가능했던 `state`, `ref` 등 리액트의 핵심적인 기능을 함수에서도 가능하게 만들었고, 무엇보다 클래스형 컴포넌트보다 간결하게 작성할 수 있다.
+
+## **useState**
+
+`useState`는 함수형 컴포넌트 내부에서 상태를 정의하고, 이 상태를 관리할 수 있게 해주는 훅이다.
+
+<strong>useState 구현</strong>
+
+```jsx
+import { useState } from 'react'
+
+const [state, setState] = useState(initalState)
+```
+
+`useState`의 인수로는 사용할 `state`의 초깃값을 넘겨준다. 아무런 값을 넘겨주지 않으면 초깃값은 `undefined`다. 
+
+- `useState` 훅의 반환 값은 배열
+- 배열의 첫 번째 원소로 `state`값 자체를 사용할 수 있고, 두 번째 원소인 `setState`함수를 사용해 해당 `state`의 값을 변경할 수 있다.
+
+함수형 컴포넌트는 매번 함수를 실행해 렌더링이 일어나고, 함수 내부의 값은 함수가 실행될 때마다 다시 초기화된다.
+
+`state`는 함수가 아닌 상수처럼 사용하고 있다. 그렇기 때문에 리액트는 클로저를 이용했다.
+
+<strong class="orange_">클로저</strong>
+클로저는 어떤 함수(`useState`) 내부에 선언된 함수 (`setState`)가 함수의 실행이 종료된 이후에도 (`useState`가 호출된 이후에도) 지역변수인 `state`를 계속 참조할 수 있다는 것을 의미한다.
+
+실제로 `useState`는 어떤 형태로 구현돼 있을까? (대략적으로 흉내 낸 코드다.)
+
+```jsx
+const MyReact = function () {
+  const global = {};
+  let index = 0;
+
+  function useState(initialState) {
+    if (!global.states) {
+      global.states = [];
+    }
+	
+    const currentState = global.states[index] || initialState;
+    global.states[index] = currentState;
+	
+    const setState = (function () {
+      let currentIndex = index;
+      return function (value) {
+        global.states[currentIndex] = value;
+      };
+    })();
+    
+    index = index + 1;
+    
+    return [currentState, setState];
+  }
+};
+```
+
+실제 리액트 코드에서 `useReducer`를 이용해 구현돼 있다.
+
+함수의 실행이 끝났음에도 함수가 선언된 환경을 기억할 수 있는 방법은 클로저다.
+
+<strong>게으른 초기화</strong>
+
+`useState`의 인수로 특정한 값을 넘기는 함수를 인수로 넣어줄 수 있다. `useState`에 변수 대신 함수를 넘기는 것을 게으른 초기화라고 한다.
+
+```jsx
+// 일반적으로 useState 사용
+const [count, setCount] = useState(
+	Number.parseInt(window.localStorage.getItem(cacheKey)),
+)
+
+// 게으른 초기화 
+const [count, setCount] = useState(() => 
+	Number.parseInt(window.localStorage.getItem(cacheKey)),  
+)
+```
+
+리액트 공식 문서에서 이러한 게으른 초기화는 `useState`의 초기값이 복잡하거나 무거운 연산을 포함하고 있을 때 사용하라고 돼 있다. 오로지 `state`가 처음 만들어질 때만 사용된다. 
+
+`useState`의 인수로 이 값 자체를 사용한다면 초깃값이 필요한 최초 렌더링과 ,초기값이 있어 더 이상 필요 없는 리렌더링 시에도 동일하게 계속 해당 값에 접근해서 낭비가 발생하며 함수 형태로 인수에 넘겨주는 편이 휠씬 경제적인 것이다. 초기값이 없다면 함수를 실행해 무거운 연산을 시도할 것이고, 이미 초깃값이 존재한다면 함수 실행을 하지 않고 기존 값을 사용할 것이다.(무거운 연산이 요구될 때 사용)
+
+## useEffect
+
+- `useEffect`는 두 개의 인수를 받는데, 첫 번째는 콜백, 두 번째는 의존성 배열이다. 이 두 번째 의존성 배열의 값이 변경되면 첫 번째 인수인 콜백을 실행한다.
+- 클래스형 컴포넌트의 생명주기 메서드와 비슷한 작동을 구현할 수 있다.
+- `useEffect`는 클린업 함수를 반환할 수 있는데, 이 클린업 함수는 컴포넌트가 언마운트될 때 실행된다.
+
+ `useEffect`는 애플리케이션 내 컴포넌트의 여러 값들을 활용해 동기적으로 부수 효과를 만드는 매커니즘이다.
+
+<strong class="green_">useEffect란?</strong>
+
+```jsx
+function Component() {
+	// ...
+	useEffect(() => {
+		// do something
+	}, [props, state])
+	// ...
+}
+```
+
+첫 번째 인수로는 실행할 부수 효과가 포함된 함수를, 두 번째 인수로는 의존성 배열을 전달한다. 
+
+`useEffect`는 자바스크립트의 proxy,나 데이터 바인딩, 옵저버 같은 특별한 기능을 통해 값의 변화를 관찰하는 것이 아니고 렌더링할 때마다 의존성에 있는 값을 보면서 이 의존성의 값이 이전과 다른 게 하나라도 있으면 부수 효과를 실행하는 평범한 함수라 볼 수 있다. 
+
+`useEffect`는 `state`나 `props`의 변화 속에서 일어나는 렌더링 과정에서 실행되는 부수 효과 함수라고 볼 수 있다.
+
+<strong class="green_">클린업 함수의 목적</strong>
+
+클린업 함수라 불리는 `useEffect` 내에서 반환되는 함수는 일반적으로 이 클린업 함수는 이벤트를 등록하고 지울 때 사용한다.
+
+클린업 함수는 비록 새로운 값을 기반으로 렌더링 뒤는 실행되지만 이 변경된 값을 읽는 것이 아니라 함수가 정의됐을 당시에 선언됐던 이전 값을 보고 실행된다는 것이다.
+
+```jsx
+useEffect(() => {
+	function addMouseEvent() {
+		console.log(1)
+	}
+	
+	window.addEventListener('click', addMouseEvent)
+	
+	// 클리업 함수
+	// 그리고 이 클린업 함수는 다음 렌더링이 끝난 뒤에 실행된다.
+	return () => {
+		console.log('클린업 함수 실행!', 1)
+		window.removeListener('click', addMouseEvent)
+	}
+}, [counter])
+
+// 이후 실행
+useEffect(() => {
+	function addMouseEvent() {
+		console.log(2)
+	}
+	
+	window.addEventListener('click', addMouseEvent)
+	
+	// 클린업 함수
+	return () => {
+		console.log('클린업 함수 실행!', 2)
+		window.removeEventListener('click', addMouseEvent)
+	}
+}, [counter])
+```
+
+함수형 컴포넌트의 `useEffect`는 그 콜백이 실행될 때마다 이전의 클린업 함수가 존재한다면 그 클린업 함수를 실행한 뒤에 콜백을 실행한다.
+
+특정 이벤트의 핸들러가 무한히 추가되는 것을 방지할 수있다.
+
+- 언마운트는 특정 컴포넌트가 DOM에서 사라진다는 것
+- 클린업 함수는 함수형 컴포넌트가 리렌더링됐을 때 의존성 변화가 있었을 당시 이전의 값을 기준으로 청소해 주는 개념
+
+<strong>의존성 배열</strong>
+
+- 비교할 의존성이 없다고 판단해 최초 렌더링 직후에 실행된 다음부터는 더 이상 실행되지 않는다.
+
+- 값을 넘겨주지 않는다면 이때는 의존성을 비교할 필요 없이 렌더링할 때마다 실행이 필요하다고 판단해 렌더링이 발생할 때마다 실행된다.
+
+- 값이 있다면 의존성 값이 변경되었을 때만 실행된다.
+
+`useEffect`는 컴포넌트 렌더링의 부수 효과, 즉 컴포넌트의 렌더링이 완료된 이후에 실행된다. 
+
+`useEffect`는 컴포넌트가 렌더링된 후에 어떠한 부수 효과를 일으키고  싶을 때 사용하는 훅이다.
+
+<strong class="green_">useEffect의 구현</strong>
+
+```jsx
+const MyReact = (function () {
+	const global = {}
+	let index = 0
+	
+	function useEffect(callback, dependencies) {
+		const hooks = global.hooks
+		
+		let previousDependencies = hook[index]
+		
+		let isDepenciesChanged = previousDependencies
+		? dependencies.some(
+			(value, idx) => !Object.is(value, previousDependencies[idx]),
+		)
+		: true
+
+		if (isDependenciesChanged) {
+			callback()
+		}
+		
+		hooks[index] = dependencies
+
+		index++
+	}
+	
+	return { useEffect }
+})()
+```
+
+값을 비교할 때 Object.is를 기반으로 하는 얕은 비교를 수행한다. 이전 의존성 배열과 현재 의존성 배열의 값에 하나라도 변경 사항이 있다면 callback으로 선언한 부수 효과를 실행한다.
+
+<strong class="green_">useEffect를 사용할 때 주의할 점</strong>
+
+`useEffect`를 잘못 사용하면 예기치 못한 버그가 발생할 수 있으며, 심한 경우 무한 루프에 빠진다.
+
+<strong class="blue_">eslint-disable-line react-hooks/exhaustive-deps 주석을 최대한 자체하라</strong>
+
+이 ESLint 룰은 `useEffect` 인수 내부에서 사용하는 값 중 의존성 벼열에 포함돼 있지 않은 값이 있을 때 경고를 발생 시킨다.
+
+```jsx
+useEffect(() => {
+	console.log(props)
+}, []) // eslint-disable-line react-hooks/exhaustive-deps
+```
+
+- `useEffect`는 반드시 의존성 배열로 전달한 값의 변경에 의해 실행돼야 하는 훅이다.
+- 의존성 배열을 넘기지 않는다는 것은 `state`, `props`의 변경과 별개로 부수 효과가 발생하는 것이다.
+- `useEffect`에 빈배열을 넘기기전에 반드시 여기서 후출하는 것이 최선인지 검토해야 한다.
+
+<strong class="blue_">useEffect의 첫 번째 인수에 함수명에 부여하라</strong>
+
+`useEffect`의 인수를 익명 함수가 아닌 적절한 이름을 사용한 기명 함수로 사용하여 왜 만들어졌는지 파악하기 위함이다.
+
+```jsx
+useEffect(
+	function logActiverUser() {
+		logging(user.id)
+	},
+	[user.id],
+)
+```
+
+<strong class="blue_">거대한 useEffect를 만들지 마라</strong>
+
+`useEffect`는 의존성 배열을 바탕으로 렌더링 시 의존성이 변경될 때마다 부수 효과를 실행하며 크기가 커질수록 성능에 악영향을 미친다.
+
+- 여러 개의 `useEffect`로 분리하는 것이 좋다.
+
+의존성 배열에 불가피하게 여러 변수가 들어가야 하는 상황이라면 최대한 `useCallback`, `useMemo` 등으로 사전에 정체한 내용들만 `useEffect`에 담아두는 것이 좋다.
+
+<strong class="blue_">불필요한 외부 함수를 만들지 마라</strong>
+
+`useEffect`의 크기가 작은 것과 같은 맥락에서 `useEffect`가 실행하는 콜백 또한 불필요하게 존재해서는 안된다.
+
+useEffect의 콜백 인수로 비동기 함수를 바로 넣을 수 없는 이유는 비동기 함수의 응답 속도에 따라 결과가 이상하게 나타날 수 있다. 이러한 문제를  `useEffect`의 경쟁 상태(race condition)라고 한다.
+
+```jsx
+function Component({ id }: { id: tring }) {
+	const [info, setInfo] = useState<number | null>(null)
+	
+	useEffect(() => {
+		const controller = new AbortController()
+		
+		;(async () => {
+			const result = await fetchInfo(id, { signal: controller.signal })
+			setInfo(await result.json())
+		})() 
+		
+		return () => controller.json()
+	}, [id])
+	return <div>{/* 렌더링 */}</div>
+}
+```
+
+비동기 `useEffect`는 `state`의 경쟁 상태를 야기할 수 있고 `cleanup` 함수의 실행 순서도 보장할 수 없기 때문에 개발자의 편의를 위해 `useEffect`에서 비동기 함수를 인수로 받지 않는다.
+
+## useMemo
+
+`useMemo`는 비용이 큰 연산에 대한 결과를 저장(메모이제이션)에 두고, 이 저장된 값을 반환하는 훅이다. 
+
+```jsx
+import { useMemo } from 'react'
+
+const memoizedValue = useMemo(() => expensiveComputation(a, b), [a, b])
+```
+
+첫 번째 인수로는 어떠한 값을 반환하는 생성 함수를, 두 번째 인수로는 해당 함수는 의존하는 값의 배열을 전달한다. 
+
+`useMemo`는 렌더링 발생 시 의존성 배열의 값이 변경되지 않았으면 함수를 재실행하지 않고 이전에 기억해 둔 해당 값을 반환하고, 의존성 배열의 값이 변경됐다면 첫 번째 인수의 함수를 실행한 후에 그 값을 반환하고 그 값을 다시 기억해 둘 것이다.
+
+`useMemo`로 컴포넌트로 감쌀 수 있지만 `React.memo`를 쓰는 것이 더 좋다.
+
+`useMemo` 등 메모이제이션을 활용하면 무거운 연산을 다시 수행하는 것을 막을 수 있다는 장점이 있다.
+
+## useCallback
+
+`useCallback`은 인수로 넘겨받은 콜백 자체를 기억한다. `useCallback`은 특정 함수를 새로 만들지 않고 다시 재사용한다는 의미다.
+
+```jsx
+function App() {
+  const [status1, setStatus1] = useState(false);
+  const [status2, setStatus2] = useState(false);
+  const toggle = () => {
+    setStatus1(!status1);
+  };
+
+  const toggle2 = () => {
+    setStatus2(!status2);
+  };
+
+  return (
+    <>
+      <ChildComponent name="1" value={status1} onChange={toggle1} />
+      <ChildComponent name="2" value={status2} onChange={toggle2} />
+    </>
+  );
+}
+```
+
+`memo`를 사용해서 컴포넌트를 메모이제이션했지만 App의 자식 컴포넌트가 전체가 렌더링된다. 그 이유는 `state`값이 바뀌면서 App 컴포넌트가 리렌더링되고, 그때마다 매번 onChange로 넘기는 함수가 재생성되고 있기 때문이다.
+
+함수의 메모이제이션을 위해 사용하는 것이 `useCallback`이다. `useCallback`의 첫 번째 인수로 함수를, 두 번째 인수로 의존성 배열을 집어 넣으면 `useMemo`와 마찬가지로 의존성 배열이 번경되지 않는 한 함수를 재생성하지 않는다.
+
+```jsx
+useCallback(() => {
+
+}, [])
+```
+
+```jsx
+function App() {
+  const [status1, setStatus1] = useState(false);
+  const [status2, setStatus2] = useState(false);
+  
+  const toggle1 = useCallback(
+    function toggle1() {
+      setStatus1(!status);
+    },
+    [status1]
+  );
+  
+  const toggle2 = useCallback(
+    function toggle2() {
+      setStatus2(!status);
+    },
+    [status2]
+  );
+
+  return (
+    <>
+      <ChildComponent name="1" value={status1} onChange={toggle1} />
+      <ChildComponent name="2" value={status2} onChange={toggle2} />
+    </>
+  );
+}
+```
+
+함수의 재생성을 막아 불필요한 리소스 또는 리렌더링을 방지하고 싶을 때 `useCallback`을 사용해 볼 수 있다.
+
+기본적으로  `useCallback`은 `useMemo`를 사용해서 구현할 수 있다. 이는 Preact에서도 리액트 공식 문서에서도 확인해 볼 수 있는 사실이다.
+
+```jsx
+export funciton useCallback(callback, args) {
+	currentHook = 8
+	return useMemo(() => callback, args)
+}
+```
+
+`useMemo`와 `useCallback`의 유일한 차이는 메모이제이션을 대상이 변수냐 함수냐일 뿐이다. 반환문으로 함수 선언문을 반환해야하니, 좀더 직관적인 `useCallback`을 쓰자.
