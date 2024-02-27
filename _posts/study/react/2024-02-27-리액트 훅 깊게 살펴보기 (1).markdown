@@ -41,6 +41,7 @@ const [state, setState] = useState(initalState)
 `state`는 함수가 아닌 상수처럼 사용하고 있다. 그렇기 때문에 리액트는 클로저를 이용했다.
 
 <strong class="orange_">클로저</strong>
+
 클로저는 어떤 함수(`useState`) 내부에 선언된 함수 (`setState`)가 함수의 실행이 종료된 이후에도 (`useState`가 호출된 이후에도) 지역변수인 `state`를 계속 참조할 수 있다는 것을 의미한다.
 
 실제로 `useState`는 어떤 형태로 구현돼 있을까? (대략적으로 흉내 낸 코드다.)
