@@ -1,14 +1,14 @@
 ---
 layout: list
 category: study
-bigtitle: ComputerScience
+bigtitle: Html
 description: >
-  컴퓨터 지식 공부
+  HTML 문법 공부
 related_posts:
   -
 addons:
   - related
   - comments
 list: true
-order: 7
+order: 6
 ---
