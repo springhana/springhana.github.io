@@ -1,7 +1,8 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/react/2024-02-21-리액트 개발을 위해 꼭 알아야 할 자바스크립트 (3).markdown
+  - _posts/study/react/2024-02-26-리액트 핵심 요소 깊게 살펴보기 (2).markdown
+  - _posts/study/react/2024-02-27-리액트 훅 깊게 살펴보기 (2).markdown
 title: 리액트 훅 깊게 살펴보기 (1)
 categories:
   - study
