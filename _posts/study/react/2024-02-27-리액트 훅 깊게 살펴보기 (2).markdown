@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/react/2024-02-27-리액트 훅 깊게 살펴보기 (1).markdown
+  - _posts/study/react/2024-02-29-리액트 훅 깊게 살펴보기 (3).markdown
 title: 리액트 훅 깊게 살펴보기 (2)
 categories:
   - study
