@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-02-23-let, const 키워드와 블록 레벨 스코프 copy.markdown
+  - _posts/study/javascript/2024-03-01-생성자 함수에 의한 객체 생성
 title: 프로퍼티 어트리뷰트
 categories:
   - study
@@ -9,7 +10,7 @@ categories:
 image: /assets/img/javascript/modern-javascript-book.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
-  모던 자바스크립트 Deep Dive: 자바스크립트의 기본 개념과 동작 원리 - 15장 프로퍼티 어트리뷰트
+  모던 자바스크립트 Deep Dive: 자바스크립트의 기본 개념과 동작 원리 - 16장 프로퍼티 어트리뷰트
 ---
 
 * toc
