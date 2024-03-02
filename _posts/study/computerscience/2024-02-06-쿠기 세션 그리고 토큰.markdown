@@ -6,7 +6,6 @@ title: 쿠기, 세션 그리고 토큰
 categories:
   - study
   - computerscience
-image: /assets/img/computerscience/logo/cookie and session and token.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
   쿠기, 세션 그리고 토큰은 무엇이고 어떤 차이가 있을까?
