@@ -1,0 +1,120 @@
+---
+layout: post
+related_posts:
+  - _posts/study/computerscience/2024-02-05-캐시.markdown
+title: 프록시
+categories:
+  - study
+  - computerscience
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  프록시가 뭘까??
+---
+
+* toc
+{:toc}
+
+# Proxy란?
+
+>**프록시(Proxy)란?**
+>'대리', '대신' 이라는 뜻을 가지며, 프로토콜에 있어서는 대리 응답 등에서 사용하는 개념이다.
+
+
+
+클라이언트와 서버 사이에 존재하며, 중계기로서 대리로 통신을 수행하는 것을 **Proxy**라고 하며, 그 중계 기능을 하는 주체를 **Proxy Server**라고 한다.
+
+--- 
+
+# 프록시 서버의 종류
+
+## 포워드 프록시(Forward Proxy)
+
+Client와 Server 사이에 위치하여 요청을 중계하며, 요청과 응답은 Proxy Server를 거친다. 
+
+- 클라이언트를 감추는 효과가 있다.
+
+<img src="/assets/img/computerscience/Forward_Proxy.png" />
+
+### 장점
+
+**캐시 저장(엑세스 고속화)**
+
+프록시 서버에 캐시를 저장할 수 있으며, 다시 동일한 페이지를 리퀘스트 했을 때에는 캐시에 남아 있는 정보를 클라이언트에게 준다. (속도 향상)
+
+**URL 필터링**
+
+외부의 엑세스는 프록시 서버를 경유하므로 사용자 전원의 외부 웹 사이트로의 액세스를 필터링할 수 있다.
+
+## 리버스 프록시 (Reverse Proxy)
+
+<img src="/assets/img/computerscience/Reverse_Proxy.png" />
+
+요청과 응답이 Proxy Server로 이동하는데, 포워드 프록시와 다르게 Server들이 주로 내부망으로 구성되며 프록시에게만 연결을 허용한다. 즉, 서비스를 위한 보안 채널을 구축한다.
+
+이런 경우 Client와 Server에 직접 접근이 불가능하므로, Reverse Proxy에서 요청을 적극적으로 중계하는 Load Balancing의 역할을 수행하기도 한다. 
+
+- 서버를 감추는 효과가 있다.
+
+
+### 장점
+
+**부담 분산**
+
+설정으로 정적 콘텐츠와 동적 콘텐츠의 보는 곳을 나눔으로써 메모리 사용량의 효율화를 할 수 있다. 로드 밸런스와 병용하면 더욱 부담을 분산할 수 있다.
+
+**캐시의 저장**
+
+프록시 서버에 캐시를 저장할 수 있으며, 다시 동일한 페이지를 리퀘스트 했을 때에는 캐시에 남아 있는 정보를 클라이언트에게 준다. (속도 향상)
+
+**세큐리티 대책, 바이러스 대책**
+
+통신시 프록시 서버에 집약되므로 프록시 서버 내의 세큐리티 대책, 바이러스 대책을 구현하면 Web 서버로의 부정 액세스 사용 등을 방지할 수 있다.
+
+---
+
+# 프록시 서버를 사용하는 이유
+
+<strong class="orange_">개인정보를 보호할 수 있다.</strong>
+
+프록시 서버 없이 클라이언트가 서버에 요청 시 본인의 IP 주소가 노출되는데, **프록시 서버를 사용 시 서버 측에서 나의 IP가 아닌 프록시 서버의 IP를 보게 된다. 즉, IP를 숨길 수 있다.**
+
+<strong class="orange_">캐시를 사용해서  속도가 향상된다.</strong>
+
+프록시 서버는 웹페이지를 가져올 때 자신의 DB에 최근 데이터를 저장하는데, 이것을 Cache라 한다. 이렇게 될 시, **같은 요청이 들어오면 Cache 자원을 반환하여 서비스의 속도를 높이고 대역폭도 줄 일 수 있다.**
+
+
+<strong class="orange_">로그를 기록, 관리할 수 있다.</strong>
+  
+서버 측에선 클라이언트의 기록대신 프록시 서버의 기록이 있지만, **프록시 서버에겐 클라이언트의 기록이 남아있다.**
+
+이 기록들을 보면 **어떤 IP에서 어떤 IP로 얼마나 접속**해 있는지 확인할 수 있고, **특정 IP가 방문할 수 있는 웹사이트도 제한**할 수 있어서 회사에서 많이 사용한다. 
+
+<strong class="orange_">접속을 우회할 수 있다.</strong>
+
+특정 사이트에서 IP를 검사를 하는데 프록시 서버를 사용해 접속 시 다른나라에서 접속한 것처럼 우회할 수 있다.
+
+---
+
+>**참고** <br>
+>
+><a href="https://velog.io/@younghyun/%ED%94%84%EB%A1%9D%EC%8B%9CProxy%EB%9E%80">프록시(Proxy)란??</a>
+>
+><a href="https://medium.com/@yyuni915/proxy%EB%9E%80-4ba5747bde60">Proxy란?</a>
+>
+><a href="https://engineer-mole.tistory.com/288#google_vignette">프록시(Proxy)란?</a>
+>
+><a href="https://firework-ham.tistory.com/23">Forward Proxy와 Reverse Proxy 차이점</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
