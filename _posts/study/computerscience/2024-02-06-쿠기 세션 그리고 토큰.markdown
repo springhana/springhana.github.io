@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/computerscience/2024-02-05-캐시.markdown
+  - _posts/study/computerscience/2024-03-02-프록시.markdown
 title: 쿠기, 세션 그리고 토큰
 categories:
   - study

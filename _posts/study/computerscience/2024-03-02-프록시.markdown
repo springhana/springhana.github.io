@@ -1,7 +1,7 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/computerscience/2024-02-05-캐시.markdown
+  - _posts/study/2024-02-06-쿠기 세션 그리고 토큰.markdown
 title: 프록시
 categories:
   - study
