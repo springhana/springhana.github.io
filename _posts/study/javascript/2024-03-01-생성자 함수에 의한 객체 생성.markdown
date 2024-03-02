@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-02-24-프로퍼티 어트리뷰트.markdown
+  - _posts/study/javascript/2024-03-02-함수와 일급 객체.markdown
 title: 생성자 함수에 의한 객체 생성
 categories:
   - study
