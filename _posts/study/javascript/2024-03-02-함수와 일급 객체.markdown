@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-03-01-생성자 함수에 의한 객체 생성.markdown
+  - _posts/study/javascript/2024-03-06-프로토타입 (1).markdown
 title: 함수와 일급 객체
 categories:
   - study
