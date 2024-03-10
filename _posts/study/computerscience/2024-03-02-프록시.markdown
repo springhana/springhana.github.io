@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/2024-02-06-쿠기 세션 그리고 토큰.markdown
+  - _posts/study/2024-03-10-CORS.markdown
 title: 프록시
 categories:
   - study
