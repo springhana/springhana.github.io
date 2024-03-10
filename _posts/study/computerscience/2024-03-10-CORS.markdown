@@ -108,8 +108,7 @@ Simple requests가 아닌 cross-origin 요청은 모두 preflight 요청을 하�
 - `Access-Control-Allow-Methods` : 요청에 대한 응답으로 허용되는 메서드를 나타낸다.
 - `Access-Control-Allow-Headers` : 요청에 대한 응답으로 실제 요청 시 사용할 수 있는 HTTP 헤더를 나타낸다.
 
----
-# 신용 요청(Credentialed Request)
+### 신용 요청(Credentialed Request)
 
 신용 요청은 쿠키, 인증 헤더, TLS 클라이언트 인증서 등의 신용정보와 함께 요청한다. 기본적으로, CORS 정책은 다른 출처 요청에 인증정보 포함을 허용하지 않는다. 요청에 인증을 포함하는 플래그가 있거나 access-control-allow-credentials가 `true`로 설정한다면 요청할 수 있다.
 
