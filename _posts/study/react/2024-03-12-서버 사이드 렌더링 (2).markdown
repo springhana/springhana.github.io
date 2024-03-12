@@ -2,7 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/react/2024-02-29-리액트 훅 깊게 살펴보기 (3).markdown
- - _posts/study/react/2024-03-10-서버 사이드 렌더링 (1).markdown
+  - _posts/study/react/2024-03-10-서버 사이드 렌더링 (1).markdown
 title: 서버 사이드 렌더링 (2)
 categories:
   - study
