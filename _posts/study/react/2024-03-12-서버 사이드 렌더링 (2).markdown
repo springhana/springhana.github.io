@@ -16,3 +16,109 @@ description: >
 * toc
 {:toc}
 
+# 2. 서버 사이드 렌더링을 위한 리액트 API 살펴보기
+
+리액트는 서버 사이드 렌더링을 실행할 때 사용되는 API를 확인해 보려면 리액트 저장소의 `react-dom/server.js`를 확인하면 된다. 
+
+## renderToString
+
+`renderToString`은 인수로 넘겨받은 리액트 컴포넌트를 렌더링해 HTML 문자열로 반환하는 함수다.
+
+- 최초의 페이지를 HTML로 먼저 렌더링하는 역할
+- `useEffect`와 같은 훅과 이벤트 헨들러는 결과물에 포함되지 않는다.
+
+`renderToString`은 인수로 주어진 리액트 컴포넌트를 기준으로 빠르게 브라우저가 렌더링할 수 있는 HTML을 제공하는 데 목적이 있는 함수다.
+
+리액트의 서버 사이드 렌더링은 단순히 '최초 HTML 페이지를 빠르게 그려주는 데'에 목적이 있다. 
+
+사용자는 실제로 웹페이지가 사용자와 인터랙션할 준비가 되기 위해서는 별도의 자바스크립트 코드를 모두 다운로드, 파싱, 실행하는 과정을 거쳐야 한다.
+
+`div#root`에 존재하는 속성인 `data-reactroot`는 리액트 컴포넌트의 루트 엘리먼트를 무엇인지 식별해주는 역할을한다.
+
+## renderToStaticMarkup
+
+`renderToStaticMarkuo`는 컴포넌트를기준으로 HTML 문자열을 만든다. 
+
+- 루트 요소에 추가한 `data-reactroot`와 같은 리액트에서만 사용하는 추가적인 DOM 속성을 만들지 않는다.
+- 클라이언트에서는 리액트에서 제공하는 `useEffect`와 같은 브라우저 API를 절대로 실행할 수 없다. 
+
+`renderToStaticMarkup`의 결과물은 `hydrate`를 수행하지 않는다는 가정하에 순수한 HTML만 반환하다. `hydrate`를 수행해도 브라우저에서 클라이언트에서 완전히 새롭게 렌더링하게 된다.
+
+- `renderToStaticMarkup`은 리액트의 이벤트 리스너가 필요 없는 완전히 순수한 HTML을 만들 때만 사용된다. 
+- 정적인 내용만 필요한 경우에 유용하다.
+
+## renderToNodeStream
+
+`renderToString`과 결과물이 동일하지만 두 가지 차이점이 있다.
+
+1. `renderToString`과 `rendereToStaticMarkup`은 브라우저에서도 실행할 수는 있지만 `renderToNodeStream`은 브라우저에서 사용하는 것이 완전히 불가능하다. (Node.js 환경에 의존)
+
+2. `renderToNodeStream`의 결과물은 Node.js의 `ReadableStream`이다. (`ReadableStream`은 `utf-8`로 인코딩된 바이트 스트림이다.) `string` 얻기 위해서는 추가적인 처리가 필요하다.
+
+`ReadableStream` 자체는 브라우저에서도 사용할 수 있지만 만드는 과정은 브라우저에서 불가능하다.
+
+> <strong class="orange_">스트림</strong>
+> 큰 데이터를 다룰 때 페이지를 청크(chunk, 작은 단위)로 분할해 조금씩 가져오는 방식을 의미한다.
+
+`renderToString`으로 생성해야 하는 HTML의 크기가 크다면 크기가 큰 문자열을 한번에 메모리에 올려두고 응답을 수행해야 해서 Node.js가 실행되는 서버에 큰 부담이 될 수 있다.  
+
+대신 스트림을 활용하여 이러한 큰 크기의 데이터를 청크 단위로 분리해 순차적으로 처리할 수 있다.
+
+대부분의 리액트 서버 사이드 렌더링 프레임워크는 모두 `renderToNodeStream`을 채택하고 있다.
+
+## renderToStaticNodeStream
+
+`renderToNodeStream`과 제공하는 결과물은 동일하나, 리액트 자바스크립트에 필요한 리액트 속성이 제공되지 않는다. 
+
+`hydrate`를 필요가 없는 순수 HTML 결과물이 필요할 때 사용하는 메서드다.
+
+## hydrate
+
+`render`는 클라이언트에서만 실행되는, 렌더링과 이벤트 핸들러 추가 등 리액트를 기반으로 한 온전한 웹페이지를 만드는 데 필요한 모든 작업을 수행한다.
+
+- `create-react-app`으로 생성된 프로젝트의 index.js에서 찾아 볼 수 있다.
+
+```jsx
+import * as ReactDOM from 'react-dom'
+import App from './App'
+
+const rootElement = document.getElementById('root')
+
+ReactDOM.render(<App />, rootElement)
+```
+
+`hydrate` 함수는 `renderToString`과 `renderToNodeStrem`으로 생성된 HTML 콘텐츠에 자바스크립트 핸들러나 이벤트를 붙이는 역할을 한다.
+
+`hydrate`는 정적으로 생성된 HTML에 이벤트와 핸들러를 붙여 완전한 웹페이지 결과물을 만든다.
+
+`hydrate`는 `render`와 인수를 넘기는 것이 거의 유사하다.
+
+```jsx
+import * as ReactDOM from 'react-dom'
+import App from './App'
+
+// containerId를 가리키는 element는 서버에서 렌더링된 HTML의 특정 위치를 의미한다.
+const element = document.getElementById('containerId')
+
+ReactDOM.hydrate(<App />, element)
+```
+
+`hydrate`는 두 번째 인수에는 이미 `renderToString` 등으로 렌더링된 정적인 HTML 정보가 반드시 담겨 있어야 한다.
+
+비록 서버에서 렌더링한 정보가 없어서 경고가 노출됐음에도 불구하고, 리액트는 이 함수를 통해 정상적으로 웹페이지를 만드는 것을 볼 수 있다. 
+
+`hydrate` 작업이 단순히 이벤트나 핸들러를 추가하는 것 이외에도 렌더링을 한 번 수행하면서 `hydrate`가 수행한 렌더링 결과물 HTML 과 인수로 넘겨받은 HTML을 비교하는 작업을 수행다.
+
+- 불일치가 발생하면 `hydrate`가 렌더링한 기준으로 웹페이지를 그리게 된다. (올바른 사용법 아니다.)
+- 이렇게 렌더링을 하는 것은 서버와 클라리언트에서 두 번 렌더링을 하게 되고, 결국 서버 사이드 렌더링의 장점을 포기하는 것이기 때문에 반드시 교쳐야 하는 문제다.
+
+`supperessHydrationWaring`을 추가해 경고를 끌 수 있다. 필요한 곳에서만 제한적으로 사용해야 한다. (문제가 해결되는 것은 아니고 경고를 끄는 것)
+
+```jsx
+<!-- 아무런 에러가 발생하지 않는다. -->
+<div supperessHydrationWaring>{new Date().getTimg()}</div>
+```
+
+## 서버 사이드 렌더링 
+
+리엑트 팀 또한 리액트 서버 사이드 렌더링을 직접 구현해 사용하는 것보다는 리액트 팀과 긴밀하게 협조하고 있는 Next.js 같은 프레임워크를 사용하는 것을 권장한다.
