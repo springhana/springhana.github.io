@@ -1,0 +1,28 @@
+---
+layout: post
+related_posts:
+  - _posts/study/coding/2024-03-14-01.알고리즘 성능 평가.markdown
+title: 02. 그리디 (이론)
+categories:
+  - study
+  - coding
+image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 이것이 코딩 테스트다. with 파이썬 - 02. 그리디 이론
+---
+
+* toc
+{:toc}
+
+> [(이코테 2021 강의 몰아보기) 2. 그리디 & 구현](https://www.youtube.com/watch?v=2zjoKjt97vQ&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=2)
+
+# 그리디
+
+그리디(Greedy) 알고리즘은 단순하지만 강력한 문제 해결 방법.
+
+어떠한 문제가 있을 때 현재 상황에서 지금 당장 좋은 것만 고르는 방법으로 푸는 알고리즘!!
+
+- 보통 코딩 테스트에서 출제되는 그리디 알고리즘 유형의 문제는 창의력, 즉 문제를 풀기 위한 최소한의 아이디어를 떠올릴 수 있는 능력을 요구.
+- 단순한 현재 상황에서 가장 좋아 보이는 것만을 선택해도 문제를 풀 수 있는지를 파악할 수 있어야 한다.

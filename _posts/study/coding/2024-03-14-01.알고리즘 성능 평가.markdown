@@ -1,0 +1,75 @@
+---
+layout: post
+related_posts:
+  - _posts/study/coding/2024-03-14-02.그리디 이론편.markdown
+title: 01. 알고리즘 성능 평가
+categories:
+  - study
+  - coding
+image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 이것이 코딩 테스트다. with 파이썬 - 01. 알고리즘 성능 평가
+---
+
+* toc
+{:toc}
+
+> [(이코테 2021 강의 몰아보기) 1. 코딩 테스트 출제 경향 분석 및 파이썬 문법 부수기](https://www.youtube.com/watch?v=m-9pAwq1o3w&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=1)
+
+# 복잡도
+
+> 알고리즘의 성능을 나타내는 척도이다.
+>  
+>시간 복잡도(Time Complexity)와 공간 복잡도(Space Complexity)로 나눌 수 있다.
+
+- 시간 복잡도: 알고리즘을 위해 필요한 연산의 횟수
+- 공간 복잡도: 알고리즘을 위해 필요한 메모리의 양
+
+## ⏱️ 시간 복잡도
+
+> 시간 복잡도를 표현할 때는 빅오(Big-O) 표기법을 사용한다.
+> 
+
+| O(1) | 상수 시간(Constant time) |
+| --- | --- |
+| O(logN) | 로그 시간(Log time) |
+| O(N) | 선형 시간 |
+| O(NlogN) | 로그 선형 시간 |
+| O(N^2) | 이차 시간 |
+| O(N^3) | 삼차 시간 |
+| O(2^N) | 지수 시간 |
+
+---
+
+## 🌕 공간 복잡도
+
+
+> 공간 복잡도를 표기할 때도 시간 복잡도를 표기했던 것처럼 빅오 표기법을 이용한다.
+
+공간 복잡도 또한 O(NlogN), O(N^2) 등으로 표기한다. (메모리 사용량 제한이 있다.)
+
+- 일반적으로 MB단위로 제시된다.
+
+
+| int a[1000] | 4KB |
+| --- | --- |
+| int a[1000000] | 4MB |
+| int a[2000][2000] | 16MB |
+
+보통 128 ~ 512MB 정도로 제한
+
+일반적인 경우 데이터의 개수가 1,000만 단위가 넘어가지 않도록 알고리즘 설계를 해야 한다는 의미이다.
+
+수행 시간 측정 소스 코드
+
+```python
+import time
+start_time = time.time() # 측정 시작
+
+# 프로그램 소스 코드
+
+end_time= time.time() # 측정 종료
+print("time :", end_time - start_time) # 수행 시간 출력
+```
