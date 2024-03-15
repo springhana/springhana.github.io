@@ -1,7 +1,7 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/coding/2024-03-14-01.알고리즘 성능 평가.markdown
+  - _posts/study/coding/2024-03-14-02.그리디 이론편.markdown
 title: 02. 그리디 (문제)
 categories:
   - study
