@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-03-06-프로토타입 (1).markdown
+  - _posts/study/javascript/2024-03-16-strict mode.markdown
 title: 프로토타입 (2)
 categories:
   - study
