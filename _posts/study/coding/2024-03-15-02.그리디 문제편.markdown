@@ -54,7 +54,7 @@ print(count)
 
 이걸 `array`에 담긴 길이 만큼 반복해준다.
 
-<img src="/assets/img/coding/거스름 돈.jpg" style="width: 50%; marginRight: auto;"/>
+<img src="/assets/img/coding/거스름 돈.jpg"/>
 
 ---
 # 1이 될 때까지
@@ -129,7 +129,7 @@ print(result)
 
 위에 코드의 경욱 더 빠르다.
 
-<img src="/assets/img/coding/1이 될 때 까지.jpg" style="width: 50%; marginRight: auto;"/>
+<img src="/assets/img/coding/1이 될 때 까지.jpg"/>
 
 ---
 # 곱하기 혹은 더하기
@@ -163,7 +163,7 @@ print(result)
 
 - `result`도 조건해주는 이유는 첫 번째 실행 때 0과 1일 수도 있기 때문이다.
 
-<img src="/assets/img/coding/곱하기 혹은 더하기.jpg" style="width: 50%; marginRight: auto;"/>
+<img src="/assets/img/coding/곱하기 혹은 더하기.jpg"/>
 
 ---
 # 모험가 길드
@@ -203,4 +203,4 @@ print(result)
 
 모험가의 공포만큼 반복해줍니다. 현재 그룹 `count`에  모험가(자기자신) 1을 포함시킨 후 if(현재 모험가 수가 모험가 공포도 보다 크면) 총 그룹의 수 `result`에 1을 더 해주고 `count`를 초기화 해줍니다.
 
-<img src="/assets/img/coding/모험가 길드.jpg" style="width: 50%; marginRight: auto;"/>
+<img src="/assets/img/coding/모험가 길드.jpg"/>
