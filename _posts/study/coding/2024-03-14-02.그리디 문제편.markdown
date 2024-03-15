@@ -1,0 +1,198 @@
+---
+layout: post
+related_posts:
+  - _posts/study/coding/2024-03-14-01.알고리즘 성능 평가.markdown
+title: 02. 그리디 (문제)
+categories:
+  - study
+  - coding
+image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 이것이 코딩 테스트다. with 파이썬 - 02. 그리디 문제
+---
+
+* toc
+{:toc}
+
+> [(이코테 2021 강의 몰아보기) 2. 그리디 & 구현](https://www.youtube.com/watch?v=2zjoKjt97vQ&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=2)
+
+# **⭐ 문제는 나동빈님의 유튜브를 통해 확인해 주세요!!**
+
+유튜브에 있는 문제들만 풀이하여 이 블로그에 포스트 했습니다.
+
+- 문제를 안적은 이유는 나동빈님의 유튜브에서 한 번 보시고 공부 해보시라고 문제는 따로 적지 않았습니다.
+
+- 책에 있는 문제들은 이 블로그에는 없습니다.
+
+# 거스름 돈
+
+- `n` = 내가 낸 돈 
+
+- `count` = 출력해줄 거스름 동전의 개 수 
+
+- `array` = 거스름 돈으로 줄 수 있는 동전들
+  -  가장 큰 화폐부터 배열에 담아 준다.
+
+```python
+
+n = int(input())
+
+count = 0
+
+array = [500, 100, 50, 10]
+
+for coin in array:
+  count += n // coin
+  n %= coin
+
+print(count)
+```
+
+`count`에 내가 낸 화폐 `n`에 거스름 돈으로 줄 수 있는 화페 `coin`을 계산하고 `n`에 `coin`을 나머지 값으로 계산해준다.
+
+이걸 `array`에 담긴 길이 만큼 반복해준다.
+
+---
+# 1이 될 때까지
+
+- `n` = 현재 수
+
+- `m` = `n`을 나눌 수
+
+- `result` = 출력할 반복 수
+
+```python
+n, m = map(int, input().split())
+result = 0
+
+while True:
+    if n == 1:
+        break
+    if n % m == 0:
+        n //= m
+        result += 1
+    else:
+        n -= 1
+        result += 1
+print(result)
+```
+
+`while`을 이용해서 `n`이 1이 될 때 무한 반복 해고 1이 되면 `break`로 탈출해준다.
+
+- `m`으로 나눌 수 없는 경우에는 1을 빼준후 `result`에도 횟수를 늘려준다.
+
+다음은 강의에 있는 방법이다.
+
+```python
+, m = map(int, input().split())
+result = 0
+
+while n >= m:  
+    while n % m != 0:
+        n -= 1
+        result += 1
+    n //= m
+    result += 1
+
+while n > 1:
+    n -= 1
+    result += 1
+print(result)
+```
+
+내가 푼 코드와는 조금 다르지만 나는 `while`문 안에 조건문을 달아주었고 강의에서는 `while`에서 조건을 추가해줬다. 
+
+편한 방법을 써주면 될 거 같다.
+
+- 무한 반복을 사용할 시 탈출문을 꼭 달아주자!
+
+`n`이 100억 이상의 큰 수가 되는 경우
+
+```python
+n, m = map(int, input().split())
+result = 0
+
+while True:
+    target = (n // m) * m
+    result += (n - target)
+    if n < m:
+        break
+    result += 1
+    n //= m
+result += (n - 1)
+print(result)
+```
+
+위에 코드의 경욱 더 빠르다.
+
+---
+# 곱하기 혹은 더하기
+
+- `data` = 입력 해줄 문자열
+
+- `result` = 출력 해줄 값
+
+- `num` = 다음 문자를 저장할 값
+
+```python
+data = input()
+
+result = int(data[0])
+
+for i in range(1, len(data)):
+    num = int(data[i])
+    if num <= 1 or result <= 1:
+        result += num
+    else:
+        result *= num
+
+print(result)
+```
+
+1부터 `data`의 문자열 길이 만큼 반복을 해준다.
+
+`num`에 `data`의 `i`번째에 위치하는 값을 담아준다.
+
+그리고 `num`와 `result`가 1이랑 같거나 **작으면 더하기 아니면 곱하기**를 해줘서 `result`에 저장한다.
+
+- `result`도 조건해주는 이유는 첫 번째 실행 때 0과 1일 수도 있기 때문이다.
+
+---
+# 모험가 길드
+
+조건으로 공포도가 X인 모험가는 반드시 X명 이상으로 구성한 모험가 그룹에 참여
+
+- `n` = 총 모험가 인원 
+
+- `data` = 모험가의 공포도 - 배열
+
+- `result` = 출력할 총 그룹의 수
+
+- `count` = 현재 그룹에 포함되니 모험가 수
+
+```python
+n = int(input())
+data = list(map(int, input().split()))
+
+# 모험가의 공포 정렬
+data.sort()
+
+result = 0
+count = 0 
+
+for i in data:  
+    count += 1  
+    if count >= i:
+        result += 1
+        count = 0 
+
+print(result) 
+```
+
+`sort()`를 사용해서 모험가의 공포도를 오름차순으로 정렬해줍니다.
+
+정렬을 해줘야 공포도와 현재 인원수를 검사할 수 있다.
+
+모험가의 공포만큼 반복해줍니다. 현재 그룹 `count`에  모험가 1을 포함시킨 후 if(현재 모험가 수가 모험가 공포도 보다 크면) 총 그룹의 수 `result`에 1을 더 해주고 `count`를 초기화 해줍니다.
