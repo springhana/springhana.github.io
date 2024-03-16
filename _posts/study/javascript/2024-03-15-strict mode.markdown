@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-03-07-프로토타입 (2).markdown
+  - _posts/study/javascript/2024-03-16-빌트인 객체.markdown
 title: strict mode
 categories:
   - study
