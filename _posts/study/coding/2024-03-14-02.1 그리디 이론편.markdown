@@ -3,7 +3,7 @@ layout: post
 related_posts:
   - _posts/study/coding/2024-03-14-01.알고리즘 성능 평가.markdown
   - _posts/study/coding2024-03-15-02.그리디 문제편.markdown
-title: 02. 그리디 (이론)
+title: 02.1 그리디 (이론)
 categories:
   - study
   - coding
@@ -11,7 +11,7 @@ image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
 
- 이것이 코딩 테스트다. with 파이썬 - 02. 그리디 이론
+ 이것이 코딩 테스트다. with 파이썬 - 02.1 그리디 이론
 ---
 
 * toc

@@ -2,7 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/coding/2024-03-14-02.그리디 이론편.markdown
-title: 02. 그리디 (문제)
+title: 02.2 그리디 (문제)
 categories:
   - study
   - coding
@@ -10,7 +10,7 @@ image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
 
- 이것이 코딩 테스트다. with 파이썬 - 02. 그리디 문제
+ 이것이 코딩 테스트다. with 파이썬 - 02.2 그리디 문제
 ---
 
 * toc

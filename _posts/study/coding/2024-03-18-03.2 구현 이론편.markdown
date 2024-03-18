@@ -1,0 +1,29 @@
+---
+layout: post
+related_posts:
+  - _posts/study/coding/2024-03-15-02.그리디 문제편.markdown
+title: 03.1 구현 (이론)
+categories:
+  - study
+  - coding
+image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 이것이 코딩 테스트다. with 파이썬 - 03.1 구현 이론
+---
+
+* toc
+{:toc}
+
+> [(이코테 2021 강의 몰아보기) 2. 그리디 & 구현](https://www.youtube.com/watch?v=2zjoKjt97vQ&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=2)
+
+# 구현
+
+코딩 테스트에서 ‘머릿속에 있는 알고리즘을 소스코드로 바꾸는 과정’ 이다.
+
+❓어떤 문제가 구현하기 어려운 문제일까?
+
+- 알고리즘은 간단한데 코드가 지나칠 만큼 길어지는 문제
+- 특정 소수점 자리까지 출력해야 하는 문제
+- 문자열이 입력으로 주어졌을 때 한 문자 단위로 끊어져 리스트에 넣어야 하는 문제

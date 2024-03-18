@@ -1,0 +1,256 @@
+---
+layout: post
+related_posts:
+  - _posts/study/coding/2024-03-14-02.그리디 이론편.markdown
+title: 03.2 구현 (문제)
+categories:
+  - study
+  - coding
+image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 이것이 코딩 테스트다. with 파이썬 - 03.2 구현 문제
+---
+
+* toc
+{:toc}
+
+> [(이코테 2021 강의 몰아보기) 2. 그리디 & 구현](https://www.youtube.com/watch?v=2zjoKjt97vQ&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=2)
+
+# **⭐ 문제는 나동빈님의 유튜브를 통해 확인해 주세요!!**
+
+유튜브에 있는 문제들만 풀이하여 이 블로그에 포스트 했습니다.
+
+- 문제를 안적은 이유는 나동빈님의 유튜브에서 한 번 보시고 공부 해보시라고 문제는 따로 적지 않았습니다.
+
+- 책에 있는 문제들은 이 블로그에는 없습니다.
+
+# 상하좌우
+
+- `n` = 행과 열
+
+- `data` = 입력받을 [상, 하, 좌, 우]
+
+- `nx` = x 좌표의 [상, 하, 좌, 우]이동 값
+
+- `ny` = y 좌표의 [상, 하, 좌, 우] 이동 값
+
+- `move_type` = [상, 하, 좌, 우] 값
+
+- `x` = 현재 x 좌표
+
+- `y` = 현재 y 좌표
+
+- `dx` = 이동한 x 좌표
+
+- `dy` = 이동한 y 좌표
+
+```python
+n = int(input()) # 행과 열 
+data = list(map(str, input().split()))
+
+# [상, 하, 좌, 우]
+nx = [-1, 1, 0, 0]
+ny = [0, 0, -1, 1]
+move_type= ["U", "D", "L", "R"]
+
+def move(x, y):
+    dx, dy = x, y
+    for i in data:
+        for j in range(len(move_plan)):
+            if i == move_plan[j]:
+                dx = x + nx[j]
+                dy = y + ny[j]
+            # 공간을 벗아나는 경우는 무시해준다
+            if dx < 1 or dy < 1 or dx > N or dy > N:
+                continue
+            x, y = dx, dy
+    return x, y
+
+x, y = move(1, 1)
+print(x, y)
+
+```
+
+- N X N 크기
+- 1 x 1 크기의 정사각형으로 나누어졌있다.
+- 가장 왼쪽 위 좌표는 (1,1), 가장 오른쪽 아래는 (N,N)
+- `L`: 왼쪽, `R`: 오른쪽, `U`: 위쪽, `D`: 아래쪽
+
+`dx`와 `dy`, `mvoe_type`은 같은 위치에 상, 하, 좌, 우를 위치 시키게 만들어준다. 그리고 시작은 (1,1)에서 시작을 한다고 했으니 x, y에 현재 좌표를 담아주고 `data`에 담긴 이동 플랜만큼 이동하여 값을 반환해주면 된다. 
+
+- 공간을 벗아나는 경우는 무시해준다.
+
+다음은 강의에 있는 방법이다.
+
+```python
+n = int(input()) # 맵 크기
+x, y = 1, 1 # 현재 위치
+plans = input().split() # 이동 플랜
+
+# [상, 하, 좌, 우]
+nx = [-1, 1, 0, 0] 
+ny = [0, 0, -1, 1]
+move_type = ["U", "D", "L", "R"]
+
+for plan in plans:
+    for i in range(len(move_type)):
+        if plan == move_type[i]:
+            dx = x + nx[i]
+            dy = y + ny[i]
+    # 공간을 벗아나는 경우는 무시해준다.
+    if dx < 1 or dy < 1 or dx > n or dy > n:
+        continue
+    x, y = dx, dy
+
+print(x, y)
+```
+
+강의에서는 더 간결하게 즉시 실행 함수로 해줬다. 또 공간을 벗아나는 조건을 더 적게 적용했다.
+
+<img src="/assets/img/coding/상 하 좌 우.jpg" />
+
+--- 
+
+# 시각
+
+- `n` = N시 59분 59초의 입력 값
+
+- `result` = 출력해줄 값
+
+ ```python
+ n = int(input())
+result = 0
+
+for i in range(n + 1):
+    for j in range(60):
+        for k in range(60):
+            if "3" in str(i) + str(j) + str(k):
+                result += 1
+
+print(result)
+ ```
+
+ - 00시 00분 00초부터 N시 59분 59초까지의 모든 시각 중에서 3 포함되는 경우의 수
+
+<img src="/assets/img/coding/시각.jpg" />
+
+---
+
+# 왕실의 나이트
+
+- `n` = 현재 나이트 위치
+
+- `row` = 현재 나이트 row 값 (숫자)
+
+- `column` = 현재 나이트 column 값 (영문자)
+
+- `steps` = 나이트 이동 경로
+
+- `result` = 출력할 경우의 수
+
+- `n_row` = 이동한 row 값
+
+- `n_column` = 이동한 column 값
+
+```python
+n = input()
+row = int(n[1])
+column = int(ord(n[0])) - int(ord('a')) + 1
+
+steps = [(-2, -1), (-1, -2), (-2, 1), (2, -1), (2, 1), (1, 2), (-1, 2), (1, -2)]
+
+result = 0
+
+for step in steps:
+    n_row = row + step[0]
+    n_column = column + step[1]
+
+    # 해당 위치로 이동이 가능하면 증가
+    if n_row >= 1 and n_column >= 1 and n_row <= 8 and n_column <= 8:
+        result += 1
+
+print(result)
+```
+
+- 체스판은 8 x 8 좌표의 평면
+
+나이트의 이동 경로
+
+- 수평으로 두 칸 이동 후 수직으로 한 칸 이동
+- 수직으로 두 칸 이동 후 수평으로 한 칸 이동
+
+- 나이트가 이동할 수 있는 경우의 수 구하기
+
+- row는 숫자, column은 영문자
+
+나이트의 이동할 수 있는 경로 `steps` 만큼 반복을 해준다. 나올 수 있는 값은 최대 8가지 이며 이동한 위치를 `n_row`, `n_column`에 담아주고 이동할 수 있는 위치인지 조건문에서 검사를 해주면 된다. 이동할 수 있으면 `result`를 증가 시켜준다.
+
+<img src="/assets/img/coding/왕실의 나이트.jpg" />
+
+---
+
+# 문자열 재정렬
+
+- `data` = 입력할 문자열
+
+- `value` = 문자를 담아줄 배열
+
+- `number` = 숫자를 담아줄 변수
+
+```python
+data = input()
+value = []
+number = 0
+
+for i in data:
+    if i.isalpha():
+        value.append(i)
+    else:
+        number += int(i)
+
+value.sort()
+
+print(''.join(value),end='')
+print(number)
+```
+
+- 알파벳 대문자와 숫자 (0~9)로만 구성된 문자열 입력
+
+- 알파벳을 오름차순 후 출력, 숫자는 모든 더한 값을 이어 출력
+
+`data`에 담긴 문자열만큼 반복을 해주는 데 만약 문자가 알파벳인지 `.isalpha()` 검사해서 담아주고 아니면 `number`에 더해준다.
+
+그리고 문자만 담긴 `value`를 오름차순으로 정렬 해준다.
+
+다음은 강의에 있는 방법이다.
+
+```python
+data = input()
+value = []
+number = 0
+
+# 문자를 하나씩 확인하며
+for i in data:
+    # 알파벳인 경우 결과 리스트에 삽입
+    if i.isalpha():
+        value.append(i)
+    # 숫자는 따로 더하기
+    else:
+        number += int(i)
+
+# 알파벳을 오름차순으로 정렬
+value.sort()
+
+# 숫자가 하나라도 존재하는 경우 가장 뒤에 삽입
+if number != 0:
+    value.append(str(number))
+
+# 최종 결과 출력(리스트를 문자열로 반환하여 출력)
+print(''.join(value))
+```
+
+출력하는 방법만 다르다. 강의에서는 배열에 전부 담아서 출력해줬다.
+
+<img src="/assets/img/coding/문자의 재정렬.jpg" />
