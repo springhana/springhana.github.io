@@ -2,7 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/coding/2024-03-15-02.그리디 문제편.markdown
-title: 04.1 DFS/BFS (설명)
+title: 04 DFS/BFS (설명)
 categories:
   - study
   - coding
@@ -10,11 +10,13 @@ image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
 
- 이것이 코딩 테스트다. with 파이썬 - 04.1 DFS/BFS 설명
+ 이것이 코딩 테스트다. with 파이썬 - 04 DFS/BFS 설명
 ---
 
 * toc
 {:toc}
+
+> [(이코테 2021 강의 몰아보기) 3. DFS & BFS](https://www.youtube.com/watch?v=7C9RgOcvkvo&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=3)
 
 # 탐색(Search)
 

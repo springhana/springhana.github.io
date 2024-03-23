@@ -2,7 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/coding/2024-03-14-02.그리디 이론편.markdown
-title: 02.2 그리디 (문제)
+title: 02 그리디 (문제)
 categories:
   - study
   - coding
@@ -10,7 +10,7 @@ image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
 
- 이것이 코딩 테스트다. with 파이썬 - 02.2 그리디 문제
+ 이것이 코딩 테스트다. with 파이썬 - 02 그리디 문제
 ---
 
 * toc
@@ -25,6 +25,8 @@ description: >
 - 문제를 안적은 이유는 나동빈님의 유튜브에서 한 번 보시고 공부 해보시라고 문제는 따로 적지 않았습니다.
 
 - 책에 있는 문제들은 이 블로그에는 없습니다.
+
+---
 
 # 거스름 돈
 
