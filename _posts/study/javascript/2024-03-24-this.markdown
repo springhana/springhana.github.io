@@ -68,6 +68,7 @@ const circle = new Circle(5);
 	- **`this`는 가리키는 값, 즉 `this` 바인딩은 함수 호출 방식에 의해 동적으로 결정된다.**
 
 > <strong class="orange_">this 바인딩(this binding)</strong>
+> 
 > `this` 바인딩은 `this`와 `this`가 가리킬 객체를 바인당하는 것이다.
 
 ```js
