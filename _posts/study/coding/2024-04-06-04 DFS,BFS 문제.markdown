@@ -1,0 +1,149 @@
+---
+layout: post
+related_posts:
+  - _posts/study/coding/2024-03-15-02.그리디 문제편.markdown
+title: 04 DFS/BFS (문제)
+categories:
+  - study
+  - coding
+image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 이것이 코딩 테스트다. with 파이썬 - 04 DFS/BFS 문제
+---
+
+* toc
+{:toc}
+
+> [(이코테 2021 강의 몰아보기) 2. 그리디 & 구현](https://www.youtube.com/watch?v=2zjoKjt97vQ&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=2)
+
+# **⭐ 문제는 나동빈님의 유튜브를 통해 확인해 주세요!!**
+
+유튜브에 있는 문제들만 풀이하여 이 블로그에 포스트 했습니다.
+
+- 문제를 안적은 이유는 나동빈님의 유튜브에서 한 번 보시고 공부 해보시라고 문제는 따로 적지 않았습니다.
+
+- 책에 있는 문제들은 이 블로그에는 없습니다.
+
+---
+
+# 음료수 얼려 먹기
+
+- `n` = 행의 길이
+
+- `m` = 열의 길이
+
+- `graph` = 얼음 틀
+
+- `result` = 구멍 수
+
+- `nx`, `ny` = 상 하 좌 우
+
+```python
+n, m = map(int, input().split())
+
+graph = []
+for _ in range(n):
+    graph.append(list(map(int, input())))
+
+result = 0
+
+nx = [-1, 1, 0, 0]
+ny = [0, 0, -1, 1]
+
+def dfs(x, y):
+    if x <= -1 or y <= -1 or x >= n or y >= m:
+        return False
+    if graph[x][y] == 0:
+        graph[x][y] = 1
+        for i in range(4):
+            dfs(x + nx[i], y + ny[i])
+        return True
+    return False
+
+for i in range(n):
+    for j in range(m):
+        if dfs(i, j):
+            result += 1
+
+print(result)
+```
+
+- N x M 크기의 얼음 틀
+- 0은 구멍이 뚫려 있는 부분
+- 1은 캄막이가 존재하는 부분
+
+우리는 0부분이 뭉쳐 있는 부분이 있을 경우 `result`에 1을 더해주면된다. 
+
+`graph[x][y]`가 0인 부분이 있으면 여기서 부터 시작해서 계속 붙어 있는 0을 찾을 것이다. 그런데 상 하 좌 우에 이동을 했는데 이동을 못할 경우 왔던 곳으로 되돌아가준다. 이걸 맵 크기만큼 반복 해준다.
+
+> 내 생각을 말하면 1로 감싸져 있는 부분인 0을 감염 시켜준다고 생각하면 될 것 같다. 이제 0을 감염을 못 시키면 그제서야 아이스크림 1개가 되는 것이다.
+
+<img src="/assets/img/coding/음료수 얼려 먹기.jpg" />
+
+---
+
+# 미로 탈출
+
+- `n` = 행의 길이
+
+- `m` = 열의 길이
+
+- `graph` = 미로 맵
+
+- `dx`, `dy` = 상 하 좌 우
+
+- `nx`, `ny` = 이동한 좌표
+
+
+```python
+from collections import deque
+
+n, m = map(int, input().split())
+graph = []
+for _ in range(n):
+    graph.append(list(map(int, input())))
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+
+def bfs(x, y):
+    queue = deque()
+    queue.append((x, y))
+    while queue:
+        x, y = queue.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx < 0 or ny < 0 or nx >= n or ny >= m:
+                continue
+            if graph[nx][ny] == 0:
+                continue
+            if graph[nx][ny] == 1:
+                graph[nx][ny] = graph[x][y] + 1
+                queue.append((nx, ny))
+    return graph[n - 1][m - 1]
+
+print(bfs(0, 0))
+```
+
+- 입구는 (1, 1)
+- 출구는 (N, M)
+- 0은 괴물이 있는 부분 (못가는 부분)
+- 1은 괴물이 없는 부분 (갈 수 있는 부분)
+
+bfs라는 함수를 실행 하고 딱 한번 인자로 넣은 인수를 큐에 담아 주고 이제 큐가 빌때 까지 반복해줍니다. 
+
+먼저 큐에 담긴 (x,y)를 꺼내주고 이동할 수 있는 위치를 확인해줍니다.
+
+- `nx`, `ny`를 만들어준 뒤에 맵을 벗어나는지
+- 0(괴물이 있는 부분)에 위치하는지
+- 1(괴물이 없는 부분)에 위치하는지
+
+이렇게 확인해주는데 맵을 벗어나거나 0이면 `continue`로 넘겨주고 1인 부분은 횟수를 1 더해주고 큐에 `nx`, `ny`인 이동한 위치를 담아주고 큐가 빌때 까지 반복해줍니다.
+
+> 시작 지점에서 가까운 곳부터 차례대로 1(괴물이 없는 부분)으로 탐색하며 해당 노드에 이동 횟수를 나타내 줍니다. 만약 갈림길이 있다면 차례대로 탐색을 해주는데 이동 횟수도 동일하게 표시해줍니다. 이 부분을 출구를 찾을 때까지 반복해줍니다.
+
+<img src="/assets/img/coding/미로 탈출.jpg" />
