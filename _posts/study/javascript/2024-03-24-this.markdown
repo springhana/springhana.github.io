@@ -1,7 +1,8 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/javascript/2024-03-15-strict mode.markdown
+  - _posts/study/javascript/2024-03-16-빌트인 객체.markdown
+  - _posts/study/javascript/2024-03-28-실행 컨텍스트.markdown
 title: this
 categories:
   - study

@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-03-15-strict mode.markdown
+  - _posts/study/javascript/2024-03-24-this.markdown
 title: 빌트인 객체
 categories:
   - study
