@@ -268,7 +268,7 @@ function Person(name) {
 
 - 클래스 정의가 평가되면 `constructor`의 기술된 동작을 하는 함수 객체가 생성된다.
 
-> <storng class="_orange">클래스의 constructor 메서드와 프로토타입의 constructor 프로퍼티</storng>
+> <storng class="orange_">클래스의 constructor 메서드와 프로토타입의 constructor 프로퍼티</storng>
 >
 > 이름이 같아 혼동하기 쉽지만 관련이 없다.
 > 프로퍼티의 `constructor` 프로퍼티는 모든 프로토타입이 가지고 있는 프로퍼티이며, 생성자 함수를 가리킨다.
