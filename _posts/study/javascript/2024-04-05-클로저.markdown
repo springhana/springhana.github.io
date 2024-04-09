@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-03-28-실행 컨텍스트.markdown
+  - _posts/study/javascript/2024-04-09-클래스 (1).markdown
 title: 클로저
 categories:
   - study
