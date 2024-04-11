@@ -1,0 +1,63 @@
+---
+layout: post
+related_posts:
+  - _posts/study/coding/2024-03-15-02.그리디 문제편.markdown
+title: 05 정렬 (설명)
+categories:
+  - study
+  - coding
+image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 이것이 코딩 테스트다. with 파이썬 - 04 정렬 설명
+---
+
+* toc
+{:toc}
+
+> [(이코테 2021 강의 몰아보기) 2. 그리디 & 구현](https://www.youtube.com/watch?v=2zjoKjt97vQ&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=2)
+
+# **⭐ 문제는 나동빈님의 유튜브를 통해 확인해 주세요!!**
+
+유튜브에 있는 문제들만 풀이하여 이 블로그에 포스트 했습니다.
+
+- 문제를 안적은 이유는 나동빈님의 유튜브에서 한 번 보시고 공부 해보시라고 문제는 따로 적지 않았습니다.
+
+- 책에 있는 문제들은 이 블로그에는 없습니다.
+
+---
+
+# 두 배열의 원소 교체
+
+- `n` = 원소의 구성
+
+- `k` = 바꿔치기 수
+
+- `a`,  `b` = 배열
+
+```python
+n, k = map(int, input().split())
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+
+a.sort()
+b.sort(reverse=True)
+
+for i in range(k):
+    if a[i] < b[i]: 
+        a[i], b[i] = b[i], a[i]
+    else:
+        break
+
+print(sum(a))
+```
+
+- `k`번 바꿔치기 연산을 수행할 수 있다.
+- `a`의 모든 원소의 합이 최대가 되야 한다.
+
+`a` 배열은 오름차순으로 가장 작은 원소를 골르고 `b` 배열은 내림차순으로 가장 큰 원소를 골라서 바꿔치기 할 것이다.
+
+두 배열의 원소를 첫 번째 인덱스부터 차례대로 확인하면서 `a` 원소가 `b` 원소보다 작을 때만 교체를 수행 하는 걸 반복해준다.
+
+<img src="/assets/img/coding/두 배열의 원소 교체.jpg" />
