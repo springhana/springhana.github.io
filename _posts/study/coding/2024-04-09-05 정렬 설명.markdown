@@ -10,7 +10,7 @@ image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
 
- 이것이 코딩 테스트다. with 파이썬 - 04 정렬 설명
+ 이것이 코딩 테스트다. with 파이썬 - 05 정렬 설명
 ---
 
 * toc
