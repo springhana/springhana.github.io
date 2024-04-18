@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/react/2024-03-12-서버 사이드 렌더링 (2).markdown
+  - _posts/study/react/42024-04-18-리액트와 상태 관리 라이브러리 (1).markdown
 title: 서버 사이드 렌더링 (3)
 categories:
   - study
