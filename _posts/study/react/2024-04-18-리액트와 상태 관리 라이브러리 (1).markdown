@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/react/2024-03-12-서버 사이드 렌더링 (3).markdown
+  - _posts/study/react/2024-04-22-리액트와 상태 관리 라이브러리 (2).markdown
 title: 리액트와 상태 관리 라이브러리 (1)
 categories:
   - study
@@ -38,11 +39,9 @@ description: >
 
 ## 리액트 상태 관리의 역사
 
-애플리케이션 개발에 모든 것을 제공하는, 이른바 프레임워크를 지향하는 Angular와는 다르게 리액트는 단순히 사용자 인터페이스를 만들기 위한 라이브러리일 뿐이고, 그 이상의 기능을 제공하지 않고 있다.
+리액트는 단순히 사용자 인터페이스를 만들기 위한 라이브러리일 뿐이고, 그 이상의 기능을 제공하지 않고 있다.
 
 <strong class="green_">Flux 패턴의 등장</strong>
-
-2014년경, 리액트의 등장과 비슷한 시기에 `Flux` 패턴과 함께 이를 기반으로 한 라이브러리인 `Flux`를 소개하게 된다.
 
 페이스북 팀은 단방향으로 데이터 흐름을 변경하는 것을 제안하는데 이것이 바로 `Flux` 패턴의 시작이다.
 
@@ -54,102 +53,16 @@ description: >
 
 - `뷰(View)` : 리액트의 컴포넌트에 해당하는 부분으로, 스토어에서 만들어진 데이터를 가져와 화면을 렌더링하는 역할을 한다. 뷰에서도 상태를 업데이터하고자 할 수 있다.
 
-```tsx
-type StoreState = {
-  count: number,
-};
-
-type Action = { type: 'add', payload: number };
-
-function reducer(prevState: StoreState, action: Action) {
-  const { type: ActionType } = action;
-
-  if (ActionType === 'add') {
-    return {
-      count: prevState.count + action.payload,
-    };
-  }
-}
-
-throw new Error(`Unexpected Action [${ActionType}]`);
-
-}
-
-export default function App() {
-  const [state, dispatcher] = useReducer(reducer, { count: 0 });
-
-  function handleClick() {
-    dispatcher({ type: 'add', payload: 1 });
-  }
-
-  return (
-    <div>
-      <h1>{state.count}</h1>
-      <button onClick={handleClick}>+</button>
-    </div>
-  );
-}
-```
-
 단방향 데이터 흐름 방식은 당연히 불편함도 존재한다. 
 - 사용자 입력에 따라 데이터 갱신하고 화면을 어떻게 업데이트해야 하는지도 코드로 작성해야 하므로 코드의 양이 많아지고 개발자도 수고로워진다. 
 
 <strong class="green_">시장 지배자 리덕스의 등장</strong>
 
-리액트와 단방향 데이터 흐름이 점점 두각을 드러내던 와중에 등장하는 것이 바로 리덕스(`Redux`)다. 
+리액트와 단방향 데이터 흐름이 점점 두각을 드러내던 와중에 등장하는 것이 바로 리덕스다. 
 
 리덕스 또한 최초에는 이 `Flux` 구조를 구현하기 위해 만들어진 라이브러리 중 하나이며 `Elm` 아키텍처를 도입했다.
 
 - `Elm`은 웹페이지를 선언적으로 작성하기 위한 언어다.
-
-```tsx
-module Main exposing (..)
-
-import Brower
-import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
-
---MAIN
-main =
-  Brower.sandbox { init = init, update = update, view = view }
-
---MODEL
-type alias Model = Int
-
-init : Model
-init = 0
-
---UPDATE
-type Msg
-  = Increment
-  | Decrement
-
-update: Msg -> Model -> Model
-update msg model =
-  case msg of
-    Increment ->
-      model + 1
-
-  Decrement ->
-      model - 1
-
--- VIEW
-
-view: Model -> Html Msg
-view model =
-  div[]
-  [
-    button [ onClick Decrement ] [text "-"]
-    , div [] [ text (String.fromInt model) ]
-    , button [ onClick Increment ][ text "+" ]
-  ]
-
-<div>
-  <button>-</button>
-  <div>2</div>
-  <button>+</button>
-</div>
-```
 
 `Elm` 코드에서 주목할 것은 `model`, `update`, `view` 이며 핵심이다.
 
@@ -171,64 +84,11 @@ view model =
 
 `props`로 상태를 넘겨주지 않더라도 `Context API`를 사용하면 원하는 곳에서 주입하는 상태를 사용할 수 있게 됬다.
 
-- 16.3 버전에서 새로운 `context`가 출시됐다.
-
-```tsx
-type Counter = {
-  count: number
-}
-
-const CounterContext = createContext<Counter | undefined>(undefined)
-
-class CounterComponent extends Component{
-  render(){
-    return(
-      <CounterContext.Consumer>
-        {(state)=> <p>{state?.count}</p>}
-      </CounterContext.Consumer>
-    )
-  }
-}
-
-class DummyParent extends Component{
-  render(){
-    return (
-      <>
-        <CounterComponent />
-      </>
-    )
-  }
-}
-
-export default class MyApp extends Component<{}, Counter>{
-  state = { count = 0 }
-
-  componentDidMount(){
-    this.setState({ count : 1 })
-  }
-
-  handleClick = () => {
-    this.setState((state) => ({ count: state.count + 1 }))
-  }
-
-  render(){
-    return (
-      <CounterContext.Provider value={this.state}>
-        <button onClick={this.handleClick}>+</button>
-        <DummyParent />
-      </CounterContext.Provider>
-    )
-  }
-}
-```
-
 `Context API`는 상태 관리가 아닌 주입을 도와주는 기능이며, 렌더링을 막아주는 기능 또한 존재하지 않으니 사용할 때 주의가 필요하다.
 
 <strong class="green_">훅의 탄생, 그리고 React Query와 SWR</strong>
 
 16.8 버전에서 함수형 컴포넌트에 사용할 수 있는 다양한 훅 API를 추가했다. 
-
-`state`를 매우 손쉽게 재사용 가능하도록 만들 수 있다는 것이다.
 
 ```tsx
 function useCounter() {
@@ -269,10 +129,6 @@ export default function App() {
 }
 ```
 
-`useSWR`의 첫 번째 인수로 조회할 때 `API` 주소를, 두 번째 인수로 죄회에 사용되는 `fetch`로 넘겨준다. 
-
-첫 번째 인수로 `API` 주소는 키로도 사용되며, 이후에 다른 곳에서 동일한 키로 호출하며 재조회하는 것은 아니라 `useSWR`이 관리하고 있는 캐시의 값을 활용한다. 
-
 <strong class="green_">Recoil, Zustand, Jotai, Valtio에 이르기까지</strong>
 
 페이스북 팀에서 만든 `Recoil`을 필두로, `Jotai`, `Zustand`, `Valtio` 등 다양한 라이브러리가 선보이게 된다.
@@ -309,88 +165,10 @@ state.count++;
 
 `useState`의 등장으로 리액트에서는 여러 컴포넌트에 걸처 손쉽게 동일한 인터페이스의 상태를 생성하고 관리할 수 있게 됐다.
 
-```tsx
-function useCounter(initCount: number = 0) {
-  const [counter, setCounter] = useState(initCount);
-
-  function inc() {
-    setCounter((prev) => prev + 1);
-  }
-  return { counter, inc };
-}
-```
-
-`useCounter` 사용하는 함수 컴포넌트는 이 훅을 사용해 각자의 `counter` 변수를 관리하며, 중복되는 로직 없이 숫자를 1씩 증가시키는 기능을 손쉽게 이용할 수 있다.
-
-```tsx
-function useCounter(initCount: number = 0) {
-  const [counter, setCounter] = usestate(initCount);
-
-  function inc() {
-    setCounter((prev) => prev + 1);
-  }
-
-  return { counter, inc };
-}
-
-function Counter1() {
-  const { counter, inc } = useCounter();
-
-  return (
-    <>
-      <h3>Counter1: {counter}</h3>
-      <button onclick={inc}>+</button>
-    </>
-  );
-}
-
-function Counter2() {
-  const { counter, inc } = useCounter();
-  return (
-    <>
-      <h3>Counter2: {counter} </h3>
-      <button onclick={inc}>+</button>
-    </>
-  );
-}
-```
-
-리액트의 훅을 기반으로 만든 사용자 정의 훅은 함수형 컴포넌트라면 어디서든 손쉽게 재사용이 가능하다는 장점이 있다.
+- 리액트의 훅을 기반으로 만든 사용자 정의 훅은 함수형 컴포넌트라면 어디서든 손쉽게 재사용이 가능하다는 장점이 있다.
 
 - 실제로 `useState`는 `useReducer`로 구현했다.
-
-```tsx
-[useState를 useReducer로 구현하는 예제]
-type initializer<T>= T extends any ? T ((prev: T) => T) : never
-
-function useStateWithUseReducer<T>(initialstate: T) {
-
-
-const [state, dispatch] = useReducer(
-  (prev: T, action: Initializer<T>) =>
-    typeof action === 'function' ? action(prev) : action,
-    initialState,
-  )
-  return [state, dispatch]
-}
-```
-
-이와 반대로, `useReducer` 또한 `useState`로 작성할 수 있다.
-
-```js
-[useReducer를 usestate로 구현하는 예제]
-function useReducerwithuseState(reducer, initialstate, initializer) {
-  const [state, setstate] = usestate(
-    nitializer ? () => initializer(initialstate) : initialstate,
-  )
-
-  const dispatch = useCallback(
-    (action) => setstate((prev) => reducer(prev, action)),
-    [reducer ],
-  )
-  return [state, distatch]
-}
-```
+  - 이와 반대로, `useReducer` 또한 `useState`로 작성할 수 있다.
 
 `useState`나 `useReducer` 모두 약간의 구현상의 차이만 있을 뿐, 두 훅 모두 지역 상태 관리를 위해 만들어졌다는 것을 알 수 있다.
 
@@ -429,8 +207,6 @@ function Parent() {
 }
 ```
 
-캄퍼넌트 내부의 지역 상태를 전역으로 사용하기 위해, 상태가 필요한 모든 컴포넌트인 `Counter`과 `Counter2`를 `parent` 내부로 이동시켜서 두 컴포넌트가 동일하게 사용할 수 있게 만들었다.
-
 ## 지역 상태의 한계를 벗어나보자: useState의 상태를 바깥으로 분리하기
 
 현재 리액트의 `useState`는 리액트가 만든 클로저 내부에서 관리되어 지역 상태로 생성되기 때문에 해당 컴포넌트에서만 사용할 수 있다는 단점이 있다.
@@ -439,122 +215,6 @@ function Parent() {
 
 - `useState`, `useReducer`의 반환값 중 두 번째 인수로 어떻게든 호출된다.
 - 부모 함수가 리렌더링되거나 해당 함수가 다시 실행돼야 한다.
-
-```tsx
-let state = {
-  counter: 0,
-};
-
-//getter
-export function get() {
-  return state;
-}
-
-//setter
-export function set(nextState) {
-  state = typeof nextState === 'function' ? nextState(state) : nextState;
-}
-
-function Counter() {
-  const [count, setCount] = useState(state);
-
-  function handleClick() {
-    //외부에서 선언한 set 함수 내부에서 다음 상태값을 연산하고 그 값을 로컬 상태값에 넣음
-    set((prev) => {
-      const newState = { counter: prev.counter + 1 };
-      //setCount 호출로 컴포넌트 리렌더링
-      setCount(newState);
-      return newState;
-    });
-  }
-
-  return (
-    <>
-      <h3>{count.counter}</h3>
-      <button onClick={handleClick}>+</button>
-    </>
-  );
-}
-
-function Counter2() {
-  const [count, setCount] = useState(state);
-
-  //위 컴포넌트와 동일 작동
-  function handleClick() {
-    set((prev) => {
-      const newState = { counter: prev.counter + 1 };
-      setCount(newState);
-      return newState;
-    });
-  }
-
-  return (
-    <>
-      <h3>{count.counter}</h3>
-      <button onClick={handleClick}>+</button>
-    </>
-  );
-}
-```
-
-외부에 선언한 `set`을 실행해 **지역 상태**를 업데이트하고 **외부의 상태값** 또한 업데이트 하도록 했다.
-
-그러나 이 방법은 굉장히 비효율적이고 문제점이 있다.
-
-1. 이는 상태를 중복해서 관리하므로 비효율적인 방식이라고 볼 수 있다.
-2. 각 컴포넌트가 비정상적으로 작동한다. 다른쪽은 리렌더링 되지 않고 버튼을 눌러야만 최신값을 불러온다. 다른쪽에는 리렌더링을 일으킬 무언가가 없기 때문이다.
-
-렌더링까지 자연스럽게 일어나려면 다음과 같은 조건을 만족해야 한다.
-
-- 컴포넌트 외부 어딘가에 상태를 두고 여러 컴포넌트가 같이 쓸 수 있어야 한다.
-- 외부에 있는 상태를 사용하는 컴포넌트는 상태의 변화를 알아챌 수 있어야 하고 상태가 변화될 때마다 리렌더링이 일어나서 컴포넌트를 최산값 기준으로 렌더링해야 한다.
-- 상태가 원시값이 아닌 객체인 경우 그 객체에 내가 감지하지 않는 값이 변한다 하더라도 리렌더링이 발생해서는 안 된다.
-
-```tsx
-const store = createStore({ count: 0 });
-
-function Counter1() {
-  const [state, setState] = useStore(store);
-
-  function handleClick() {
-    setState((prev) => ({ count: prev.count + 1 }));
-  }
-
-  return (
-    <>
-      <h3>Counter1: {state.count}</h3>
-      <button onClick={handleClick}>+</button>
-    </>
-  );
-}
-
-function Counter2() {
-  const [state, setState] = useStore(store);
-
-  function handleClick() {
-    setState((prev) => ({ count: prev.count + 1 }));
-  }
-
-  return (
-    <>
-      <h3>Counter1: {state.count}</h3>
-      <button onClick={handleClick}>+</button>
-    </>
-  );
-}
-
-export default function App() {
-  return (
-    <div className="App">
-      <Counter1 />
-      <Counter2 />
-    </div>
-  );
-}
-```
-
-- 스토어의 구조가 객체인 경우에는 일부값만 변경한다면 현재는 `store`의 값이 바뀌면 무조건 `useState`를 실행하므로 스토어에 어떤 값이 바뀌든지 간에 리렌더링일 일어날 것이다.
-
 
 ```tsx
 const store = createStore({ count: 0, text: 'hi' });
@@ -606,26 +266,3 @@ function TextEditor() {
 `store`가 객체로 구성되어 있어도 컴포넌트에서 필요한 값만 `select`해서 사용하고 수행할 것이다.
 
 한 가지 주의할 점은 `useStoreSelector`에 제공하는 두 번째 인수로 `selector`를 컴포넌트 밖에 선언하거나, 이것이 불가능하다면 `useCallback`을 사용해 참조를 고정시켜야 한다는 것이다.
-
-**리액트 외부에서 관리되는 값에 대한 변경을 추적하고, 이를 리렌더링까지 할 수 있는 `useStoreSelector` 훅을 만들어서 설치했다.** 이러한 방식으로 구현된 훅은 이미 존재한다.
-
-바로 페이스북 팀에서만든 `useSubscription`이다.
-
-```tsx
-function NewCounter() {
-  const subscription = useMemo(
-    () => ({
-      getCurrentValue: () => store.get(),
-      subscribe: (callback) => {
-        const unsubscribe = store.subscribe(callback);
-        return () => unsubscribe();
-      },
-    }),
-    []
-  );
-
-  const value = useSubscription(subscription);
-
-  return <>{JSON.stringify(value)}</>;
-}
-```
