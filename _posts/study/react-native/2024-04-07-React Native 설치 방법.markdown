@@ -42,27 +42,27 @@ description: >
 
 - 다운로드한 msi 파일을 실행시켜 Nodejs 설치를 시작합니다.
 
-<img src="/assets/img/react-native/node 설치.png" />
+<img src="/assets/img/react-native//assets/img/react-native/node 설치.png" />
 
 - 동의 후 다음 버튼을 눌러줍니다.
 
-<img src="node 설치 1.png" />
+<img src="/assets/img/react-native/node 설치 1.png" />
 
 - 저장할 경로를 선택하고 다음 버튼을 눌러줍니다.
 
-<img src="node 설치 2.png" />
+<img src="/assets/img/react-native/node 설치 2.png" />
 
 - 설정 기본으로 두고 다음 버튼을 눌러 계속 진행합니다.
 
-<img src="node 설치 3.png" />
+<img src="/assets/img/react-native/node 설치 3.png" />
 
-<img src="node 설치 4.png" />
+<img src="/assets/img/react-native/node 설치 4.png" />
 
 - install 버튼을 눌러 설치를 완료합니다.
 
-<img src="node 설치 5.png" />
+<img src="/assets/img/react-native/node 설치 5.png" />
 
-<img src="node 설치 6.png" />
+<img src="/assets/img/react-native/node 설치 6.png" />
 
 ## 설치 버전 확인하기
 
@@ -71,9 +71,9 @@ node -v
 npm -v
 ```
 
-<img src="node 확인.png" />
+<img src="/assets/img/react-native/node 확인.png" />
 
-<img src="npm 확인.png" />
+<img src="/assets/img/react-native/npm 확인.png" />
 
 ---
 
@@ -86,7 +86,7 @@ npm install -g react-native-cli
 npm install -g react-native
 ```
 
-<img src="react native 설치.png" />
+<img src="/assets/img/react-native/react native 설치.png" />
 
 ## 설치 버전 확인하기
 
@@ -96,7 +96,7 @@ npm install -g react-native
 react-native -v
 ```
 
-<img src="react native 확인.png" />
+<img src="/assets/img/react-native/react native 확인.png" />
 
 ---
 # <a href="https://www.oracle.com/kr/java/technologies/downloads/">JDK</a> 설치
@@ -108,18 +108,18 @@ react-native -v
 - JDK 설치 후 환경변수를 설정 해야합니다.
 	- 내 PC > 우클릭 속성 > 고급 시스템 설정으로 들어와서 환경변수 버튼을 선택합니다.
 
-<img src="Java 환경 설정 1.png" />
+<img src="/assets/img/react-native/Java 환경 설정 1.png" />
 
 - 사용자 변수를 새로 만들어서 JAVA_HOME을 설정해 줍니다.
 	- _변수 이름 : JAVA_HOME_
 	- _변수 값 : JDK 설치 위치_
 
-<img src="Java 환경 설정 2.png" />
+<img src="/assets/img/react-native/Java 환경 설정 2.png" />
 
 - 사용자 변수를 등록한 후, 하단의 시스템 변수 Path도 수정해줘야 합니다.
 	- Path 편집 > 새로 만들기를 눌러 %JAVA_HOME%\bin을 작성하고 확인 버튼을 클릭합니다.
 
-<img src="Java 환경 설정 3.png" />
+<img src="/assets/img/react-native/Java 환경 설정 3.png" />
 
 ## 설치 버전 확인하기
 
@@ -127,7 +127,7 @@ react-native -v
 java -version
 ```
 
-<img src="Java 확인.png" />
+<img src="/assets/img/react-native/Java 확인.png" />
 
 ---
 
@@ -135,75 +135,75 @@ java -version
 
 - 다운로드한 파일을 실행시키고 Next 버튼을 클릭합니다.
 
-<img src="안드로이드 설치.png" />
+<img src="/assets/img/react-native/안드로이드 설치.png" />
 
 - Android Virtual Device에 선택이 되어있는지 확인한 후 Next를 클릭합니다.
 
-<img src="안드로이드 설치 1.png" />
+<img src="/assets/img/react-native/안드로이드 설치 1.png" />
 
 - 설치될 경로를 설정한 후 Install 버튼을 클릭합니다.
 
-<img src="안드로이드 설치 2.png" />
+<img src="/assets/img/react-native/안드로이드 설치 2.png" />
 
-<img src="안드로이드 설치 3.png" />
+<img src="/assets/img/react-native/안드로이드 설치 3.png" />
 
-<img src="안드로이드 설치 4.png" />
+<img src="/assets/img/react-native/안드로이드 설치 4.png" />
 
 - 설치가 완료되었습니다.
 
-<img src="안드로이드 설치 5.png" />
+<img src="/assets/img/react-native/안드로이드 설치 5.png" />
 
 - 기본 설정을 세팅하기 위해 안드로이드 스튜디오를 실행합니다.
 
-<img src="안드로이드 설치 6.png" />
+<img src="/assets/img/react-native/안드로이드 설치 6.png" />
 
 - 구글에서 데이터를 수집한다는 내용과 SDK 관련하여 공지하고 있습니다.
 
-<img src="안드로이드 설치 7.png" />
+<img src="/assets/img/react-native/안드로이드 설치 7.png" />
 
-<img src="안드로이드 설치 8.png" />
+<img src="/assets/img/react-native/안드로이드 설치 8.png" />
 
 - 설치할 타입을 선택 후 다음으로 갑니다.
 
-<img src="안드로이드 설치 9.png" />
+<img src="/assets/img/react-native/안드로이드 설치 9.png" />
 
 - 설치한 JDK의 위치를 설정한 후 다음을 눌러줍니다.
 
-<img src="안드로이드 설치 10.png" />
+<img src="/assets/img/react-native/안드로이드 설치 10.png" />
 
 - 사용할 테마를 선택 후 다음을 눌러줍니다.
 
-<img src="안드로이드 설치 11.png" />
+<img src="/assets/img/react-native/안드로이드 설치 11.png" />
 
 - Android Virtual Device를 선택하면 안드로이드 스튜디오가 설치되면서 가상 단말장치가 자동으로 설정됩니다.
 
-<img src="안드로이드 설치 12.png" />
+<img src="/assets/img/react-native/안드로이드 설치 12.png" />
 
-<img src="안드로이드 설치 13.png" />
+<img src="/assets/img/react-native/안드로이드 설치 13.png" />
 
-<img src="안드로이드 설치 14.png" />
+<img src="/assets/img/react-native/안드로이드 설치 14.png" />
 
 - 안드로이드 스튜디오 설정이 완료되었습니다.
 
-<img src="안드로이드 설치 15.png" />
+<img src="/assets/img/react-native/안드로이드 설치 15.png" />
 
 ## 환경변수 설정
 
 - 환경변수 설정을 위해 내 PC > 속성 >고급 시스템 설정으로 들어갑니다.
 
-<img src="안드로이드 설치 16.png" />
+<img src="/assets/img/react-native/안드로이드 설치 16.png" />
 
-<img src="안드로이드 설치 17.png" />
+<img src="/assets/img/react-native/안드로이드 설치 17.png" />
 
 - 시스템 속성 > 고급 > 환경변수를 눌러줍니다.
 
-<img src="안드로이드 설치 18.png" />
+<img src="/assets/img/react-native/안드로이드 설치 18.png" />
 
 - 시스템변수에서 ANDROID_HOME을 설정해 줍니다.
 	- _변수 이름 : ANDROID_HOME_
 	- _변수 값 : SDK 설치 위치_
 
-<img src="안드로이드 설치 19.png" />
+<img src="/assets/img/react-native/안드로이드 설치 19.png" />
 
 ```shell
 C:\Users\사용자\AppData\Local\Android\Sdk\tools
@@ -218,12 +218,12 @@ C:\Users\사용자\AppData\Local\Android\Sdk\build-tools
 - Android SDK 설치 위치는 Android Studio Settings에서 확인할 수 있습니다.
 	- 경로 : File > Settings > Appearance & Behavior > System Settings > Android SDK
 
-<img src="안드로이드 설치 20.png" />
+<img src="/assets/img/react-native/안드로이드 설치 20.png" />
 
 - 시스템변수에 추가했다면 사용자변수에도 추가해줘야 합니다.
 	- 사용자 변수 > Path 수정에 들어가 %ANDROID_HOME%\platform-tools을 새로 만들어 줍니다.
 
-<img src="안드로이드 설치 21.png" />
+<img src="/assets/img/react-native/안드로이드 설치 21.png" />
 
 ## 설치 버전 확인하기
 
@@ -231,7 +231,7 @@ C:\Users\사용자\AppData\Local\Android\Sdk\build-tools
 adb --version
 ```
 
-<img src="안드로이드 설치 22.png" />
+<img src="/assets/img/react-native/안드로이드 설치 22.png" />
 
 ---
 
