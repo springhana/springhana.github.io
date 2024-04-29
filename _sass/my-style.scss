@@ -25,12 +25,6 @@
 .sidebar-about {
   padding-bottom: 10%;
 }
-.sidebar-nav {
-  ul {
-    overflow: auto;
-    height: 100%;
-  }
-}
 
 .spread-btn {
   left: 7%;
@@ -64,6 +58,11 @@
 
   input[type="checkbox"]:checked ~ ul {
     display: block;
+  }
+
+  ul {
+    max-height: 150px;
+    overflow: auto;
   }
 }
 
