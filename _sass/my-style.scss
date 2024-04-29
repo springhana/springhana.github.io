@@ -25,6 +25,13 @@
 .sidebar-about {
   padding-bottom: 10%;
 }
+.sidebar-nav {
+  ul {
+    overflow: auto;
+    height: 106.923px;
+  }
+}
+
 .spread-btn {
   left: 7%;
   position: absolute;
