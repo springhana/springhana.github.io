@@ -1,0 +1,123 @@
+---
+layout: post
+related_posts:
+  - /study/next/2024-02-11-Vercel 배포하기.markdown
+  - /study/next/2024-03-17-Data Fetching.markdown
+title: 팀 프로젝트 Vercel 배포
+categories:
+  - study
+  - next
+image: /assets/img/next/Next.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  Vercel에 Next.js 팀 프로젝트 배포하기
+---
+
+* toc
+{:toc}
+
+팀 프로젝트를 vercel에 배포를 하면 비용이 발생한다고 한다. aws와 vercel을 고민하던 중 aws 비용이 부담이 되 vercel로 배포를 하는건인데 팀 프로젝트로 하면 비용이 발생해서 해결법?을 기록해보겠습니다
+
+# 개인 리포지토리
+
+먼저 개인 리포지토리를 따로 만드는 것입니다. 
+
+![[프로젝트 생성.png]]
+
+새롭게 하나 만들어주면 됩니다.
+
+그리고 vercel에 개인 리포지토리로 연동해줍니다.
+
+
+# Github Action
+>GitHub Actions를 사용하여 리포지토리에서 바로 소프트웨어 개발 워크플로를 자동화, 사용자 지정 및 실행합니다. CI/CD를 포함하여 원하는 작업을 수행하기 위한 작업을 검색, 생성 및 공유하고 완전히 사용자 정의된 워크플로에서 작업을 결합할 수 있습니다.
+
+팀 프로젝트 리포지토리에서 Github Action을 사용하기 위해 설정을 해줄겁니다.
+
+
+## 1. `.yml` 파일 만들기
+
+.github/workflows/`.yml`로 만들어줍니다.
+
+<img src="/assets/img/next/workflows.png" />
+
+```yml
+name: send
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: pandoc/latex
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install mustache (to update the date)
+        run: apk add ruby && gem install mustache
+      - name: creates output
+        run: sh ./build.sh
+      - name: Pushes to another repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTION }}
+        with:
+          source-directory: 'output'
+          destination-github-username: "your-github-name"
+          destination-repository-name: "your-project-name"
+          user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
+          commit-message: ${{ github.event.commits[0].message }}
+          target-branch: vercel
+      - name: Test get variable exported by push-to-another-repository
+        run: echo $DESTINATION_CLONED_DIRECTORY
+
+```
+
+secret 변수 총 2개 등록해줍니다.
+
+- EMAIL에는 Github 계정 이메일
+- AUTO_ACTIONS에는 개인 계정에서 발급받은 token값
+
+branch는 사용하는 메인 브런츠를 적으면 됩니다.
+
+
+## 2. Github Token 발급하기
+
+<img src="/assets/img/next/깃허브 메뉴.png" />
+
+    settings -> Developer Settings -> Tokens (classic)
+
+에서 토큰을 발급해주면 됩니다.
+
+## 3. secret 등록
+
+    팀 리포지토리 -> Settings -> Secrets and variables(Actions)
+
+에서 등록해줍니다.
+
+<img src="/assets/img/next/깃허브 토큰.png" />
+
+## 4. `build.sh` 파일 만들기
+
+루트 경로로 `build.sh` 파일을 하나 만들어줍니다. 
+그리고 [team-repo-name]는 모두 지우고 리포지토리 이름으로 채워줍니다.
+
+```sh
+cd ../
+mkdir output
+cp -R ./[team-repo-name]/* ./output
+cp -R ./output ./[team-repo-name]/
+```
+- - -
+
+# 마무리
+
+결론은 팀 리포지토리에서 개인 리포지토리로 옮겨서 개인 리포지토리로 배포를 하는 것입니다.
+
+그러기 위해서 Github Action을 사용해서 CI/CD를 해서 옮기고 개인 리포지토리에 잘 옮겨졌는지 확인해보고 배포 환경에서도 잘 작동하는지 확인해보면 됩니다
+
+# 참고
+
+><a href="https://velog.io/@seobi-97/Organization-Repository%EB%A5%BC-vercelgit-actions%EB%A1%9C-%EB%AC%B4%EB%A3%8C-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0">Organization Repository를 vercel+git actions로 무료 배포하기</a>

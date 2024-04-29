@@ -1,0 +1,250 @@
+---
+layout: post
+related_posts:
+  - /study/next/2024-02-11-[Next] Vercel 배포하기.markdown
+title: 이미지 최적화
+categories:
+  - study
+  - next
+image: /assets/img/next/Next.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  Next.js 이미지 최적화 방법
+---
+
+* toc
+{:toc}
+
+Next.js 환경에서 이미지 최적화를 적용해 보면서 어떻게 적용했는지 기록하는 글입니다.
+
+프로젝트를 완성하고 최적화라는 단계에 들어갔을 때 어떤 것부터 해야 할지 몰랐습니다. 글을 보고 검색을 하면 찾아본 결과 이미지 최적화는 투자대비 성능 효율이 가장 좋다고 해서 이미지 최적화를 해보겠습니다.
+
+# 이미지 최적화
+
+먼저 이미지 최적화에 어떤 것들이 있는지 알아보겠습니다.
+
+1. 이미지 포맷
+2. 이미지 레이지 로딩
+3. 이미지 리사이징
+4. 이미지 용량 압축
+
+Next.JS에서는 외부에서 추가할려면 설정을 하나 해줘야 합니다.
+
+`next.config.js`에서 설정을 해줍니다.
+
+```js
+  images: {
+    domains: [ 's3.ap-northeast-2.amazonaws.com'],
+  },
+```
+
+- - -
+
+# 1) 이미지 포맷
+
+>`webp` 또는 `avif` 사용하기
+
+`webp` 보다는 `avif`를 사용하는게 20% 높은 압축률를 줄 수 있습니다. 
+
+`webp`
+webp는 2010년 구글에서 만든 손실/비손실 압축 이미지 파일을 위한 이미지 포맷입니다. webp는 png, jpg 등의 기존 포맷보다 파일 크가기 작습니다.
+
+`avif`
+avif는 2019년 Alliance for Open Media에서 개발한 이미지 파일을 위한 이미지 포맷입니다. png, jpg 보다 휠씬 작은 파일 크기이며 webp보다도 작은 파일 크기를 가집니다.
+하지만 avif가 브라우저 전부를 지원하지 않기 때문에 webp를 쓰는 것이 좋을 수도 있습니다.
+
+
+
+## 적용하기
+
+이미지를 `webp` 또는 `avif`를 사용하고 싶다면 `next.config.js`에 적용을 시켜주면 됩니다.
+
+```jsx
+module.exports = {
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
+}
+```
+
+- **적용하기 전**
+
+<img src="/assets/img/next/포멧 전.png" />
+
+- **적용하기 후**
+
+<img src="/assets/img/next/포맷 후.png" />
+
+## 주의할 점
+
+간혹 `avif`를 지원하지 않는 브라우저가 있을 수 있습니다.
+
+```jsx
+<picture>
+ <source srcset="img/paper1.avif" type="image/avif">
+ <source srcset="img/paper1.webp" type="image/webp">
+ <img src="img/paper1.jpg">
+</picture>
+```
+
+`Picture 태그`를 사용하여 브라우저가 인식하지 못하는 이미지를 건너 뛸 수 있게 해줍니다.
+우선적으로 보여주길 원하는 순서대로 이미지 형식을 나열하면 첫번째 `source`부터 지원하는지 확인합니다.
+
+
+- - -
+
+# 2) 이미지 레이지 로딩
+
+레이지 로딩이란 특정 리소스를 네트워크에서 요청하지 않고 필요한 순간에만 리소스를 요청하는 최적화 전략을 말합니다.
+이를 통해 화면을 로드하는 초기에 적은 데이터만을 요청해서, 더욱 빠른 속도로 화면을 렌더링 할 수 있게 됩니다.
+
+## lazy loading
+
+img 태그에 `loading="lazy"` 속성을 추가하면 간단하게 적용할 수 있습니다.
+
+```jsx
+<img src="image.png" loading="lazy">
+```
+
+**loading 속성들**
+- `auto` : 기본 지연 로딩 동작
+- `lazy` : 뷰포트로부터 계산된 거리에 도달할 때까지 리소스 로딩을 지연
+- `eager` : 리소스를 즉시 로드
+
+> Next.JS에서는 Next/Image를 사용하게 되는데 Next/Image에소는 자동으로 lazy loading이 자동으로 적용됩니다. (해당 기능을 끌 수 도 있습니다.)
+
+## placeholder
+
+이미지 레이지 로딩을 할 때, 이미지를 받아오기 전에 화면을 마주할 수 있습니다. 그럴때 placeholder를 제공해주면 됩니다.
+
+Next/Image에 **placeholder** 속성으로 `blur`를 주고 **blurDataURL** 속성으로 `base64로 인코딩 된 data url`을 지정해줘야합니다.
+
+```jsx
+import Image from 'next/image';
+
+  <Image
+    src={imgUrl}
+    alt="이미지"
+    width="100"
+    height="100"
+    layout="responsive"
+    placeholder="blur"
+    blurDataURL={blurDataURL}
+/>
+```
+
+- 느린 3G로 테스트 해본 결과입니다.
+
+<img src="/assets/img/next/image.gif" />
+
+- - -
+
+# 3) 이미지 리사이징
+
+각 화면에 맞는 크기의 이미지를 보여줘야 됩니다. 필요이상 크기 이미지를 가져오는 것은 네트워크 대역폭을 낭비합니다. 때문에 각 화면에 알맞는 크기의 이미지를 보여주는 것은 성능을 최적화하는데에 도움이 될 것입니다.
+
+## srcset, sizes
+
+img 태그에 srcset과 sizes의 속성을 추가해줍니다.
+
+- `srcset` : 브라우저에게 어떤 크기의 이미지를 보여주면 되는지 알려주는 역할입니다.
+   - `<img srcset="이미지 파일명 크기w/>`
+- `sizes` : 미디어 조건을 설정합니다. 특정 화면에서 어떤 크기의 최적인지를 나타냅니다.
+   - `<img sizes="조건, 조건 true 이미지 너비"/>`
+   
+```jsx
+<img srcset="img-320w.jpg 320w,
+             img-480w.jpg 480w,
+             img-800w.jpg 800w"
+     sizes="(max-width: 320px) 280px,
+            (max-width: 480px) 440px,
+            800px"
+     src="img-800w.jpg" alt="이미지">
+```
+
+## responsive, fill
+
+Next/image에서는 이미지 리사이징을 기본적으로 제공해줍니다. 
+
+```jsx
+import Image from 'next/image';
+
+  <Image
+    src={imgUrl}
+    alt="이미지"
+    layout="responsive" // responsive 또는 fill
+/>
+```
+
+`next.config.js`에서 default로 저장되어 있는 값들입니다.
+```js
+module.exports = {
+  images: {
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+  },
+}
+```
+
+추가적인 이미지 사이즈를 제공하고 싶다면 `next.config.js`에 직접 추가해주면 됩니다.
+
+- - -
+
+# 4) 이미지 용량 압축
+
+이미지 용량이 적은 것을 사용하는 것이 좋으며 용량이 큰 이미지 경우 압축시켜주면은 좋습니다.
+
+`browser-image-compression` 라이브러리를 사용하면 됩니다.
+
+
+## 적용
+
+저는 File 형태의 이미지 파일이 필요해서 조금 변형시켰습니다.
+
+```jsx
+import imageCompression from 'browser-image-compression';
+
+export const compressImage = async (file: File) => {
+  const options = {
+    maxSizeMB: 0.5,
+    maxWidthOrHeight: 1920,
+  };
+
+  try {
+    const compressedFile = await imageCompression(file, options);
+    return new File([compressedFile], file.name, {
+      type: file.type,
+      lastModified: file.lastModified,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+```
+
+>`options` : 필수 설정들
+maxSizeMB: 저장할 이미지 최대 허용 용량
+**maxWidthOrHeight**: 압축 파일은 너비 또는 높이가 해당 옵션보다 작은 지점까지 비율로 축소
+
+
+
+이미지 이름은 AWS S3에 올리면서 변경시켰습니다.
+- 압축 전
+
+<img src="/assets/img/next/용량 전.png" />
+
+- 압축 후
+
+<img src="/assets/img/next/용량 후.png" />
+
+- - -
+
+# 참고
+
+> <a href="https://velog.io/@yesbb/Nextjs%EC%97%90%EC%84%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B5%9C%EC%A0%81%ED%99%94%ED%95%98%EA%B8%B0#%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B5%9C%EC%A0%81%ED%99%94%EB%8A%94-%EC%99%9C-%ED%95%98%EB%8A%94%EA%B2%83%EC%9D%BC%EA%B9%8C">이미지 최적화를 위한 전략 feat.Nextjs</a>
+>
+> <a href="https://fe-developers.kakaoent.com/2022/220714-next-image/">Next/Image를 활용한 이미지 최적화</a>
+>
+> <a href="https://velog.io/@april_5/%EC%8B%A4%EC%8A%B5-%EC%9B%B9-%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94-%EC%8B%A4%EC%8A%B5%ED%95%98%EA%B8%B0">Nextjs 웹 성능 최적화</a>
+>
+> <a href="https://ramincoding.tistory.com/entry/ReactProject-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%95%95%EC%B6%95%ED%95%B4%EC%84%9C-%EC%97%85%EB%A1%9C%EB%93%9C%ED%95%98%EA%B8%B0-with-browser-image-compression-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC">[React/Project] 이미지 압축해서 업로드하기 (with browser-image-compression 라이브러리)</a>
+
