@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/coding/2024-04-12-05 정렬 문제.markdown
+  - _posts/study/coding/2024-04-29-06 이진 탐색 문제.markdown
 title: 06 이진 탐색 (설명)
 categories:
   - study
