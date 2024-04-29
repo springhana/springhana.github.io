@@ -1,0 +1,130 @@
+---
+layout: post
+related_posts:
+  - _posts/study/coding/2024-04-09-05 정렬 설명.markdown
+  - _posts/study/coding/2024-04-29-06 이진 탐색 설명.markdown
+title: 05 이진 탐색 (문제)
+categories:
+  - study
+  - coding
+image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 이것이 코딩 테스트다. with 파이썬 - 06 이진 탐색 문제
+---
+
+* toc
+{:toc}
+
+> [(이코테 2021 강의 몰아보기) 6. 이진 탐색](https://www.youtube.com/watch?v=94RC-DsGMLo&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=5)
+
+# **⭐ 문제는 나동빈님의 유튜브를 통해 확인해 주세요!!**
+
+유튜브에 있는 문제들만 풀이하여 이 블로그에 포스트 했습니다.
+
+- 문제를 안적은 이유는 나동빈님의 유튜브에서 한 번 보시고 공부 해보시라고 문제는 따로 적지 않았습니다.
+
+- 책에 있는 문제들은 이 블로그에는 없습니다.
+
+---
+
+# 떡볶이 떡 만들기
+
+- `n` = 떡의 개수
+
+- `m` = 요청한 떡의 길이
+
+- `array` = 각 떡의 개별 높이 배열
+
+- `start` = 시작 지점
+
+- `end` = 제일 큰 떡의 길이
+
+- `result` = 결과
+
+- `totla` = 자른 떡의 길이 합
+
+- `mid` = 제일 큰 떡의 길이 중간 길이
+
+```python
+n, m = map(int, input().split())
+array = list(map(int, input().split()))
+start = 0
+end = max(array)
+
+result = 0
+
+while start <= end:
+    total = 0
+    mid = (start + end) // 2
+    for x in array:
+        if x > mid:
+            total += x - mid
+
+    if total < m:
+        end = mid - 1
+    else:
+        result = mid
+        start = mid + 1
+
+print(result)
+```
+
+떡의 길이 시작 지점과 끝 지점을 정해준다. 시작 지점이 끝 지점과 같거나 커질때 까지 계속 반복해준다.
+
+1. 중간 지점을 구해준다. 
+
+2. 그리고 자른 떡의 총 길이를 구해준다.
+
+3. 자른 떡의 총 길이가 제일 긴 떡의 길이보다 작으면 `end`를 `mid`에서 1을 빼준고 다시 반복한다.
+
+3.1 아니면 결과를 저장하고 `mid`를 1을 더해주고 반복한다.
+
+4. 시작 지점이 끝 지점보다 크거나 같을 때까지 반복한다.
+
+책이나 유튜브 영상에서는 더 자세히 나와있으니 한 번 보는 것을 꼭 추천한다.
+
+<img src="/assets/img/coding/떡볶이 떡 만들기.jpg" />
+
+---
+
+# 정렬된 배열에서 특정 수의 개수 구하기
+
+- `n` = 데이터의 개수
+
+- `x`=  찾고자 하는 값
+
+- `array` = 전체 데이터 
+
+- `count` = 데이터의 개수 계산
+
+- `right_index` = 특정 값의 마지막 위치
+
+- `left_index` = 특정 값의 첫 번째 위치
+
+```python
+from bisect import bisect_left, bisect_right
+
+def count_by_range(array, left_value, right_value):
+    right_index = bisect_right(array, right_value)
+    left_index = bisect_left(array, left_value)
+    return right_index - left_index
+
+n, x = map(int, input().split())  
+array = list(map(int, input().split())) 
+count = count_by_range(array, x, x)
+
+if count == 0:
+    print(-1)
+else:
+    print(count)
+```
+
+파이썬에서 제공해주는 이진 탐색을 사용한 문제이다.
+
+- `bisect_left`, `bisect_right`
+
+특정 값이 등장하는 첫 번째 위치 `bisect_left` 와 마지막 위치 `bisect_right`를 구해서 계산한다.
+
+<img src="/assets/img/coding/정렬된 배열에서 특정 수의 개수 구하기.jpg" />
