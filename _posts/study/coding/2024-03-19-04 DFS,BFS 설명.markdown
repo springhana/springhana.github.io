@@ -1,7 +1,8 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/coding/2024-03-15-02.그리디 문제편.markdown
+  - _posts/study/coding/2024-03-18-03 구현 문제.markdown
+  - _posts/study/coding/2024-04-05-04 DFS,BFS 문제.markdown
 title: 04 DFS/BFS (설명)
 categories:
   - study

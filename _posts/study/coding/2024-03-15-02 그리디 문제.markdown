@@ -1,7 +1,8 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/coding/2024-03-14-02.그리디 이론편.markdown
+  - _posts/study/coding/2024-03-14-02 그리디 설명.markdown
+  - _posts/study/coding/2024-03-18-03 구현 설명.markdown
 title: 02 그리디 (문제)
 categories:
   - study
