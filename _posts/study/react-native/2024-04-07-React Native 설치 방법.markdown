@@ -42,7 +42,7 @@ description: >
 
 - 다운로드한 msi 파일을 실행시켜 Nodejs 설치를 시작합니다.
 
-<img src="/assets/img/react-native/assets/img/react-native/node 설치.png" />
+<img src="/assets/img/react-native/react-native/node 설치.png" />
 
 - 동의 후 다음 버튼을 눌러줍니다.
 
