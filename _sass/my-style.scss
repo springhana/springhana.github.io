@@ -63,14 +63,13 @@
   ul {
     height: 150px;
     overflow: auto;
-    * {
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: none;
-      }
-    }
+  }
+
+  ul::-webkit-scrollbar {
+    width: 6px;
+  }
+  ul ::-webkit-scrollbar-track {
+    background: none;
   }
 }
 
