@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - /study/typescript/2024-04-29-타입스크립트 기초-변수와 함수의 타입 정의.markdown
+  - /study/typescript/2024-05-01-인터페이스.markdown
 title: 첫 번째 프로젝트 - 할 일 관리 앱
 categories:
   - study
