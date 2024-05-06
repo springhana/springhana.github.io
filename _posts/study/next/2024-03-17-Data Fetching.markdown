@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - /study/next/2024-02-11-팀 프로젝트 Vercel 배포.markdown
+  - /study/next/2024-05-09-페이지 로딩 적용하기.markdown
 title: Data Fetching
 categories:
   - study
