@@ -1,0 +1,104 @@
+---
+layout: post
+related_posts:
+  - /study/typescript/2024-05-07-인터페이스.markdown
+title: 타입 지정하기
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/TypeScript.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 타입 지정하는 방법 및 기본 타입들
+---
+
+* toc
+{:toc}
+
+# 타입 별칭
+
+**타입 별칭(type alias)** 특징은 타입이나 인터페이스 등을 참조할 수 있는 타입 변수를 의미한다.
+
+```ts
+type 별칭 = 타입;
+```
+
+- 반복되는 코드를 다음과 같이 타입 별칭으로 줄일 수 있다.
+
+```ts
+type MyName = string;
+
+const name: MyName = 'typescript';
+```
+
+---
+# 특징
+
+## 코드 에디터에서 표기 방식 차이
+
+타입을 정의하고 사용하는 관점에서 가장 먼저 쉽게 구분되는 점은 코드 에디터에 표시되는 정보이다.
+
+- 타입 별칭
+```ts
+type User = {
+	id: string;
+	name: string;
+}
+
+var seho: User;
+```
+
+<img src="/assets/img/typescript/type 코드 에디터.png" />
+
+- 인터페이스
+```ts
+interface Admin {
+	id: string;
+	name: string;
+}
+
+var yurim: Admin;
+```
+
+<img src="/assets/img/typescript/interface 코드 에디터.png" />
+
+## 사용할 수 있는 타입의 차이
+
+타입 별칭과 인터페이스를 구분 짓는 또 다른 차이점은 정의할 수 있는 타입 종류에 있다.
+
+- 인터페이스는 주로 객체의 타입을 정의하는 데 사용
+- 타입 별칭은 다음과 같이 일반 타입에 이름을 짓는 데 사용하거나 유니언 타입, 인터섹션 타입 등에도 사용할 수 있다.
+
+타입 별칭은 제네릭이나 유틸리티 타입 등 다양한 타입에 사용할 수 있다.
+```ts
+type Gitbut<T> = {
+	book: T;
+}
+
+type MyBeer = Pick<Beer, 'brand'>;
+```
+
+
+인터페이스와 타입 별칭의 정의를 함께 사용할 수도 있다.
+```ts
+interface Person {
+	nmae: stirng;
+	age: number;
+}
+
+type Adult = {
+	old: boolean;
+}
+
+type Teacher = Person & Adult;
+```
+
+타입 확장이라는 관점에서 서로 다른 특징이 있다.
+
+---
+
+# 추천
+
+타입 별칭과 인터페이스의 가장 큰 차이점은 타입의 확장 가능 / 불가능 여부이다.
+
+인터페이스는 확장이 가능한데 반해 타입 별칭은 확장이 불가능합니다. 따라서, 가능한한 `type` 보다는 `interface`로 선언해서 사용하는 것을 추천합니다.
