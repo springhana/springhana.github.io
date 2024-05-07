@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - /study/typescript/2024-05-07-인터페이스.markdown
+  - /study/typescript/2024-05-07-타입 별칭.markdown
 title: 유니언 타입과 인터섹션 타입
 categories:
   - study

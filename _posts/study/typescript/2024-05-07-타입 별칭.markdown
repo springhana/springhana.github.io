@@ -1,7 +1,7 @@
 ---
 layout: post
 related_posts:
-  - /study/typescript/2024-05-07-인터페이스.markdown
+  - /study/typescript/2024-05-07-유니언 타입과 인터섹션 타입.markdown
 title: 타입 지정하기
 categories:
   - study
