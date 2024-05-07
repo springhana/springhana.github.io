@@ -10,6 +10,7 @@ image: /assets/img/typescript/TypeScript.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
   타입스크립트 타입 타입 별칭에 대해서
+---
 
 * toc
 {:toc}
