@@ -10,6 +10,7 @@ image: /assets/img/typescript/typescript_logo.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
   캡틴 판교의 쉽게 시작하는 타입스크립트, 03장 타입스크립트 기초 - 변수와 함수의 타입 정의
+published : false
 ---
 
 * toc
