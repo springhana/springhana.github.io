@@ -2,15 +2,14 @@
 layout: post
 related_posts:
   - /study/typescript/2024-05-07-유니언 타입과 인터섹션 타입.markdown
-title: 타입 지정하기
+title: 타입 별칭
 categories:
   - study
   - typescript
 image: /assets/img/typescript/TypeScript.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
-  타입스크립트 타입 지정하는 방법 및 기본 타입들
----
+  타입스크립트 타입 타입 별칭에 대해서
 
 * toc
 {:toc}
