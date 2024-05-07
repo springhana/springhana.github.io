@@ -49,6 +49,8 @@ function handleTest(text: string, email?: string): string {
 
 - 옵셔널 파라미터는 `?`로 표기한다.
 
+---
+
 # 기본 타입
 
 ## 문자열 타입
