@@ -1,0 +1,130 @@
+---
+layout: post
+related_posts:
+  - /study/typescript/2024-05-07-타입 별칭.markdown
+title: 이넘
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/TypeScript.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  캡틴 판교의 쉽게 시작하는 타입스크립트, 08장 이넘이란?
+published : false
+---
+
+* toc
+{:toc}
+
+# 1. 이넘이란?
+
+**이넘(enum)** 은 특정 값의 집합을 의미하는 데이터 타입이다. 
+
+- 상수 집합이라고도 표현한다.
+
+> 변하지 않는 고정 값을 상수라고 하며, 상수는 단순히 고정된 값을 저장하는 것 뿐만 아니라 이 값이 어떤 의미를 갖는지 알려 줌으로써 가독성을 높이는 장점이 있다. 
+
+여러 개의 상수를 하나의 단위로 묶으면 이넘이 된다. 비슷한 성격이나 같은 범주에 있는 상수를 하나로 묶어 더 큰 단위의 상수로 만드는 것이 이넘의 역할이다.
+
+```ts
+브랜드
+- 삼성
+- 엘지
+- 애플
+```
+
+---
+# 1. 숫자형 이넘
+
+```ts
+enum Number {
+  First,
+  Second,
+  Third ,
+}
+```
+
+속성 값이 숫자로 지정되는 이유는 타입스크립트의 내부 규칙 때문에 그렇다.
+
+```ts
+console.log(Direction.First); //0
+console.log(Direction[0]); // 'First'
+```
+
+이넘의 속성과 값이 거꾸로 연결되어 할당되는 것을 **리버스 매핑**이라고 한다.
+
+- 타입스크립트 이넘에 선언된 속성은 기복적으로 숫자 값을 갖는다.
+
+```ts
+enum Number {
+  First = 10, 
+  Second, // 11
+  Third, // 12
+}
+```
+
+첫 번째 속성이 시작 값을 변경하더라도 순서대로 선언된 이넘 속성의 값은 1씩 증가하는 규칙이 있다.
+
+---
+# 2. 문자형 이넘
+
+문자형 이넘이란 이넘의 속성 값에 문자열을 연결한 이넘을 의미한다.
+
+- 모든 속성 값을 다 문자열로 지정해 주어야 하고, 선언된 속성 순서대로 값이 증가하는 규칙도 없다.
+
+```ts
+enum Number {
+  First = 'First', 
+  Second = 'Second',
+  Third = 'Third',
+}
+```
+
+속성 이름과 동일한 문자열로 관리하는 것도 일반적인 코딩 규칙이다.
+
+---
+# 3. 알아 두면 좋은 이넘의 특징
+
+## 혼합 이넘
+
+숫자와 문자열을 섞어서 선언할 수 있다.
+
+```ts
+enum Answer {
+  Yes = 'Yes',
+  No = 1
+}
+```
+
+이넘 값은 일괄되게 숫자나 문자열 둘 중 하나의 데이터 타입으로 관리하는 것이 좋다.
+
+## 다양한 이넘 속성 값 정의 방식
+
+이넘의 속성 값은 고정 값뿐만 아니라 다양한 형태로 값을 할당할 수 있다.
+
+```ts
+enum Anthorization {
+  User,
+  Admin,
+  SuperAdmin = User + Admin,
+  God = 'abc'.length
+}
+```
+
+`User`와 `Admin` 속성은 이넘의 기본 규칙에 따라 값이 0과 1이다.
+
+## const 이넘
+
+`const` 이넘이란 이넘을 선언할 때 앞에 `const`를 붙인 이넘을 의미한다.
+
+```ts
+const enum logLevel {
+  Debug = 'Debug',
+  Info = 'Info',
+  Error = 'Error'
+}
+```
+
+`const`를 이넘 앞에 붙이는 이유는 컴파일 결과물의 코드양을 줄이기 위해서다.
+
+- 항상 속성에 고정 값만 넣어 주어야 한다.
