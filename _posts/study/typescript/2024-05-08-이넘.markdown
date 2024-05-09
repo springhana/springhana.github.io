@@ -1,8 +1,8 @@
 ---
 layout: post
 related_posts:
-  - /study/typescript/2024-05-07-유니언 타입과 인터섹션 타입.markdown
   - /study/typescript/2024-05-07-타입 별칭.markdown
+  - /study/typescript/2024-05-09-클래스.markdown
 title: 이넘
 categories:
   - study
