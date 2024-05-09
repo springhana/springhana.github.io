@@ -17,6 +17,12 @@ description: >
 * toc
 {:toc}
 
+> [(이코테 2021 강의 몰아보기) 4. 정렬](https://www.youtube.com/watch?v=KGyK-pNvWos&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=5)
+
+# **⭐ 나동빈님의 유튜브를 통해 확인해 주세요!!**
+
+---
+
 # 정렬
 
 정렬이란 데이터를 특정한 기준에 따라서 순서대로 나열하는 것을 말한다.
