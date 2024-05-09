@@ -1,0 +1,150 @@
+---
+layout: post
+related_posts:
+  - /study/typescript/2024-05-08-이넘.markdown
+title: 클래스
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/TypeScript.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 타입 클래스란?
+---
+
+* toc
+{:toc}
+
+# 클래스란?
+
+```ts
+function Person(first, last){
+  this.first = first;
+  this.last = last;
+}
+
+var capt = new Person('봄', '이슝');
+```
+
+생성자 함수는 `new`라는 키워드를 붙여서 호출하면 새로운 객체를 생성해준다.
+
+- 객체를 쉽게 찍어 내는 함수가 생성자 함수이다.
+
+```ts
+class Person {
+  constructor(first, last) {
+    this.first = first;
+    this.last = last;
+  }
+
+  sayHi() {
+    console.log('hi')
+  }
+}
+```
+
+- `constructor`는 **생성자** 
+- `sayHi()`는 **클래스 메서드**
+- `first`과 `last` :  **클래스 필드** 또는 **클래스 속성**
+
+`new` 키워드를 붙여 객체를 생성한다.
+
+클래스로 생성된 객체를 **클래스 인스턴스** 라고 한다.
+
+- 클래스도 상속을 해줄 수 있다.
+
+---
+# 클래스에 타입 지정
+
+타입스크립트로 클래스를 작성할 때는 생성자 메서드에서 사용될 클래스 속성들을 미리 정의해 주어야 한다.
+
+```ts
+class MyName {
+  name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  logName(first: string, last: string): string {
+    return first + last;
+  }
+}
+```
+
+---
+# 접근 제어자
+
+- 접근 제어자가 없는 경우는 다른 이용자가 마음대로 수정이 가능해서 예상치 못한 오류를 발생할 수 있다.
+
+<strong class="green_">public</strong>
+
+`public` 접근 제어자는 클래스 안에 선언된 속성과 메서드를 어디서든 접근할 수 있다.
+
+- 기본값은 `public`
+
+```ts
+class Developer {
+  public first: string;
+  public last: string;
+
+  ...
+}
+```
+
+<strong class="green_">private</strong>
+
+`private` 접근 제어자는 클래스 코드 외부에서 클래스의 속성과 메서드를 접근할 수 없다.
+
+```ts
+class Developer {
+  private first: string;
+  private last: string;
+
+  ...
+}
+```
+
+`private` 접근 제어자를 사용하면 클래스 코드 바깥에서는 해당 속성이나 메서드를 접근할 수 없다.
+
+<strong class="green_">protected</strong>
+
+`protected` 접근 제어자는 선언된 속성이나 메서드는 클래스 코드 외부에서 사용할 수 없지만 상속받은 클래스에서는 사용할 수 있다.
+
+```ts
+class Person {
+  private first: string;
+  private last: string;
+
+  constructor(first, last) {
+    this.first = first;
+    this.last = last;
+  }
+
+  protected sayHi() {
+    console.log('hi')
+  }
+}
+
+class Developer extends Person {
+  constructor(first, last) {
+    super(first, last);
+    this.sayHi()
+  }
+
+  myName() {
+    console.log(this.first + this.last);
+  }
+}
+
+```
+
+위의 코드에서는 `myName()` 함수에서 오류가 발생한다. 
+
+`first`과 `last`이 `private`을 설정 되어 있는데 다른 클래스에서 사용을 했기 때문이다.
+
+- `protected` 보호된 속성은 해당 클래스와 하위 클래스에서만 사용할 수 있다.
+
+## 주의 할점
+
+`private`의 실행 결과까지도 클래스 접근 제어자와 일치시키고 싶다면 자바스크립트의 `private` 문법 (`#`)을 사용하면 된다.
