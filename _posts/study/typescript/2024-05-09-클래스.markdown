@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - /study/typescript/2024-05-08-이넘.markdown
+  - /study/typescript/2024-05-11-제네릭.markdown
 title: 클래스
 categories:
   - study
