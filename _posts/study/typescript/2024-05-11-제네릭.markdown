@@ -2,14 +2,14 @@
 layout: post
 related_posts:
   - /study/typescript/2024-05-09-클래스.markdown
-title: 클래스
+title: 제네릭
 categories:
   - study
   - typescript
 image: /assets/img/typescript/TypeScript.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
-  타입스크립트 타입 클래스란?
+  타입스크립트 타입 제네릭이란?
 ---
 
 * toc
