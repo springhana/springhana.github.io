@@ -1,0 +1,129 @@
+---
+layout: post
+related_posts:
+  - /study/typescript/2024-05-09-클래스.markdown
+title: 클래스
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/TypeScript.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 타입 클래스란?
+---
+
+* toc
+{:toc}
+
+
+# 제네릭이란?
+
+제네릭은 타입을 미리 정의하지 않고 사용하는 시점에 원하는 타입을 정의해서 쓸 수 있는 문법이다.
+
+---
+# 기본 문법
+
+```ts
+function getText<T>(text: T): T {
+  return text;
+}
+```
+
+함수 이름 오른쪽에 `<T>`라고 적는다. 
+
+파라미터를 닫는 괄호 오른쪽에 콜론(`:`)을 붙이고 `T`를 적습니다. 마지막으로 파라미터 타입을 `T`로 정의한다.
+
+- 아무 타입이나 넘길 수 있다
+
+```ts
+getText<string>('hi'); // hi
+```
+
+## 인터페이스에 제네릭 사용하기
+
+제네릭은 함수뿐만 아니라 인터페이스에도 사용할 수 있다.
+
+```ts
+interface DropDown<T> {
+  value: T;
+  selected: boolean;
+}
+```
+
+인터페이스 이름 오른쪽에 `<T>`를 붙여 주고 인터페이스의 내부 속성 중 제네릭으로 받은 타입을 사용할 곳에 `T`를 연결한다.
+
+---
+# 왜 사용할까?
+
+## 중복되는 타입 코드의 문제점
+
+반복되는 타입 코드를 줄여 주기 때문이다.
+
+```ts
+function getText(text: string): string {
+  return text;
+}
+
+function getNumber(num: number): number {
+  return num;
+}
+```
+
+`DRY` (Don't Repear Yourself)라는 소프트웨어 개발 원칙이 있다.  중복해서 코드를 작성하지 말라는 의미이다.
+
+## 제네릭으로 해결되는 문제점
+
+동일한 동작의 코드를 타입 때문에 중복으로 선언하는 문제점과 `any` 타입으로 선언하면서 생기는 문제점을 제네릭으로 모두 해결할 수 있다.
+
+```ts
+function getText(text: string): string {
+  return text;
+}
+
+getText<string>('hi');
+```
+
+---
+# 타입 제약
+
+## extends
+
+- 몇 개의 타입만 제네릭으로 받고 싶다면?
+
+`extends` 키워드를이용한다.
+
+```ts
+function getText<T extneds string>(text: T): T {
+  return text;
+}
+```
+
+제네릭을 선언하는 부분에 `<T extends 타입>`과 같은 형태로 코드를 작성해준다.
+
+`extends` 키워드를 사용하여 제네릭의 타입을 제약할 수 있다.
+
+- 제네릭의 타입을 `length` 속성을 갖는 타입으로 제약했다.
+
+```ts
+function lengthOnly<T extends { length: number }>(value: T) {
+  return value.length
+}
+```
+
+## keyof
+
+`keyof`는 특정 타입의 키 값을 추출해서 문자열 유니언 타입으로 변환해 준다.
+
+```ts
+type DeveloperKeys = keyof { name: string; skill: string; }
+```
+
+`keyof`는 대상 타입의 키를 추출하여 유니언 타입으로 변환해 준다.
+
+```ts title:'keyof 키워드 사용'
+function printKeys<T extends keyof { name: string; skill: string; }>(value: T) {
+  console.log(value);
+}
+```
+
+제네릭을 정의하는 부분에 `extends`와 `keyof`를 조합해서 객체의 키만 타입으로 받겠다고 정의했다.

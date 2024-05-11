@@ -1,0 +1,153 @@
+---
+layout: post
+related_posts:
+  - /study/typescript2024-05-09-클래스.markdown
+title: 제네릭
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/typescript_logo.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  캡틴 판교의 쉽게 시작하는 타입스크립트, 10장 제네릭
+published : false
+---
+
+* toc
+{:toc}
+
+# 1. 제네릭이란?
+
+제네릭은 타입을 미리 정의하지 않고 사용하는 시점에 원하는 타입을 정의해서 쓸 수 있는 문법이다.
+
+타입스크립트에 대입해서 '타입을 넘기고 그 타입을 그대로 반환받는다.'는 것이 바로 제네릭이다.
+
+---
+# 2. 제네릭 기본 문법
+
+```ts
+function getText<T>(text: T): T {
+  return text;
+}
+```
+
+함수 이름 오른쪽에 `<T>`라고 적는다. 
+
+파라미터를 닫는 괄호 오른쪽에 콜론(`:`)을 붙이고 `T`를 적습니다. 마지막으로 파라미터 타입을 `T`로 정의한다.
+
+- 아무 타입이나 넘길 수 있다
+
+```ts
+getText<string>('hi'); // hi
+```
+
+`getText()` 함수를 호출할 때 제네릭에 문자열 데이터 타입인 `string` 타입을 할당한다.
+
+```ts
+function getText<string>(text: string): string {
+  return text;
+}
+
+function getText(text: string): string {
+  return text;
+}
+```
+
+두 코드 결과적으로 같은 코드이다.
+
+---
+# 3. 왜 제네릭을 사용할까?
+
+## 중복되는 타입 코드의 문제점
+
+반복되는 타입 코드를 줄여 주기 때문이다.
+
+`DRY` (Don't Repear Yourself)라는 소프트웨어 개발 원칙이 있다. 너 자신을 반복하지 말라, 즉 중복해서 코드를 작성하지 말라는 의미이다.
+
+## any를 쓰면 되지 않을까?
+
+`any`를 사용하기 때문에 타입스크립트 장점들이 사라진다.
+
+`any`로 타입을 지정한 까닭에 이처럼 오탈자가 발생하더라도 에러가 따로 표시되지 않는다.
+
+## 제네릭으로 해결되는 문제점
+
+동일한 동작의 코드를 타입 때문에 중복으로 선언하는 문제점과 `any` 타입으로 선언하면서 생기는 문제점을 제네릭으로 모두 해결할 수 있다.
+
+```ts
+function getText(text: string): string {
+  return text;
+}
+
+getText<string>('hi');
+```
+
+제네릭을 쓰면 타입 때문에 불필요하게 중복되던 코드를 줄일 수 있고 타입이 정확하게 지정되면서 타입스크립트 이점을 모두 가져갈 수 있다.
+
+---
+# 4. 인터페이스에 제네릭 사용하기
+
+제네릭은 함수뿐만 아니라 인터페이스에도 사용할 수 있다.
+
+모든 데이터 타입을 일일이 정의한다면 타입 코드가 많아져서 관리도 어렵고 번거로운 작업이 될 것이다.
+
+```ts
+interface DropDown<T> {
+  value: T;
+  selected: boolean;
+}
+```
+
+인터페이스 이름 오른쪽에 `<T>`를 붙여 주고 인터페이스의 내부 속성 중 제네릭으로 받은 타입을 사용할 곳에 `T`를 연결한다.
+
+---
+# 제네릭의 타입 제약
+
+## extends를 사용한 타입 제약
+
+- 몇 개의 타입만 제네릭으로 받고 싶다면?
+
+먼저 제네릭으로 문자열 타입만 받을 수 있도록 제네릭을 제약해 보겠다. `extends` 키워드를이용한다.
+
+```ts
+function getText<T extneds string>(text: T): T {
+  return text;
+}
+```
+
+제네릭을 선언하는 부분에 `<T extends 타입>`과 같은 형태로 코드를 작성해준다.
+
+`extends` 키워드를 사용하여 제네릭의 타입을 제약할 수 있다.
+
+## 타입 제약의 특징
+
+제네릭의 타입을 `length` 속성을 갖는 타입으로 제약했다.
+
+```ts
+function lengthOnly<T extends { length: number }>(value: T) {
+  return value.length
+}
+```
+
+## keyof를 사용한 타입 제약
+
+`keyof`는 특정 타입의 키 값을 추출해서 문자열 유니언 타입으로 변환해 준다.
+
+```ts
+type DeveloperKeys = keyof { name: string; skill: string; }
+```
+
+`keyof`는 대상 타입의 키를 추출하여 유니언 타입으로 변환해 준다.
+
+```ts
+function printKeys<T extends keyof { name: string; skill: string; }>(value: T) {
+  console.log(value);
+}
+```
+
+제네릭을 정의하는 부분에 `extends`와 `keyof`를 조합해서 객체의 키만 타입으로 받겠다고 정의했다.
+
+---
+# 제네릭을 처음 사용할 때 주의해야 할 사고방식
+
+함수 안에서 제네릭으로 지정된 파라미터를 다룰 때 코드 자동 완성이나 타입이 미리 정의된 효과는 얻을 수 없다.
