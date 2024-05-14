@@ -6,7 +6,7 @@ title: Promise 타입 정의
 categories:
   - study
   - typescript
-image: /assets/img/typescript/typescript_logo.png
+image: /assets/img/typescript/TypeScript.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
   타입스크립트 Promise 타입 정의
