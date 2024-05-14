@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - /study/typescript/2024-05-09-클래스.markdown
+  - /study/typescript/2024-05-14-프로미스 타입 정의.markdown
 title: 제네릭
 categories:
   - study

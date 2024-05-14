@@ -1,7 +1,8 @@
 ---
 layout: post
 related_posts:
-  - /study/typescript2024-05-09-클래스.markdown
+  - /study/typescript/2024-05-09-클래스.markdown
+  - /study/typescript/2024-05-14-두 번째 프로젝트-전화번호 부 앱.markdown
 title: 제네릭
 categories:
   - study
