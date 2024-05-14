@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - /study/2024-05-11-제네릭.markdown
+  - /study/2024-05-14-타입 추론.markdown
 title: 두 번째 프로젝트-전화번호 부 앱
 categories:
   - study
