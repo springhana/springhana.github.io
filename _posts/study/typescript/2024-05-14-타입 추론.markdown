@@ -1,0 +1,97 @@
+---
+layout: post
+related_posts:
+  - /study/2024-05-14-프로미스 타입 정의.markdown
+title: 타입 추론
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/typescript_logo.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 타입 추론
+---
+
+* toc
+{:toc}
+
+# 타입 추론이란?
+
+**타입 추론**이란 타입스크립트가 코드를 해석하여 적절한 타입을 정의하는 동작을 의미한다.
+
+```ts
+var a = 10; // number
+```
+
+변수를 초기화하거나 함수의 파라미터에 기본값을 설정하거나 반환값을 설정했을 때 지정된 값을 기반으로 적당한 타입을 제시하고 정의해 주는 것을 타입 추론이라 한다.
+
+변수를 설정할 때 기본값을 설정안해주면 타입은 `any` 타입으로 추론될 것이다. (함수의 파라미터도 같다.)
+
+- 어떤 값으로 변경될지 타입스크립트 입장에서는 알 수 없기 때문이다.
+
+---
+# 함수의 타입 추론
+
+```ts
+function sum(a: number, b: number) {
+  return a + b;
+}
+```
+
+`sum` 함수의 반환값은 `number`이다. 
+
+두 숫자를 더한 결과는 당연한 숫자이기 때문에 반환 타입이 `number`로 정의된 것이다.
+
+- 함수의 파라미터 타입과 내부 로직으로 반환 타입이 자동으로 추론된다는 것을 눈으로 확인할 수 있다.
+
+파라미터의 기본값을 줄 경우에는 기본값을 준 타입을 추론한다.
+
+```ts
+function getA(a = 10) {
+  return a;
+}
+
+var result = getA();
+console.log(result); // 10
+```
+
+기본값이 숫자 10이기 때문에 `a` 파라미터의 타입은 `number`로 추론된다. 
+
+- 함수의 파라미터에 값을 넘기거나 넘기지 않아도 되기 때문에 옵셔널 파라미터를 의미하는 `?`가 붙는다.
+
+---
+# 인터페이스와 제네릭
+
+인테페이스와 제네릭을 같이 사용하는 추론 방식이다.
+
+```ts
+interface Dropdown<T> {
+  title: string;
+  value: T;
+}
+
+let item: Dropdown<number> = {
+  title: '아이템',
+  value: 5
+}
+```
+
+`Dropdown` 인터페이스의 제네릭 타입으로 `number`를 넘겼기 때문에 `Dropdown<number>` 타입은 `value: number`같은 효과를 가져온다.
+
+## 상속
+
+```ts
+interface Dropdown<T> {
+  title: string;
+  value: T;
+}
+
+interface DetailedDropdown<K> extends Dropdown<K> {
+  tag: string;
+  description: string;
+}
+```
+
+`Dropdown` 인터페이스를 상속받는 `DetailedDropdown` 인터페이스를 선언했다. 제네릭도 같이 선언해 줬다.
+
+`extends`로 확장할 경우 `DetailedDropdown`에 넘겨준 제네릭 `<k>`가 `Dropdown`에 있는 제네릭 `<T>`까지 확장된다.
