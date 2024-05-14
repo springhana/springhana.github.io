@@ -1,0 +1,83 @@
+---
+layout: post
+related_posts:
+  - /study/2024-05-11-제네릭.markdown
+title: Promise 타입 정의
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/typescript_logo.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 Promise 타입 정의
+published : false
+---
+
+* toc
+{:toc}
+
+
+# 프로미스
+
+프로미스(promise)란 자바스크립트의 비동기 처리에 사용되는 객체이다. 
+
+```ts
+function fetchNum() {
+  return new Promise(function(resolve, reject) {
+    resolve(10);
+  });
+}
+
+fetchNum().then(function(data) {
+  console.log(data);
+})
+
+function fetchError() {
+  return new Promise(function(resolve, reject) {
+    reject('시스템 에러');
+  });
+}
+
+fetchError().catch(function(error) {
+  console.log(error);
+})
+```
+
+`then()` 안에서 콜백 함수를 정의하면 `resolve()`에 넘긴 값을 전달 받을 수 있다. 
+
+```ts
+fetchNum().then(function(data) {
+``  console.log(data); // 10
+})
+```
+
+`catch()` 구문을 이용하여 실패(에러) 처리를 할 수 있다.
+
+```ts
+fetchError().catch(function(error) {
+  console.log(error); // 시스템 에러
+})
+```
+
+- 프로미스는 비동기 처리에 사용되는 객체이다.
+- `new Promise()`의 첫 번째 파라미터는 `resolve()`고, 두 번째 파라미터는 `reject()`이다.
+- 프로미스가 실행되었을 때 성공한 값은 `resolve()`에 넣고, 실패한 값은 `reject()`에 넣는다.
+- 성공한 값은 `.then()`의 골백함수에서 전달받고, 실패한 값은 `.catch()`의 콜백 함수에서 전달받는다.
+
+# 프로미스 타입 정의하기
+
+프로미스 객체는 이미 타입스크립트 라이브러리 내부에 정의되어 있는 내장 타입이다.
+
+- 인터페이스로 정의되어 있고 제네릭 타입을 받을 수 있다.
+
+```ts
+function fetchContacts(): Promise<Contact[]> {
+  const cantacts: Contact[] = [
+    // ...
+  ];
+
+  return new Promise((resolve) => {
+    setTimeout(()=> resolve(contacts), 2000);
+  })
+}
+```
