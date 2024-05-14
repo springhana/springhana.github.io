@@ -1,0 +1,35 @@
+---
+layout: post
+related_posts:
+  - /log/etc
+title: 기타
+categories:
+  - log
+  - etc
+image: /assets/img/etc/obsidian_logo.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  기타 등등
+---
+
+* toc
+{:toc}
+
+# 문제
+
+옵시디언을 사용하던 중에 VsCode에서 복사한 코드를 옵시디언에 붙여넣기 할 때 한 줄씩 띄어지고 있다. 그래서 직접 고치거나 다른 방법으로 해결해야 한다.
+
+밑의 이미지 처럼 한 줄씩 띄워진다.
+
+<img src="/assets/img/etc/옵시디언 코맨드 전.png" />
+
+---
+# 해결
+
+- 윈도우의 경우 `Ctrl + Shift + v` 
+- 맥의 경우 `Command + Shift + v`
+
+
+위의 커맨드를 사용해주면 해결
+
+<img src="/assets/img/etc/옵시디언 코맨드 후.png" />
