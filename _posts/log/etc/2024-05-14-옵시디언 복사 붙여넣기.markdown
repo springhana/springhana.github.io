@@ -2,14 +2,14 @@
 layout: post
 related_posts:
   - /log/etc
-title: 기타
+title: 옵시디언 복붙 한 줄 띄워지는 코드 해결
 categories:
   - log
   - etc
 image: /assets/img/etc/obsidian_logo.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
-  기타 등등
+  옵시디언 복붙 한 줄 띄워지는 코드 해결하기
 ---
 
 * toc
