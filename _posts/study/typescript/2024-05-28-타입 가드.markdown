@@ -1,0 +1,240 @@
+---
+layout: post
+related_posts:
+  - /study/typescript/2024-05-14-타입 추론.markdown
+title: 타입 가드
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/TypeScript.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 타입 가드
+---
+
+* toc
+{:toc}
+
+# 타입 가드란?
+
+**타입 가드** 란 여러 개의 타입으로 지정된 값을 특정 위치에서 원하는 타입으로 구분하는 것을 의미한다.
+
+> 타입 시스템 관저메서는 넓은 타입에서 좁은 타입으로 타입 범위를 좁힌다는 의미
+
+---
+#  왜 타입 가드가 필요할까?
+
+- 타입 단언으로 타입 에러 해결하기
+
+```ts
+function updateInput(textInput: number | string | boolean) {
+  (textInput as number).toFixed(2);
+}
+```
+
+이렇게 하면 타입 에러는 해결되지만 다음과 같은 문제가 발생한다.
+
+1. 실행 시점의 에러는 막을 수 없다
+2. 타입 단언을 계속해서 사용해야 한다.
+
+- 타입 단언으로 해결됐을 때 문제점
+
+```ts
+function updateInput(textInput: number | string | boolean) {
+  (textInput as number).toFixed(2);
+  console.log((textInput as string)).length)
+}
+```
+
+번거로운 뿐만 아니라 반복적으로 똑같은 코드를 작성해야 하는 문제가 생긴다.
+
+---
+#  타입 가드 문법
+
+## typeof 연산자
+
+`typeof` 연산자는 자바스크립트 연산자이다.
+
+```ts
+typeof 10;
+typeof 'hello'
+typeof function() {}
+```
+
+각각 위에서 부터 `number`, `string`, 함수의 타입을 사용할 수 있다.
+
+```ts
+function printText(text: string | number) {
+  if(typeof text === 'string') {
+    console.log(text.trim())
+  }
+}
+```
+
+`typeof` 연산자를 사용하여 특정 위치에서 원하는 타입으로 구분할 수 있다.
+
+## instanceof 연산자
+
+`instanceof` 연산자는 자바스크립트 연산자이다.
+
+이 연산자는 변수가 대상 객체의 프로토타입 체인에 포함되는지 확인하여 `true/false`를 반환해 준다.
+
+```ts
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+class Person {
+  name: string;
+  age: number;
+
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+}
+
+function fetchInfoByProfile(profile: Person | string) {
+  if (profile instanceof Person) {
+    // 이 블록 안에서는 profile의 타입이 Person 타입으로 간주된다.
+  }
+}
+```
+
+`instanceof`는 주로 클래스 타입이 유니언 타입으로 묶여 있을 때 타입을 구분하기 위해 사용한다.
+
+## in 연산자
+
+`in` 연산자는 `typeof`, `instanceof` 연산자와 마찬가지로 자바스크립트 연산자이며 객체에 속성이 있는지 확인해 줍니다.
+
+객체에 특종 속성이 있으면 `true`를, 그렇지 않으면 `false`를 반환해 줍니다.
+
+```ts
+interface Book {
+  name: string;
+  rank: number;
+}
+
+interface OnlineLecture {
+  name: string;
+  url: string;
+}
+
+function learnCourse(meterial: Book | OnlineLecture) {
+  if ('url' in meterial) {
+    // 이 블록 안에서는 mterial의 타입이 OnlineLecture 타입으로 간주된다.
+  }
+}
+```
+
+`in` 연산자를 사용하여 인터페이스 2개가 유니언 타입으로 연결되어 있을 때 특정 인터페이스로 구분할 수 있다.
+
+- 모두 공통으로 있는 특정 타입을 사용하면 특정 타입으로 구분해 주지 않습니다.
+	-  타입 가드 역할을 하지 못한다.
+
+타입 가드로 특정 타입을 걸러 내려면 해당 타입이 다른 타입과 구분되는 유일한 특징을 조건으로 걸어야 한다.
+
+## switch 문
+
+타입 가드는 `if`문 말고도 `switch`문으로 적용할 수 있다.
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+  industry: 'common';
+}
+
+interface Developer {
+  name: string;
+  age: string;
+  industry: 'tech';
+}
+
+function greet(someone: Person | Developer) {
+  switch(someone.indstry) {
+    case: 'common':
+      console.log(someone.age.toFixed(2));
+      break;
+    case: 'tech':
+      console.log(someone.age.split(''));
+      break;
+  }
+}
+```
+
+## 논리 비교 연산자
+
+단순 논리 비교 연산자로 타입 가드를 적용할 수 있다.
+
+```ts
+function sayHi(message: string | null) {
+  if (message!.length >= 3) {
+    console.log(message);
+  }
+}
+```
+
+`message` 값이 `null`이 아니라는 의미의 `!` 연산자를 붙였기 때문에 `string` 타입으로 간주된다.
+
+## 타입 가드 함수
+
+타입 가드 함수란 타입 가드 역할을 하는 함수를 의미한다. 좀 더 복잡한 경우에도 사용할 수 있다.
+
+타입 가드 함수는 다음과 같이 `is` 연산자를 사용하여 여러 개의 타입 중 하나로 구분한다.
+
+```ts
+function isPerson(someone: Person | Developer): someone is Person {
+  return (someone as Person).age !== undefined;
+}
+```
+
+- `Person` 타입과 `Developer` 타입 중 `Person` 타입으로 구분하는 타입 가드 함수이다.
+
+유니언 타입으로 정의된 파라미터는 별도의 타입 가드를 적용하지 않으면 함수 내부에서 다음과 같이 공통 속성만 접근할 수 있다.
+
+```ts
+function greet(someone: Person | Developer) {
+  if(isPerson(someone)) {
+    console.log(someone.age)
+  } else {
+    console.log(someone.skill)
+  }
+}
+```
+
+타입 가드 함수를 사용하여 객체 여러 개의 타입 중 하나의 타입으로 구분할 수 있다.
+
+## 구분된 유니언 타입
+
+**구별된 유니언 타입** 이란 특정  속성 값으로 구분하는 타입 가드 문법을 의미한다.
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+  industry: 'common';
+}
+
+interface Developer {
+  name: string;
+  age: string;
+  industry: 'tech';
+}
+```
+
+`industry` 속성의 타입은 문자열 타입으로 같지만 받을 수 있는 문자열 자체의 값은 다르게 되어 있다.
+- 타입을 선언한 것이지 실제로 객체에 연결해서 값을 선언한 것은 아니다.
+
+두 타입에 모두 존재하면서 값으로 구분될 수 있는 속성이 바로 `indstry`이다.
+
+```ts
+function greet(someone: Person | Developer) {
+  if (someone.industry === 'common') {
+    // someone의 타입은 Person 타입으로 추론된다.
+  }
+}
+```
+
+속성 유무가 아니라 속성의 문자열 타입 값을 비교해서 타입을 구분해 내는 것이 구별된 유니언 타입이다.
