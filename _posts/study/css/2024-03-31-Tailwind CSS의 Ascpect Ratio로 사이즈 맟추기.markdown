@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - /study/css/2024-03-24-늦었지만 Tailwind CSS 사용하기.markdown
+  - /study/css/2024-06-09-스크롤 부드럽게하는 snap.markdown
 title: Tailwind CSS의 Ascpect Ratio로 사이즈 맟추기
 categories:
   - study
