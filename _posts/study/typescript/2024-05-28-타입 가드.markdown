@@ -2,7 +2,7 @@
 layout: post
 related_posts:
   - /study/typescript/2024-05-14-타입 추론.markdown
-  - /study/typescript/2024-06-02-타입 호환 copy.markdown
+  - /study/typescript/2024-06-02-타입 호환.markdown
 title: 타입 가드
 categories:
   - study

@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - /study/typescript/2024-05-28-타입 가드.markdown
+  - /study/typescript/2024-06-10-타입 모듈.markdown
 title: 타입 호환
 categories:
   - study
