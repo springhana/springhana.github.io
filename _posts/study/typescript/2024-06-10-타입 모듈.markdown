@@ -1,0 +1,179 @@
+---
+layout: post
+related_posts:
+  - /study/typescript/2024-06-02-타입 호환.markdown
+title: 타입 호환
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/TypeScript.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 타입 호환
+---
+
+* toc
+{:toc}
+
+# 모듈이란?
+
+**모듈(module)** 은 프로그래밍 관점에서 특정 기능을 갖는 작은 단위의 코드를 의미한다.
+
+`ex` 집에 물건과 가구들이 용도와 역할에 따라 정리되어 있듯이 코드도 역할과 목적에 따라서 구분되어 있는 것이 좋다.
+
+특정 목적을 가지는 기능들이 모인 작은 단위의 코드를 모듈이라고 한다.
+
+---
+#  모듈화 문법
+
+## import와 export
+
+ES6부터 `import`와 `export` 문법을 지원한다.
+
+```ts
+// math.js
+function sum(a, b) {
+  return a + b;
+}
+
+export { sum }
+```
+
+`export`로 함수를 지정했기 때문에 다른 파일에서 이 함수를 불러와 사용할 수 있다. 
+
+다음과 같이 `import` 문법으로 할 수 있다.
+
+```ts
+// app.js
+import { sum } from './math.js';
+console.log(sum(10, 20));
+```
+
+---
+# export 
+
+##  export default 문법
+
+`export` 문법은 앞서 살펴본 방식 이외에도 다음과 같이 `default` 구문을 사용할 수 있다.
+
+```ts
+// math.js
+function sum(a, b) {
+  return a + b;
+}
+
+export default sum;
+```
+
+`export`와 `default`를 붙이면 해당 파일에서 하나의 대상만 내보내겠다는 말과 같다.
+
+- `import` 구문에 `{}`를 붙이지 않아도 된다.
+
+```ts
+// app.js
+import sum from './math.js'
+```
+
+`default` 구문은 하나의 대상만 모듈에서 내보내고 싶을 때 사용한다.
+
+## export 위치
+
+`epxort`는 특정 파일에서 다른 파일이 가져다 쓸 기능을 내보낼 때 사용하는 키워드이다.
+
+변수, 함수, 클래스 등 선언한고 `export`로 다른 모듈에서 사용할 수 있게 내보낸다.
+
+내보낸 대상 앞에서 바로 `export`를 붙여도 상관없다.
+
+```ts
+export class Person {
+  ...
+}
+```
+
+개인 취향에 따라 어느 방식을 선택하든 크게 상관없지만 다음과 같이 섞어 쓰는 패턴은 지양하는 것이 좋다.
+
+---
+# import 
+###  import as 문법
+
+`import` 구문에 `as` 키워드를 이용하면 가져온 변수나 함수의 이름을 해당 모듈 내에서 변경하여 사용할 수 있다.
+
+```ts
+import sum as add from './math.js'
+```
+
+`as`로 `import`한 변수나 함수의 이름을 바꾸어서 사용할 수 있다.
+
+## import * 문법
+
+특정 파일에서 내보낸 기능이 많아 `import` 구문으로 가져와야 할 것이 많다면 `*` 키워드를 사용하여 편리하게 가져올 수 있다.
+
+```ts
+import * as myMath from './math.js'
+```
+
+`./math.js` 파일에서 `export` 키워드로 지정한 모든 변수와 함수를 `myMath`라는 이름을 붙여 사용하겠다는 의미다. 
+
+- `myMath`를 네임스페이스라고 봐도 된다.
+
+## import type 문법
+
+타입 코드일 때는 `type`이라는 키워드를 추가로 사용할 수 있다.
+
+```ts
+// hero.ts
+interface Hulk {
+  name: string;
+  skill: string;
+}
+
+export { Hulk };
+
+// app.ts
+import type { Hulk } from './hero';
+
+var banner: Hulk = {
+  name: '배너';
+  skill: '화내기';
+}
+```
+
+`import type` 문법을 적용한다.
+
+타입을 다른 파일에서 `import`로 가져오는 경우 `import type`을 사용하여 타입 코드인지 아닌지 명시할 수 있다.
+
+## import inline type 문법
+
+`import inline type` 문법은 변수, 함수 등 실제 값으로 쓰는 코드와 타입 코드를 같이 가져올 때 사용할 수 있다.
+
+여러 개를 가져올 때 어떤 코드가 타입인지 구분할 수 있는 장점이 있다.
+
+```ts
+import { type Hulk } from './hero'
+```
+
+`import` 구문으로 가져오는데 타입인 경우 `type`을 붙여 명시적으로 타입이라는 것을 강조해 준다.
+
+한 파일에서 `import`로 여러 개의 값과 코드를 가져올 때 `improt { type }` 형태를 이용하여 가져온 코드가 타입인지 아닌지 명시할 수 있다.
+
+---
+# 타입스크립트 모듈
+
+타입스크립트의 모듈은 지금까지 배운 모듈화 개념과 문법을 그대로 적용하면 된다.
+
+타입스크립트 파일에 작성된 변수, 함수, 클래스 등 기능을 `import`, `export` 문법으로 내보내거나 가져올 수 있다.
+
+타입스크립트 모듈을 다룰 때 추가로 알아야 할 점은 타입을 내보내거나 가져올 수 있다는 것이다.
+
+---
+# 모듈화 전력: Barrel
+
+여러 개의 파일에서 모듈을 정의하여 가져올 때 배럴(Barrel)이라는 전략을 사용하면 좋다. 배럴이란 여러 개의 파일에서 가져온 모듈을 마치 하나의 통처럼 관리하는 방식이다.
+
+```ts
+// ./hero/index.ts
+export { Banner } from './hulk'
+export { Tony } from './ironman'
+```
+
+여러 개의 모듈을 다룰 때는 마치 하나의 통에 가지런히 정리하듯이 배럴 모듈화 전력을 사용하여 코드 가독성을 높일 수 있다.
