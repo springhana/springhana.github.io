@@ -2,14 +2,14 @@
 layout: post
 related_posts:
   - /study/typescript/2024-06-02-타입 호환.markdown
-title: 타입 호환
+title: 타입 모듈
 categories:
   - study
   - typescript
 image: /assets/img/typescript/TypeScript.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
-  타입스크립트 타입 호환
+  타입스크립트 타입 모듈
 ---
 
 * toc
