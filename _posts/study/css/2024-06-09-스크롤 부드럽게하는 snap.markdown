@@ -2,14 +2,13 @@
 layout: post
 related_posts:
   - /study/css/2024-03-31-Tailwind CSS의 Ascpect Ratio로 사이즈 맟추기.markdown
-title: Tailwind CSS의 Ascpect Ratio로 사이즈 맟추기
+title: 스크롤 부드럽게하는 snap
 categories:
   - study
   - css
-image: /assets/img/css/Tailwind.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
-  Ascpect Ratio로 사이즈 맟추기
+  CSS의 snap 속성 사용해서 스크롤 부드럽게 해주기!
 ---
 
 * toc
