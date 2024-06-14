@@ -1,0 +1,181 @@
+---
+layout: post
+related_posts:
+  - /study/typescript/2024-06-10-타입 모듈.markdown
+title: 타입 모듈
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/TypeScript.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 타입 모듈
+---
+
+* toc
+{:toc}
+
+# 유틸리티 타입이란?
+
+**유틸리티 타입** 은 이미 정의되어 있는 타입 구조를 변경하여 재사용하고 싶을 때 사용하는 타입이다.
+
+- 타입스크립트 설정 파일의 `compilerOptions` 속성에 `lib` 속성을 추가한다.
+
+```json
+{
+  "compilerOptions": {
+    "lib": ["ESNext"]
+  }
+}
+```
+
+`lib`  속성은 타입스크립트에서 미리 정의해 놓은 타입 선언 파일을 사용할 때 쓰는 옵션이다.
+
+- `"ESNext"` : 타입스크립트에서 최신 문법을 의미한다.
+
+---
+# Pick 
+
+> `Pick` 유틸리티 타입은 특정 타입의 속성을 뽑아서 새로운 타입을 만를어 낼 때 사용한다.
+
+
+```ts
+Pick<타입 대상, '대상 타입의 속성 이름'>
+Pick<타입 대상, '대상 타입의 속성 이름1' | '대상 타입의 속성 이름2'>
+```
+
+```ts
+interface IUtility {
+  id: string;
+  name: string;
+  skill: string;
+}
+
+type UtilityWithId = Pick<IUtility, 'id'>;
+```
+
+`id`와 `name`, `skill`속성을 갖는 인터페이스를 하나 선언하고 이 인터페이스 `id` 속성을 뽑아 새로운 타입을 정의했다.
+
+```ts
+type UtilityWithId = {
+  id: string;
+}
+```
+
+결과적으로 이 코드처럼 타입 별칭을 정의하는 것과 같다.
+
+---
+# Omit 
+
+> `Omit` 타입은 특정 타입에서 속성 몇 개를 제외한 나머지 속성으로 새로운 타입을 생성할 때 사용하는 유틸리티 타입이다.
+
+
+```ts
+Omit<대상 타입, '대상 타입의 속성 이름'>
+Omit<대상 타입, '대상 타입의 속성 이름1' | '대상 타입의 속성 이름2'>
+```
+
+```ts
+interface IUtility {
+  id: string;
+  name: string;
+  skill: string;
+}
+
+type UtilityWithId = Omit<IUtility, 'id'>;
+```
+
+`id`, `name`, `skill` 속성을 갖는 인터페이슬ㄹ 하나 선언하고, `id` 속성을 제외한 나머지 속성들을 `Omit` 타입으로 새롭게 정의했다.
+
+```ts
+type UtilityWithId = {
+  name: string;
+  skill: string;
+}
+```
+
+결과적으로 이 코드처럼 타입 별칭을 정의하는 것과 같다.
+
+---
+# Partial
+
+> `Partial` 타입은 특정 타입의 모든 속성을 모두 옵션 속성으로 변환한 타입을 생성해준다.
+
+
+```ts
+Partial<대상 타입>
+```
+
+`Partial` 타입은 대상 타입만 넘기면 된다.
+
+```ts
+interface IUtility {
+  id: string;
+  name: string;
+  skill: string;
+}
+
+type OptionUtility = partial<IUtility>
+```
+
+속성에 옵션 속성 표시인 `?`가 붙어져 있다.
+
+```ts
+type OptionUtility = {
+  id?: string;
+  name?: string;
+  skill?: string;
+}
+```
+
+결과적으로 이 코드처럼 타입 별칭을 정의하는 것과 같다.
+
+---
+# Exclude
+
+> `Exclude` 타입은 특정 타입의 속성을 모두 옵션 속성으로 변경해준다.
+
+
+```ts
+Exclude<대상 유니언 타입, '제거할 타입 이름'>
+Exclude<대상 유니언 타입, '제거할 타입 이름1' | '제거할 타입 이름2'>
+```
+
+`Exclude` 타입은 첫 번째 제네릭 타입에 변형할 유니언 타입을 넣고, 두 번째 제네릭 타입으로 제외할 타입 이름은 문자열 타입으로 적거나 문자열 유니언 타입으로 넣어주면 된다.
+
+```ts
+type Language = "C" | "Java" | "TypeScript" | "React"
+type TrueLanguage = Exclude<Language, "React">
+```
+
+```ts
+type TrueLanguage = "C" | "Java" | "TypeScript"
+``` 
+
+결과적으로 이 코드처럼 타입 별칭을 정의하는 것과 같다.
+
+---
+# Record
+
+> `Record` 타입은 1개를 속성의 키(key)로 받고 다른 타입 1개를 속성 값(value)으로 받아 객체 타입으로 변환해 준다.
+
+
+```ts
+Record<객체 속성의 키(key)로  사용할 타입, 객체 속성의 값(value)으로 사용할 타입>
+```
+
+```ts
+type Language = "C" | "Java" | "TypeScript" | "React"
+type RecordLanguage = Record<Language, string>
+```
+
+```ts
+type RecordLanguage = {
+  "C": string;
+  "Java": string;
+  "TypeScript": string;
+  "React": string;
+}
+```
+
+결과적으로 이 코드처럼 타입 별칭을 정의하는 것과 같다.
