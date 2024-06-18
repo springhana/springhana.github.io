@@ -2,14 +2,14 @@
 layout: post
 related_posts:
   - /study/typescript/2024-06-10-타입 모듈.markdown
-title: 타입 모듈
+title: 유틸리티 타입
 categories:
   - study
   - typescript
 image: /assets/img/typescript/TypeScript.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
-  타입스크립트 타입 모듈
+  타입스크립트 유틸리티 타입
 ---
 
 * toc
