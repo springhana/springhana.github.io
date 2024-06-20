@@ -2,14 +2,13 @@
 layout: post
 related_posts:
   - /log/etc/2024-05-14-옵시디언 복사 붙여넣기.markdown
-title: 옵시디언 복붙 한 줄 띄워지는 코드 해결
+title: Vercel 배포 Application error
 categories:
   - log
   - etc
-image: /assets/img/etc/obsidian_logo.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
-  옵시디언 복붙 한 줄 띄워지는 코드 해결하기
+  Vercel 배포 Application error
 ---
 
 * toc
