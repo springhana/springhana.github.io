@@ -1,0 +1,239 @@
+---
+layout: post
+related_posts:
+  - /study/typescript/2024-06-20-맵드 타입.markdown
+title: 타입스크립트 설정 파일
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/TypeScript.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 타입스크립트 설정 파일
+---
+
+* toc
+{:toc}
+
+# 타입스크립트 설정 파일
+
+타입스크립트 설정 파일은 타입스크립트 프로젝트가 이떻게 컴파일될지 옵션을 정의하는 파일이다.
+
+- 컴파일할 대상 파일, 폴더, any 타입의 사용 여부, 모듈 형태, 컴파일 결과물의 위치 등 다양한 옵션을 정의할 수 있다.
+
+> 타입스크립트 설정 파일은 프로젝트 루트에 위치해야 하며 JSON 파일 형식으로 작성해야 한다.
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5"
+  }
+}
+```
+
+- 타입스크립트 설정 파일은 `tsc`라는 타입스크립트 컴파일 명령어를 실행할 때 자동으로 인식된다.
+
+```base
+tsc index.ts --noEmitOnError
+```
+
+`index.ts` 파일을 컴파일할 때 타입 에러가 발생하면 컴파일 결과물은 생성하지 말라는 의미이다.
+
+ --- 
+# 설정 파일 생성
+
+```base
+tsc --init
+```
+
+이 명령어를 터미널에서 실행하려면 라이브러리를 시스템 전역 레벨에 설치하거나 `npx` 명령어를 사용한다.
+
+1. 라이브러리를 시스템 전역 레벨에 설치
+```base
+npm install typescript --golbal
+tsc --init
+```
+
+2. `npx` 명령어를 사용
+```base
+npx typescript tsc --init
+```
+
+- `npx`는 Node package eXecute의 약어로 NPM 패키지를 설치하지 않고 실행할 수 있는 도구다.
+
+---
+# 루트 옵션
+
+루트 옵션은 컴파일할 대상 파일이나 폴더를 지정하는 등 프로젝트 전반적인 환경 구성과 관련된 옵션이다.
+
+## files
+
+타입스크립트 컴파일 대상 파일의 목록을 의미한다.
+
+```json
+{
+  "files": ["대상파일.ts"]
+}
+```
+
+위의 설정해둔 파일 목록 중 하나라도 맞지 않으면 컴파일이 되지 않는다.
+## include
+
+타입스크립트 컴파일 대상 파일의 패턴을 속성이다. 
+
+- 특정 폴더 위치나 파일 확장자를 기준으로 정할 수 있다.
+
+```json
+{
+  "include": ["src/*", "tests/*.spec.ts"]
+}
+```
+
+src폴더 아래에 있는 모든 파일과 tests 폴더 아래 sepc.ts 확장자를 가진 모든 파일을 컴파일 대상으로 지정했다.
+
+- 와일드 카드(`*`)
+	- `*` : 디렉터리 구분자를 제외한 모든 파일 이름
+	- `**/` : 해당 폴더의 모든 하위 폴더 
+
+---
+# exclude
+
+타입스크립트 컴파일을 위해 `include`속성에 정의된 파일들을 검색할 때 컴파일에서 배제할 파일 목록을 정의할 수 있다.
+
+- `include` 속성에 포함된 파일만 배제한다.
+
+```json
+{
+  "exclude": ["node_module"]
+}
+```
+
+`include` 속성을 별도로 지정하지 않으면 전체 파일을 모두 컴파일 대상으로 정의한다.
+
+`exclude`속성으로 `node_module` 폴더를 컴파일에서 제외한다.
+
+---
+# extends
+
+여러 타입스크립트 프로젝트에서 설정 파일을 공통으로 사용하거나 빌드용 타입스크립트 설정을 분리하고  싶을 때 사용한다.
+
+- `base.json`
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5"
+  }
+}
+```
+
+- `tsconfig.json`
+
+```json
+
+{
+  "extends": "./base",
+  "compilerOptions": {
+    "strict": true
+  }
+}
+```
+
+`extends` 속성으로 `base.json`파일을 `tsconfig.json` 파일에서 상속을 받았다.
+
+---
+# compilerOptions(컴파일러 옵션)
+
+컴포일러 옵션은 타입스크립트 컴파일 작업을 진행할 때 타입 검사 레벨, 타입 라이브러리, 모듈 등 세부적인 내용을 정의할 수 있다.
+
+## target
+
+타입스크립트 검파일 결과물이 어떤 자바스크립트 문법으로 변환될지 정의하는 옵션이다.
+
+- ES3 부터 최신 자바스크립트 문법을 의미하는 ESNext까지 있다.
+
+## lib
+
+브라우저 DOM API나 자바스크립트 내장 API를 위해 선언해 놓은 타입 선언 파일을 의미한다. 
+
+- **브라우저 DOM API**는 화면을 조작하는 `document,querySelector()` API나 비동기 처리를 위한 `setTimeout()` API를 의미한다.
+- **자바스크립트 내장 API**는 `Math`, `Promise`, `Set` 등 자바스클비트 문법으로 지원되는 API를 의미한다.
+
+## strict
+
+타입스크립트의 타입 체그 수준을 정의할 수 있는 옵션이다.
+
+- `true`, `false`로 정의할 수 있다.
+
+`strict` 모드를 키면
+
+1. `noImliciAny`
+2. `noImplicitThis`
+3. `strictNullCecks`
+4. `strictBindCallApply`
+5. `strictFunctionTypes`
+6. `strictPropertyInitialization`
+7. `alwaysStrict`
+8. `useUnknownInCatchVariables`
+
+옵션  속성을 모두 묶어서 `strict` 속성 하나로 제어할 수 있다.
+
+`strict mode family`로 지칭한다.
+
+| 속성 이름                        | 역할                                                                       |
+| :--------------------------- | ------------------------------------------------------------------------ |
+| noImliciAny                  | 타입 정의가 안 된 코드에서 경고를 표시하는이다.(타입을 모른다면 `any` 타입으로도 명시해야 한다.)               |
+| noImplicitThis               | `this` 탕비이 암묵적으로 `any` 타입을 기리키먄 에러를 표시하는 옵션이다.                           |
+| strictNullCecks              | `null`과 `undefined` 값이 모두 타입으로 취급되도록 타입 검사 수준을 높이는 옵션이다.                 |
+| strictBindCallApply          | 자바스크립트의 `call()`, `bind()`, `apply()` API를 사용할 때 인자 타입이 적절한지 검사하는 옵션이다.  |
+| strictFunctionTypes          | 함수의 파라미터 타입을 엄격하게 검사하는 옵션이다.                                             |
+| strictPropertyInitialization | 클래스 안에서 속성 타입이 정의되고 생성자에서 초기화까지 되어 있는지 검사하는 옵션이다.                        |
+| alwaysStrict                 | `use strict` 모드로 파일을 검파일하고, 컴파일한 파일 위에 `'use strict'` 코드를 추가하는 옵션이다.<br> |
+| useUnknownInCatchVariables   | `try catch`구문에서 `catch`의 `err` 파라미터 타입을 `unknown`으로 변환해주는 옵션이다.<br>      |
+
+### allowJS
+
+타입스크립트 프로젝트에서 자바스크립트 파일도 함께 사용하고 싶을 때 추가하는 옵션이다.
+
+### sourceMap
+
+소스맵이라는 기능을 켜고 끄는 옵션이다.
+
+> 소스맵이란 타입스크립트뿐만 아니라 프론트엔드 빌드 도구에서 흔하게 사용되는 기능으로써 디버깅을 편하게 하는 역할을 한다.
+
+### jsx
+
+라이브러리인 리액트와 관련이 있다. jsx 문법이 자바스크립트에서 어떻게 변환될지 결정할 수 있다.
+
+- jsx란 javascript Syntax eXrension을 의미한다.
+
+| 옵션 이름        | 역할                                                   |
+| :----------- | ---------------------------------------------------- |
+| preserve     | jsx 코드를 별도의 API로 변환하지 않고 최신 자바스크립트 문법과 라이브러리만 추가해준다. |
+| react        | jsx 코드를 React.createElement() 문법으로 변환해준다             |
+| react-jsxdev | jsx 코드를 1번과 같이 변환해준다.                                |
+| react-native | preserve옵션과 동일하게 변환해 준다.                             |
+
+`1번`
+
+```ts
+import { jsxDEV as _jsxDEV } from 'react/jsx-dev-runtime';
+const _jsxFileName = '/home/runer/word/TypeScript-Website/TypeScript-Website/index.ts';
+import React from 'react';
+export const App = () => _jsxDEV('div', { children: 'Hello React' }, void 0, false, { fileName: _jsxFileName, lineNumber: 9, columnNumber: 32 }, this);
+```
+
+### baseUrl
+
+프로젝트의 모듈 해석 기준 경로를 정의하는 옵션이다. 
+
+- 개발 툴에서 파일 자동 완성을 올바르게 지원받는 것과도 연관이 있다.
+
+### paths
+
+특정 모듈을 `import`할때 어디서 가져올지 경로를 지정할 수 있는 옵션이다.
+
+### removeComments
+
+타입스크립트 컴파일 할 때 주석을 제거해 주는 옵션이다.
+
