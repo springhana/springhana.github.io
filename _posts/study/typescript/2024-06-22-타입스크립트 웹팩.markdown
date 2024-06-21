@@ -1,0 +1,87 @@
+---
+layout: post
+related_posts:
+  - /study/typescript/2024-06-22-타입스크립트 설정 파일.markdown
+  - /study/typescript/2024-06-22-타입 선언.markdown
+title: 타입스크립트 웹팩
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/TypeScript.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 타입스크립트 웹팩 설정하기
+---
+
+* toc
+{:toc}
+
+타입스크립트를 사용하는 대부분의 프로젝트는 React나 Vue 같은 개발 프레임워크와 웹팩또는 롤업이라는 빌드 도구를 사용한다.
+
+- 파일 변환
+	- ts 파일을 js 파일로 변환하거나, 최신 js 문법을 예전 js 문법으로 변환하거나, scss 파일을 css 파일로 변환하는 등 빌드 작업을 의미
+- 파일 압축
+	- 페이지 로딩 속도를 높이려는 파일을 압축하여 용량을 줄인다.
+- 파일 병합
+	- 여러 개의 파일을 하나의 파일로 병합하여 네트워크 요청 시간을 줄인다.
+
+웹 서비스 프로젝트에서는 대부분 웹팩을 사용하 것이다.
+
+> 웹팩이 React나 Vue같은 프레임워크는 기본 권장 도구로 설정되어 있다.
+
+---
+# 웹팩이란?
+
+웹팩은 **모듈 번들러**이자 프론트엔트 개발 빌드 도구이다.
+
+모듈 번들러는 여러개의 모듈을 하나의 모듈로 병합해 준다는 의미다.
+
+![[웹팩.png]]
+
+<img src="/assets/img/typescript/웹팩.png" alt="이미지">
+
+<span style="color:gray"> 웹팩 공식 사이트</span>
+
+왼쪽에는 `js`, `png`,`sass` 등 웹 애플리케이션을 구성하는 리소스들이 서로 연결되어 있고, 오른쪽에는 `js`, `css`, `jpg`, `png` 등 정적 자원이 있다. 가운데에는 웹팩의 로고가 있다.
+
+이 그림이 의미로는 여러 개의 파일을 하나로 병합하고 웹 서버에 바로 올려서 사용자들이 접근할 수 있는 형태의 파일로 변환해 준다는 것이다.
+
+웹백은 애플리케이션을 구성하는 리소스, 즉 `js`, `css`, `jpg` 파일 등을 각각 하나의 모듈로 취급한다.
+
+---
+# 웹팩 설정하기
+
+```js
+const path = require('path')
+
+module.exports = {
+  entry: './src/index.ts',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_module/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: [',tsx', '.ts', '.js'],
+  },
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+}
+```
+
+> React나 Vue 같은 프레임워크를 사용하면 직접 작성할 필요가 없다. 
+> 
+> CRA(Create React App)나 CNA(Create Next App), Vue CLI처럼 프로젝트 생성 도구로 프로젝트를 생성했을 때 내부에 이미 다 정의되어 있기 때문이다.
+
+- `entry` : 웹팩의 진입점
+- `module` : 웹팩의 로더를 의미
+	- 자바스크립트 파일을 제외한 `css`, `jpg`, `ttf` 파일들을 모듈로 취급하려면 로더를 설정해 주어야 한다.
+- `resolve` : 웹팩의 모듈 해석 방식을 정의해 준다.
+	- `extensions`에 적힌 파일 확장자는 import 구문을 사용할 때 파일 확장자를 적지 않아도 인식하겠다는 의미다.
+- `output` : 웹팩으로 빌드된 결과물에 대한 설정이다.

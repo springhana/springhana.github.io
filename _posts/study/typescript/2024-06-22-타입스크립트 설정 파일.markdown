@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - /study/typescript/2024-06-20-맵드 타입.markdown
+  - /study/typescript/2024-06-22-타입스크립트 웹팩.markdown
 title: 타입스크립트 설정 파일
 categories:
   - study

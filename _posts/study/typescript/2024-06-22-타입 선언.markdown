@@ -1,0 +1,54 @@
+---
+layout: post
+related_posts:
+  - /study/typescript/2024-06-22-타입스크립트 웹팩.markdown
+title: 타입 선언
+categories:
+  - study
+  - typescript
+image: /assets/img/typescript/TypeScript.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  타입스크립트 타입스크립트 타입 선언
+---
+
+* toc
+{:toc}
+
+# 타입 선언
+
+타입 선언 파일은 `.d.ts` 확장자를 갖는 타입스크립트 파일을 의미한다.
+
+> 프로젝트에서 자주 사용되는 공통 타입이나 프로젝트 전반에 걸쳐 사용하는 라이브러리 타입을 정의하는 공간이다.
+
+
+프로젝트 루트 레벨에 정의해 놓으면 자동으로 프로젝트 내 타입스크립트 파일에서 해당 타입을 인식한다.
+
+먼저 `animal.d.ts`라는 타입 선언 파일을 선언해준다.
+
+```ts
+interface Animal {
+  nmae: string;
+  type: string;
+}
+```
+
+그리고 `index.ts` 파일에서 타입 선언 파일의 타입을 사용한다.
+
+```ts
+const Cat: Animal = {
+  name: '초코',
+  type: 'cat'
+}
+```
+
+`.d.ts` 확장자로 선언했기 때문에 선언되면 바로 프로젝트에서 인식할 수 있다.
+
+- 별도로 `import` 하지 않아도 사용할 수 있다.
+
+---
+# 언제 사용해야 할까?
+
+타입 선언 파일을 사용하면 타입 코드를 작성하지 않고 다른 파일에 분리해 놓을 수 있는 이점이 있다.
+
+자주 사용되는 공통 타입을 별도로 `exports`하거나 `import`하지 않고 프로젝트 레벨에서 자동으로 인식하게 할 수 있다.
