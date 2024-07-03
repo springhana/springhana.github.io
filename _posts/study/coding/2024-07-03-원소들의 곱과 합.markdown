@@ -1,0 +1,40 @@
+---
+layout: post
+related_posts:  
+  - _posts/study/coding/2024-07-03-이어 붙인 수.markdown
+title: 원소들의 곱과 합
+categories:
+  - study
+  - coding
+image: /assets/img/coding/프로그래머스/원소들의 곱과 합 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - 원소들의 곱과 합
+---
+
+* toc
+{:toc}
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181929#">원소들의 곱과 합 문제 풀어보기</a>
+
+<img src="/assets/img/coding/프로그래머스/원소들의 곱과 합 문제.png" alt="문제" />
+
+
+```python
+from functools import reduce
+
+def multiply(x, y):
+    return x * y
+
+
+def solution(num_list):  
+    if sum(num_list) ** 2 > reduce(multiply, num_list):
+        return 1
+    else:
+        return 0
+```
+
+파이썬에서 제공 해주는 패키지인 `reduce`를 사용해서 배열에 있는 정수들을 합할 수 있었다.
+
+그리고 `sum`을 사용해서 한 번에 계산한 후 `**` 제곱해주고 조건에 따라 리턴 해준다.
