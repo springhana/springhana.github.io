@@ -1,0 +1,40 @@
+---
+layout: post
+related_posts:  
+  - _posts/study/coding/2024-07-03-이어 붙인 수.markdown
+title: 마지막 두 원소
+categories:
+  - study
+  - coding
+image: /assets/img/coding/프로그래머스/마지막 두 원소 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - 마지막 두 원소
+---
+
+* toc
+{:toc}
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181927">마지막 두 원소 문제 풀어보기</a>
+
+<img src="/assets/img/coding/프로그래머스/마지막 두 원소 문제.png" alt="문제" />
+
+```python
+def solution(num_list):    
+    if num_list[-1] > num_list[-2]:
+        num_list.append(num_list[-1] - num_list[-2])
+    else:
+        num_list.append(num_list[-1] * 2)
+            
+    return num_list
+```
+
+파이썬은 `array[-1]` 이렇게 배열에 -1을 주게 되면 제일 마지막 인덱스를 가리킨다. 
+
+- -2는 마지막에서 두번째를 뜻한다.
+
+
+
+> [!note]
+> 프로그래머스는 백준과 다르게 직접 값을 입력하는 로직을 만들지 않아도 되는것 같다.
