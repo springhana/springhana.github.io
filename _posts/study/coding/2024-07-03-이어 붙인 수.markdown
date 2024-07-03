@@ -1,0 +1,43 @@
+---
+layout: post
+related_posts: 
+  - _posts/study/coding/2024-07-03-마지막 두 원소.markdown
+  - _posts/study/coding/2024-07-03-원소들의 곱과 합.markdown
+title: 이어 붙인 수
+categories:
+  - study
+  - coding
+image: /assets/img/coding/프로그래머스/이어 붙인 수 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - 이어 붙인 수
+---
+
+* toc
+{:toc}
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181928">이어 붙인 수 문제 풀어보기</a>
+
+<img src="/assets/img/coding/프로그래머스/이어 붙인 수 문제.png" alt="문제" />
+
+
+```python
+def solution(num_list):
+    even = ""
+    odd = ""
+
+    for i in num_list:
+        if i % 2 == 0:
+            even += str(i)
+        else:
+            odd += str(i)
+    
+    return int(even) + int(odd)
+```
+
+`even`과 `odd`를 저장할 수 있는 변수를 따라 만들어서 관리했다. 
+
+짝수와 홀수를 `str` 문자로 더해준다.
+
+반환해 줄 때 홀수와 짝수를 더해줘야 하기 때문에 `int` 정수로 반환해준다.
