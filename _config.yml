@@ -68,7 +68,14 @@ menu:
         url: /css/
       - title: COMPUTER SCIENCE
         url: /computerscience/
-      - title: CODING TEST
+  - title: CODING TEST
+    url: /coding/
+    submenu: 
+      - title: 이것이 코딩 테스트다.
+        url: /coding/
+      - title: 백준
+        url: /coding/
+      - title: 코딩 테스트
         url: /coding/
   - title: LOG
     url: /log/
