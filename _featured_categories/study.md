@@ -19,7 +19,6 @@ sitemap: false
 - [HTML]{:.heading.flip-title} --- HTML
 - [CSS]{:.heading.flip-title} --- CSS
 - [ComputerScience]{:.heading.flip-title} --- 컴퓨터 지식
-- [Coding]{:.heading.flip-title} --- 코딩 테스트
 
 [JavaScript]: /javascript/
 [TypeScript]: /typescript/
@@ -29,4 +28,3 @@ sitemap: false
 [HTML]: /html/
 [CSS]: /css/
 [ComputerScience]: /computerscience/
-[Coding]: /coding/
