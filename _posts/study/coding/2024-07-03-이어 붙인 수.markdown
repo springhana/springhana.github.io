@@ -2,7 +2,7 @@
 layout: post
 related_posts: 
   - _posts/study/coding/2024-07-03-마지막 두 원소.markdown
-  - _posts/study/coding/2024-07-03-원소들의 곱과 합.markdown
+  - _posts/study/coding/2024-07-07-수 조작하기1.markdown
 title: 이어 붙인 수
 categories:
   - study
