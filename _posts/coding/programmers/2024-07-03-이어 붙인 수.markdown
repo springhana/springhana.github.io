@@ -6,7 +6,7 @@ related_posts:
 title: 이어 붙인 수
 categories:
   - coding
-  - coding
+  - programmers
 image: /assets/img/coding/프로그래머스/이어 붙인 수 썸네일.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >

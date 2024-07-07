@@ -6,7 +6,7 @@ related_posts:
 title: 원소들의 곱과 합
 categories:
   - coding
-  - coding
+  - programmers
 image: /assets/img/coding/프로그래머스/원소들의 곱과 합 썸네일.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >

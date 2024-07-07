@@ -5,7 +5,7 @@ related_posts:
 title: 마지막 두 원소
 categories:
   - coding
-  - coding
+  - programmers
 image: /assets/img/coding/프로그래머스/마지막 두 원소 썸네일.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
