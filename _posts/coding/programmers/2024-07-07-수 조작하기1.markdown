@@ -1,0 +1,54 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/coding/2024-07-03-이어 붙인 수.markdown
+  - _posts/coding/coding/2024-07-07-수 조작하기2.markdown
+title: 수 조작하기 1
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/수 조작하기 1 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - 수 조작하기 1
+---
+
+* toc
+{:toc}
+
+# 수 조작하기 1
+
+## 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181926">수 조작하기 1 문제 풀어보기</a>
+
+<img src="/assets/img/coding/프로그래머스/수 조작하기 1 문제 1.png" alt="문제" />
+
+<img src="/assets/img/coding/프로그래머스/수 조작하기 1 문제 2.png" alt="문제" />
+
+## 풀이
+
+```python
+def solution(n, control):
+    answer = n
+    
+    for i in control:
+        if i == 'w':
+            answer += 1
+        elif i == 's':
+            answer -= 1
+        elif i == 'd':
+            answer += 10
+        elif i == 'a':
+            answer -= 10
+    
+    return answer
+```
+
+이 문제는 'w', 's', 'd', 'a' 에 따라서 조건 처리를 해주면 된다. 
+
+파라미터 `n`을 결과를 반환해줄 `answer`에 담아주고 `control`을 `for`문을 이용해서 문자 하나 하나 반복해주면 된다.
+
+`if`문이나 `switch`문을 사용해서 풀어주면 된다.
+
