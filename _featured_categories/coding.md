@@ -15,6 +15,6 @@ sitemap: false
 - [Baekjoon]{:.heading.flip-title} --- 백준
 - [Programmers]{:.heading.flip-title} --- 프로그래머스
 
-[This is CodingTest]: /coding/
+[This is CodingTest]: /codingtest/
 [Baekjoon]: /baekjoon/
 [Programmers]: /programmers/

@@ -1,0 +1,19 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/coding/2024-07-07-수 조작하기1.markdown
+title: 수 조작하기 2
+categories:
+  - coding
+  - baekjoon
+image: /assets/img/coding/프로그래머스/이어 붙인 수 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 백준
+---
+
+* toc
+{:toc}
+
+# 백준 문제

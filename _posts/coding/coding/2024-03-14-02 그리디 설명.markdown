@@ -1,12 +1,12 @@
 ---
 layout: post
 related_posts:
-  - _posts/coding/coding/2024-03-14-01.알고리즘 성능 평가.markdown
-  - _posts/coding/coding2024-03-15-02.그리디 문제편.markdown
+  - _posts/coding/codingtest/2024-03-14-01.알고리즘 성능 평가.markdown
+  - _posts/coding/codingtest-03-15-02.그리디 문제편.markdown
 title: 02 그리디 (설명)
 categories:
   - coding
-  - coding
+  - codingtest
 image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >

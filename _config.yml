@@ -72,7 +72,7 @@ menu:
     url: /coding/
     submenu: 
       - title: 이것이 코딩 테스트다.
-        url: /coding/
+        url: /codingtest/
       - title: 백준
         url: /baekjoon/
       - title: 프로그래머스

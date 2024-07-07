@@ -1,12 +1,12 @@
 ---
 layout: post
 related_posts:
-  - _posts/coding/coding/2024-06-24-07 다이나믹 프로그래밍 문제.markdown
-  - _posts/coding/coding/2024-07-02-09 그래프 이론.markdown
+  - _posts/coding/codingtest/2024-06-24-07 다이나믹 프로그래밍 문제.markdown
+  - _posts/coding/codingtest/2024-07-02-09 그래프 이론.markdown
 title: 08 최단 경로 (설명)
 categories:
   - coding
-  - coding
+  - codingtest
 image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
 permalink: '/:categories/:year/:month/:day/:title/'
 description: >
