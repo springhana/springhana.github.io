@@ -1,10 +1,10 @@
 ---
 layout: post
 related_posts:  
-  - _posts/study/coding/2024-07-03-이어 붙인 수.markdown
+  - _posts/coding/coding/2024-07-03-원소들의 곱과 합.markdown
 title: 마지막 두 원소
 categories:
-  - study
+  - coding
   - coding
 image: /assets/img/coding/프로그래머스/마지막 두 원소 썸네일.png
 permalink: '/:categories/:year/:month/:day/:title/'

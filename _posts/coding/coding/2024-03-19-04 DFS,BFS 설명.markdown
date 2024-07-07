@@ -1,11 +1,11 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/coding/2024-03-18-03 구현 문제.markdown
-  - _posts/study/coding/2024-04-05-04 DFS,BFS 문제.markdown
+  - _posts/coding/coding/2024-03-18-03 구현 문제.markdown
+  - _posts/coding/coding/2024-04-05-04 DFS,BFS 문제.markdown
 title: 04 DFS/BFS (설명)
 categories:
-  - study
+  - coding
   - coding
 image: /assets/img/coding/이것이 코딩테스트다. 파이썬.png
 permalink: '/:categories/:year/:month/:day/:title/'
