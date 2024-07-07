@@ -17,10 +17,15 @@ description: >
 * toc
 {:toc}
 
+# 원소들의 곱과 합 썸네일
+
+## 문제
+
 > <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181929#">원소들의 곱과 합 문제 풀어보기</a>
 
 <img src="/assets/img/coding/프로그래머스/원소들의 곱과 합 문제.png" alt="문제" />
 
+## 풀이
 
 ```python
 from functools import reduce

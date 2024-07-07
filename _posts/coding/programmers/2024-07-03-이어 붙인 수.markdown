@@ -17,10 +17,16 @@ description: >
 * toc
 {:toc}
 
+# 이어 붙인 수
+
+## 문제
+
 > <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181928">이어 붙인 수 문제 풀어보기</a>
 
 <img src="/assets/img/coding/프로그래머스/이어 붙인 수 문제.png" alt="문제" />
 
+
+## 풀이
 
 ```python
 def solution(num_list):
