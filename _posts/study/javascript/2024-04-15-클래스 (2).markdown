@@ -1,7 +1,8 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/javascript/2024-04-05-클로저.markdown
+  - _posts/study/javascript/2024-04-09-클래스 (1).markdown
+  - _posts/study/2024-07-09-ES6 함수의 추가 기능.markdown
 title: 클래스 (2)
 categories:
   - study
