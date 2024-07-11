@@ -1,7 +1,8 @@
 ---
 layout: post
 related_posts: 
-  - _posts/coding/coding/2024-07-07-수 조작하기1.markdown
+  - _posts/coding/programmers/2024-07-07-수 조작하기1.markdown
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 1번 - 출력 copy.markdown
 title: 수 조작하기 2
 categories:
   - coding

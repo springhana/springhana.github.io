@@ -1,8 +1,8 @@
 ---
 layout: post
 related_posts:  
-  - _posts/coding/coding/2024-07-03-마지막 두 원소.markdown
-  - _posts/coding/coding/2024-07-03-이어 붙인 수.markdown
+  - _posts/coding/programmers/2024-07-03-마지막 두 원소.markdown
+  - _posts/coding/programmers/2024-07-03-이어 붙인 수.markdown
 title: 원소들의 곱과 합
 categories:
   - coding
