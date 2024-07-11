@@ -25,7 +25,7 @@ description: >
 
 <img src="/assets/img/coding/프로그래머스/PCCE 기출문제 2번 - 피타고라스의 정리 문제 1.png" />
 
-<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 2번.png" />
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 2번 - 피타고라스의 정리 문제 2.png" />
 
 # 풀이
 
