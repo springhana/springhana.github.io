@@ -1,0 +1,52 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 8번 - 창고 정리.markdown
+title: 대소문자 바꿔서 출력하기
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/대소문자 바꿔서 출력하기 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - 대소문자 바꿔서 출력하기
+---
+
+* toc
+{:toc}
+
+# 대소문자 바꿔서 출력하기
+
+# 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181949">대소문자 바꿔서 출력하기</a>
+
+<img src="/assets/img/coding/프로그래머스/대소문자 바꿔서 출력하기 문제.png" />
+
+# 풀이
+
+```python
+str = input()
+answer = ''
+
+for i in str:
+    if i.isupper():
+        answer += i.lower()
+    else:
+        answer += i.upper()
+        
+print(answer)
+```
+
+문자열에서 문자 하나 하나 `isupper`을 사용해서 대문자인지 아닌지 검사를 해서 `answer`에 담아주었다.
+
+그리고 `answer`을 출력해주면 된다.
+
+```python
+print(input().swapcase())
+```
+
+다른 사람의 풀이를 본 풀이인데 이렇게 한줄로 풀 수 있었다.
+
+`swapcase()`라는 함수를 사용해서 풀어줬는데 이 함수는 영문 대소문자 상호 전환을 해준다. 즉, 대문자는 소문자로, 소문자는 대문자로 전환해준다.
