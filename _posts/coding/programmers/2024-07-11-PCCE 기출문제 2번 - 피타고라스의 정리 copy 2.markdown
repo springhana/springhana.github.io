@@ -1,0 +1,44 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 1번 - 출력 copy.markdown
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 3번 - 나이 계산.markdown
+title: PCCE 기출문제 2번 - 피타고라스의 정리
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/PCCE 기출문제 2번 - 피타고라스의 정리 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - PCCE 기출문제 2번 - 피타고라스의 정리
+---
+
+* toc
+{:toc}
+
+# PCCE 기출문제 2번 - 피타고라스의 정리
+
+# 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/250132">[PCCE 기출문제] 2번 / 피타고라스의 정리</a>
+
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 2번 - 피타고라스의 정리 문제 1.png" />
+
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 2번.png" />
+
+# 풀이
+
+```python
+a = int(input())
+c = int(input())
+
+b_square = (c ** 2) - (a ** 2)
+print(b_square)
+```
+
+한 변을 2의제곱 해줘서 `c`에서 `a`를 빼주면 되는 문제이다. 
+
+- `**`을 사용하면 해당 숫자에 맞게 제곱을 할 수 있다.
+
+여기서 문제에 맞게 2의 제곱된 상태로 출력해줘야 한다.

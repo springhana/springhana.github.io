@@ -1,0 +1,53 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 3번 - 나이 계산.markdown
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 5번 - 산책.markdown
+title: PCCE 기출문제 4번 - 저축
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/PCCE 기출문제 4번 - 저축 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - PCCE 기출문제 4번 - 저축
+---
+
+* toc
+{:toc}
+
+# PCCE 기출문제 4번 - 저축
+
+# 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/250130">[PCCE 기출문제] 4번 / 저축</a>
+
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 4번 - 저축 문제 1.png" />
+
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 4번 - 저축 문제 2.png" />
+
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 4번 - 저축 문제 3.png" />
+
+# 풀이
+
+```python
+start = int(input())
+before = int(input())
+after = int(input())
+
+money = start
+month = 1
+while money < 70:
+    money += before
+    month += 1
+while 70 <= money < 100:
+    money += after
+    month += 1
+
+print(month)
+```
+
+현재 저장한 돈 `money`가 70이 넘으면 `before`를 저금해주고 월 `month`을 1월 추가준다.
+
+저장한 돈이 70이상이고 100미만일 경우에는 `after`를 저금해주면 되고 마찬가지로 월 `month`을 1월 추가해주면 되는 간단한 문제다.

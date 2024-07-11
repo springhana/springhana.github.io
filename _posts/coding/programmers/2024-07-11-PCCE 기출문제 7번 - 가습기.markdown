@@ -1,0 +1,72 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 6번 - 가채점.markdown
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 8번 - 창고 정리.markdown
+title: PCCE 기출문제 7번 - 가습기
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/PCCE 기출문제 7번 - 가습기 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - PCCE 기출문제 7번 - 가습기
+---
+
+* toc
+{:toc}
+
+# PCCE 기출문제 7번 - 가습기
+
+# 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/250128">[PCCE 기출문제] 7번 / 가습기</a>
+
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 7번 - 가습기 문제 1.png" />
+
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 7번 - 가습기 문제 2.png" />
+
+# 풀이
+
+```python
+def func1(humidity, val_set):
+    if humidity < val_set:
+        return 3
+    return 1
+
+def func2(humidity):
+    if humidity >= 50:
+        return 0
+    elif humidity >= 40:
+        return 1
+    elif humidity >= 30:
+        return 2
+    elif humidity >= 20:
+        return 3
+    elif humidity >= 10:
+        return 4
+    elif humidity >= 0:
+        return 5
+
+def func3(humidity, val_set):
+    if humidity < val_set:
+        return 1
+    return 0
+
+def solution(mode_type, humidity, val_set):
+    answer = 0
+    if mode_type == "auto":
+        answer = func2(humidity)
+    elif mode_type == "target":
+        answer = func1(humidity, val_set)
+    elif mode_type == "minimum":
+        answer = func3(humidity, val_set)
+    return answer
+```
+
+이 문제는 함수를 잘 사용하는지 시험해보는 문제인것 같다.
+
+해당 함수를 맞추면 된다. 
+
+또한 함수에서 문제에서 제공하는 조건을 적어주면 된다.

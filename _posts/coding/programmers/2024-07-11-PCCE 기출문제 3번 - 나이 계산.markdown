@@ -1,0 +1,45 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 2번 - 피타고라스의 정리 copy 2.markdown
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 4번 - 저축.markdown
+title: PCCE 기출문제 3번 - 나이 계산
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/PCCE 기출문제 3번 - 나이 계산 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - PCCE 기출문제 3번 - 나이 계산
+---
+
+* toc
+{:toc}
+
+# PCCE 기출문제 3번 - 나이 계산
+
+# 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/250131">[PCCE 기출문제] 3번 / 나이 계산</a>
+
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 3번 - 나이 계산 문제 1.png" />
+
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 3번 - 나이 계산 문제 2.png" />
+
+
+# 풀이
+
+```python
+year = int(input())
+age_type = input()
+
+if age_type == "Korea":
+    answer = 2030 - year + 1
+elif age_type == "Year":
+    answer = 2030 - year
+
+print(answer)
+```
+
+여기서 말하는 현재 년도는 2030년도 이기 때문에 2030년도를 기준으로 문제를 풀어준다.

@@ -1,0 +1,40 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-07-수 조작하기1.markdown
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 2번 - 피타고라스의 정리 copy 2.markdown
+title: PCCE 기출문제 1번 - 출력
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/PCCE 기출문제 1번 - 출력 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - PCCE 기출문제 1번 - 출력
+---
+
+* toc
+{:toc}
+
+# PCCE 기출문제 1번 - 출력
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/250133">[PCCE 기출문제] 1번 / 출력</a>
+
+<img src="/assets/img/coding/프로그래머스/PCCE 기출문제 1번 - 출력 문제.png" />
+
+# 풀이
+
+```python
+string_msg = "Spring is beginning"
+int_val = 3
+string_val = "3"
+
+print(string_msg)
+print(int_val + 10)
+print(string_val + "10")
+``` 
+
+출력 예시를 보고 출력할 수 있게만 해주면 되는 간단한 문제이다.
+
+문자열과 숫자를 헷갈리지 않게 조심하자
