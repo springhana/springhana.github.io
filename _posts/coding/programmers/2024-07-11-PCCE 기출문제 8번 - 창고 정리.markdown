@@ -2,6 +2,7 @@
 layout: post
 related_posts: 
   - _posts/coding/programmers/2024-07-11-PCCE 기출문제 7번 - 가습기.markdown
+  - _posts/coding/programmers/2024-07-11-대소문자 바꿔서 출력하기.markdown
 title: PCCE 기출문제 8번 - 창고 정리
 categories:
   - coding
