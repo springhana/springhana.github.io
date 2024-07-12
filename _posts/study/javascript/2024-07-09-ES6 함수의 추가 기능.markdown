@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-04-15-클래스 (2).markdown
+  - _posts/study/javascript/2024-07-12-배열 (1).markdown
 title: ES6 함수의 추가 기능
 categories:
   - study
