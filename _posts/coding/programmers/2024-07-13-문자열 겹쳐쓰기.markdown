@@ -1,0 +1,40 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-11-대소문자 바꿔서 출력하기.markdown
+title: 문자열 겹쳐쓰기
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/문자열 겹쳐쓰기 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - 문자열 겹쳐쓰기
+---
+
+* toc
+{:toc}
+
+# 문자열 겹쳐쓰기
+
+# 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181943">문자열 겹쳐쓰기</a>
+
+<img src="/assets/img/coding/프로그래머스/문자열 겹쳐쓰기 문제.png" />
+
+# 풀이
+
+```python
+def solution(my_string, overwrite_string, s):
+    before = my_string[:s]
+    after = my_string[s + len(overwrite_string):]
+    return before + overwrite_string + after
+```
+
+`before`변수에 `my_string`을 받아온 string에서 `[:s]`를 사용해서 `s`**이전에** 위치한 문자열을 모두 가져온다.
+
+반대로 `after`변수에 `my_string`에서 `[s + len(overwrite_string)]`을 사용해서 `s + len(overwrite_string)`의 길이만큼 **이후에** 위치한 문자열을 가져온다.
+
+그리고 `before + overwrite_string + after`로 출력해주면된다.
