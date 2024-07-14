@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-07-12-배열 (1).markdown
+  - _posts/study/javascript/2024-07-14-Number.markdown
 title: 배열 (2)
 categories:
   - study
