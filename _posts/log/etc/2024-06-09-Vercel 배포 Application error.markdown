@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - /log/etc/2024-05-14-옵시디언 복사 붙여넣기.markdown
+  - /log/etc/2024-07-14-EC2 배포하기.markdown
 title: Vercel 배포 Application error
 categories:
   - log
