@@ -1,0 +1,200 @@
+---
+layout: post
+related_posts:
+  - _posts/study/react/2023-11-12-무한 스크롤 (Infinite scroll).markdown
+  - _posts/study/react/2024-02-19-리액트 개발을 위해 꼭 알아야 할 자바스크립트 (1).markdown
+title: React.memo, useMemo, useCallback 이해하기
+categories:
+  - study
+  - react
+image: /assets/img/react/React.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  React.memo, useMemo, useCallback 이해하기
+---
+
+* toc
+{:toc}
+
+react를 사용하면서 useMemo, useCallback, React.memo에 대해 더 자세히 공부할 필요가 있어서 공부와 함께 블로그 글을 써보겠습니다.
+
+먼저 React.memo, useMemo, useCallback의 공통점은 memoization 기반으로 작동을 하기 때문에 memoization이 뭔지 알아보겠습니다.
+
+# Memoization
+## 1) memoization란?
+컴퓨터 프로그램이 동일한 작업을 반복적으로 해야 할때, **이전에 계산한 값을 메모리에 저장**하여 중복적인 계산을 제거하여 전체적인 실행 속도를 빠르게 해주는 동적 계획법의 핵심이 되는 기술입니다.
+
+- 결과를 캐싱하고, 다음 작업에서 캐싱한 것을 재사용 하는 비싼 작업의 속도를 높이는 자바스크립트 기술
+- 이전 값을 메모리에 저장해 동일한 계산의 반복을 제거해 빠른 처리를 가능하게 하는 기술
+- 캐시에 초기 작업 결과를 저장하여 사용함으로 써 최적화 할 수 있다. 
+만약 작업을 다시 수행해야 한다면, 어딘가에 저장되어진 동일한 결과를 단순히 반환 해준다.
+
+- - -
+
+# React.memo
+
+## 1) React.memo란?
+React.memo는 Higher-Order Components라고 하면 HOC라고도 한다.
+HOC는 컴포넌트를 인자로 받아서 새로운 컴포넌트를 return해주는 구조의 함수입니다. 
+
+**React.memo는 props를 비교할 때 얕은 비교**를 진행하는데, **원시 값의 경우는 같은 값을 값 **갖는지 확인하고 객체나 배열과 같은 참조 값은 같은 주소 값을 갖고 있는지 확인한다.
+
+## 2) 사용법
+```js
+export default React.memo(component);
+```
+
+기본적으로 export 시켜줄 때 컴포넌트명을 <code>React.memo</code> 로 감싸줍니다.
+
+
+```js
+function Test({ title, data }) {
+  return (
+    <div>
+      <div>title: {title}</div>
+      <div>date: {data}</div>
+    </div>
+  );
+}
+
+export default React.memo(Test);
+```
+
+## 3) 언제?
+React.memo는 아무때나 무분별한 사용은 지양해야합니다. 
+이유는 이를 사용하는 코드와 메모제이션용 메모리가 추가로 필요하게 되고, 최적화를 위한 연산이 불필요한 경우에는 비용만 발생하기 때문입니다.
+
+### 언제 사용할 까?
+- 같은 props로 렌더링이 자주 일어나는 컴퍼넌트인 경우 사용합니다.
+- UI element의 양이 많은 컴포넌트의 경우 경우 사용합니다.
+- Pure Functional Component 경우 경우 사용합니다.
+
+### 언제 사용하지 말까?
+- 일반적으로 class 컴포넌트를 래핑하는 것 적절하지 않습니다. 
+- 위에 언급한 상황이 아니라면 굳이 사용할 필요는 없습니다.
+
+- - -
+
+# useMemo
+## 1) useMemo란?
+useMemo는 메모이제이션된 값을 반환하는 hook입니다.
+useMemo는 이전 값을 기억해두었다가 조건에 따라 재활용하여 성능을 최적화하는 용도로 사용됩니다.
+
+## 2) 사용법
+```js
+const expensiveValue = useMemo(() => calculateExpensiveValue(number), [number]);
+```
+인자로 함수와 의존 값(Dependencies)을 넘겨 받는다.
+이때,2번째 인자로 넘겨준 의존 인자 중에 하나라도 변경되면 값을 재 계산합니다. 
+이를 통해 매 렌더시마다 소요되는 불필요한 계산을 피할 수 있습니다. 
+만약 의존 값(Dependencies) 인자로 아무것도 전달되지 않는다면, 렌더시마다 항상 값을 새롭게 계산하여 return 합니다.
+
+```js
+  const calculateExpensiveValue = (number) => {
+    console.log("숫자가 변경되었습니다.");
+    return number
+  };
+
+  const expensiveValue = useMemo(() => calculateExpensiveValue(number), [number]);
+```
+위의 예제는 간단하게 작성한 코드이며 number라는 값이 변경되면 '숫자가 변경되었습니다'라는 console을 남기게 됩니다.
+
+>useMemo는 성능 최적화를 위한 도구로 사용되며, 계산이 많이 드는 경우나 의존성이 있는 경우에 활용됩니다. 그러나 항상 사용해야 하는 것은 아니며, 간단하고 빠른 계산에는 필요하지 않을 수 있습니다.
+
+## 3) 언제?
+모든 함수를 useMemo로 감싸게 되면 이 또한 리소스 낭비가 될 수 있으므로, 퍼포먼스 최적화가 필요한 연상량이 많은 곳에 사용하는 것이 좋습니다.
+
+### 언제 사용할 까?
+- 연산 혹은 처리량이 많아 렌더링의 문제가 되는 경우, 리렌더시 비용 절감을 위해서 사용합니다.
+- 사용자의 입력값이 <code>map, filter</code> 등을 사용하여 이후 렌더링에서도 동일한 참조를 사용할 가능성이 높을 경우 사용합니다.
+- 상위 트리에서, 부모가 리렌더링 될 때 자식 컴포넌트까지의 렌더링 전파를 막고 싶을 때 사용합니다.
+- 자식 컴포넌트에서 useEffect가 반복적으로 트리거 되거나, 무한 루프에 빠질 위험이 있을 때 사용합니다.
+
+### 언제 사용하지 말까?
+- 간단하고 빠른 계산을 할 경우 사용할 필요 없습니다.
+- 컴포넌트 렌더링이 빈번하지 않는 경우 사용할 필요 없습니다.
+- DOM에서 다른 컴포넌트를 렌더링하지 않는 컴포넌트(html 태그만 렌더링하는 컴포넌트)에서는 사용할 필요 없습니다.
+
+- - -
+
+# useCallback
+## 1) useCallback란?
+useCallback 메모이제이션된 콜백 함수, 즉 이미 생성된 함수를 반환하는 hook입니다.
+컴포넌트가 렌더링 될 때마다 내부적으로 사용된 함수가 새롭게 생성되는 경우, 자식 컴포넌트에 props으로 새로 생성된 함수가 넘겨지게 되면 불필요한 리렌더링이 일어날 수 있습니다. 
+
+## 2) 사용법
+```js
+const handleClick = useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+```
+useMemo와 마찬가지로 함수와 의존 값(Dependencies)을 넘겨받습니다.
+전달된 의존성 인자가 바뀌지 않으면 이전에 생성한 함수가 재사용 된다.
+```js
+const ChildComponent = ({ onClick }) => {
+  return (
+    <button onClick={onClick}>
+      Click me
+    </button>
+  );
+};
+
+const ParentComponent = () => {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <ChildComponent onClick={handleClick} />
+    </div>
+  );
+};
+```
+handleClick 함수는 useCallback을 사용하여 메모이제이션되었습니다.
+이 함수는 count 상태에 의존하고 있으며, count가 변경될 때만 함수를 재생성합니다. 
+이렇게 함으로써 ChildComponent에 전달되는 콜백 함수가 count가 변경되지 않는 한 같은 함수를 참조하게 됩니다.
+
+>useCallback은 주로 자식 컴포넌트에게 콜백 함수를 전달할 때 활용되며, 불필요한 렌더링을 방지하여 성능을 향상시킬 수 있습니다.
+
+## 3) 언제?
+
+useCallback은 주로 콜백 함수의 메모이제이션을 통해 성능 최적화를 할 때 사용됩니다. 그러나 항상 사용해야 하는 것은 아닙니다.
+
+### 언제 사용할 까?
+- 자식 컴포넌트에 전달되는 콜백 함수가 불필요하게 재생되는 경우 사용합니다.
+- 함수 자체가 복잡하거나, 다시 계산하는데 비용이 많이 드는 경우에 useCallback을 사용합니다.
+- 자식 컴포넌트에서 useEffect가 반복적으로 트리거 되거나, 무한 루프에 빠질 위험이 있을 때 사용합니다.
+
+### 언제 사용하지 말까?
+- 연산이 복잡하지 않은 함수에 사용하는 것은 메모리 낭비이므로, 간단한 일반 함수들에는 useCallback을 사용하지 않는게 좋습니다.
+- 의도적으로 매번 새로운 함수나 값을 계한해야 한다면 굳이 사용할 필요 없습니다.
+
+
+- - -
+
+# 정리
+React.memo, useMemo, useCallback을 공부하면 서 같은 점도 있지만 다른 점도 많았습니다.
+
+## 1) 공통점
+- React.memo, useMemo, useCallback 모두 불필요한 렌더링 또는 연산을 제어하는 용도로 성능 최적화에 그 목적이 있습니다.
+
+## 2) 차이점
+- React.memo는 HOC이며, useMemo, useCallback은 hook입니다.
+- React.memo는 클래스 컴포넌트, 함수형 컴포넌트 모두 사용 가능합니다.
+  하지만 useMemo, useCallback은 함수형 컴포넌트 안에서만 사용 가능합니다.
+- useMemo는 함수의 연산량이 많을 때 이전 결과값을 재사용하는 목적, useCallback은 함수가 재생성 되는 것을 방지하기 위한 목적입니다.
+
+- - -
+
+# 참고 자료
+> https://velog.io/@shin6403/React.memo-useCallback-%EC%82%AC%EC%9A%A9%EC%9C%BC%EB%A1%9C-%EB%A0%8C%EB%8D%94%EB%A7%81-%EC%B5%9C%EC%A0%81%ED%99%94-%ED%95%98%EA%B8%B0feat.React-NativeRedux
+</br>
+https://velog.io/@sunkim/React.memo-useMemo-useCallback-%EC%97%AD%ED%95%A0-%EB%B0%8F-%EC%B0%A8%EC%9D%B4%EC%A0%90#1-reactmemo
+</br>
+https://ui.toast.com/weekly-pick/ko_20190731
+</br>
+https://velog.io/@khy226/useMemo%EC%99%80-useCallback-%ED%9B%91%EC%96%B4%EB%B3%B4%EA%B8%B0

@@ -1,0 +1,244 @@
+---
+layout: post
+related_posts:
+  - _posts/study/react/2024-04-22-리액트와 상태 관리 라이브러리 (2).markdown
+title: useState 이해하기
+categories:
+  - study
+  - react
+image: /assets/img/react/React.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  useState 이해하기
+---
+
+* toc
+{:toc}
+
+먼저 `useState`는 함수형 컴포넌트 내부에서 상태를 정의하고, 이 상태를 관리할 수 있게 해주는 훅입니다.
+
+# useState 구조
+
+기본적인 사용방법은 간단합니다.
+
+```tsx
+import { useState } from 'react'
+
+const [state,setState] = useState(initialState)
+```
+
+`useState`의 인수로는 사용할 `state`의 초기값을 넘겨줍니다.
+
+- 아무값도 넘겨주지 않으면 초기값은 `undefined`가 됩니다.
+
+1. `state`는 값 자체를 사용할 수 있습니다.
+2. `setState` 함수를 사용해 `state` 값을 변경할 수 있습니다.
+
+함수형 컴포넌트는 매번 함수를 실행해 렌더링이 일어나고, 함수 내부의 값은 함수가 실행될 때마다 초기화됩니다. 그럼 어떻게 실행이 되고 있을까?
+
+---
+# 간단하게 구현해보기
+
+## 첫 번째 코드
+
+```tsx
+function useState(initialValue) {
+  let state = initialValue
+
+  function setState(newValue) {
+    value = newValue
+  }
+
+  return [state, setState]
+}
+
+const [state, setState] = useState(0)
+setState(1)
+console.log(state) // 0
+```
+<span style="color:gray"> 모던 리액트 Deep Dive 참고</span>
+
+### 문제점
+
+내가 생각한 것과 다르게 `setState`에서 1을 넘겨줘서 업데이트를 했는데 `console.log`로 찍어보니 결과는 0으로 나왔습니다. 
+
+⭐ 이러한 결과가 발생한 이유는 `setState`로 값을 변경했음에도 이미 구조 할당으로 `state`의 값이 이미 할당해 놓은 상태이기 때문입니다.
+
+그럼 다르게 `state`를 함수로 바꿔서 `state`의 값을 호출할 때마다 현재 `state`를 변환하게 해보겠습니다.
+## 두 번째 코드
+
+```tsx
+function useState(initalValue) {
+  let internalState = initalValue
+
+  function state() {
+    return internalState
+  }
+
+  function setState(newValue){
+    internalState = newValue
+  }
+
+  return [state, setState]
+}
+
+const [state, setState] = useState(0)
+setState(1)
+console.log(stae) // 1
+```
+<span style="color:gray"> 모던 리액트 Deep Dive 참고</span>
+
+함수로 `state` 값을 호출하게 해줌으로써 `setState`로 값을 변경하여 `console.log`로 찍어보니 원하는 값이 나왔습니다.
+
+### 문제점
+
+`state`가 `getter` 방식의 함수로 구현됐습니다.
+
+실제 `useState` 훅과는 다른점이 있다. 그것은 `state`를 함수가 아닌 상수 처럼 사용하고 있는 것입니다.
+
+그래서 리액트는 클로저를 이용했습니다.
+
+## 세 번째 코드
+
+> **클로저**
+> 
+> **클로저**는 주변 상태(어휘적 환경)에 대한 참조와 함께 묶인(포함된) 함수의 조합입니다. 즉, 클로저는 내부 함수에서 외부 함수의 범위에 대한 접근을 제공합니다. JavaScript에서 클로저는 함수 생성 시 함수가 생성될 때마다 생성됩니다.
+> <a href="">참고 MDN</a>
+
+쉽게 말해서 어떤 함수 내부에 선언된 함수가 함수의 실행이 종료된 이후에도 지역변수를 계속 참조할 수 있다는 것을 의미합니다.
+
+```tsx
+const MyReact = function() {
+  const global = {}
+  let index = 0
+
+  function useState(initialState) {
+    // 1
+    if(!global.states) {
+      global.states = []
+    }
+
+    // 2
+    const currentState = global.states[index] || initialState
+    // 3
+    global.states[index] = currentState
+
+    const setState = (function() {
+      4
+      let currentIndex = index
+      return function (value) {
+        global.states[currentIndex] = vlaue    
+      }
+    })()
+
+	// 5
+    index = index + 1
+
+    return [currentState, setState]
+  }
+  
+  function Component() {
+    const [value, setValue] = useState(0)
+  }
+}
+```
+<span style="color:gray"> 모던 리액트 Deep Dive 참고</span>
+
+1. `global.states`가 없다면 배열을 초기화해주며, 최초 접근이라면 빈 배열로 초기화합니다.
+2. `states` 장보를 조회해서 현재 상태값이 있는지 확인하고 없다면 초깃값으로 설정해줍니다.
+3. `states`의 값을 위애서 조회한 현재 값으로 업데이트 해줍니다.
+4. 현재 index를 클로저로 가둬놔서 이후에도 접근할 수 있게 해줍니다.
+5. 하나의 `state` 마다 `index`가 할당돼 있어 배열의 값을 가리키고 필요할 때마다 그 값을 가져오 해줍니다.
+
+- 함수형 컴포넌트 환경에서 `state`의 값을 유지하고 사용하기 위해서 리액트는 클로저를 활용하고 있다.
+
+---
+# Hook 사용시 조심할 점
+
+React에서 Hook을 사용할 때는 특정 규칙을 준수해 줘야 합니다.
+
+💡**최상위에서만 Hook을 호출해야 합니다.**
+
+- 반복문, 조건문 혹은 중첩된 함수 내에서 Hook을 호출하면 안됩니다. 
+- 규칙에 따르면 컴포넌트가 렌더링 될 때마다 항상 동일한 순서로 Hook이 호출되는 것이 보장됩니다.
+
+💡**오직 React 함수 내에서 Hook을 호출해야 합니다.**
+- Hook을 일반적인 함수에서 호출하면 안됩니다.
+- 함수 컴포넌트, 커스텀 훅(use~) 내에서만 호출할 수 있습니다.
+
+[공식 문서](https://ko.reactjs.org/docs/hooks-rules.html)를 참고했습니다.
+
+---
+
+# react module
+
+`node_modules/react/cjs/react.development.js`에서 Hooks 함수들을 확인할 수 있습니다.
+
+<img src="/assets/img/react/useState module.png" alt="리액트 모듈" />
+
+`resolveDispatcher()`의 리턴 값을 `dispatcher`에 할당하고, 인자로 초깃값을 받아 `dispatcher.useState`에 전달후 반환값을 `return` 합니다.
+
+`resolveDispatcher()` 함수를 한번 보겠습니다.
+
+<img src="/assets/img/react/useState resolveDispatcher.png" alt="리액트 모듈" />
+
+`resolveDispatcher` 함수는 `dispatcher`를 가져오고 에러처리를 해줍니다.
+
+`ReactCurrentDispatcher`도 보기만 해보겠습니다.
+
+<img src="/assets/img/react/useState React CurrentDispatcher.png" alt="리액트 모듈" />
+
+`ReactCurrentDispatcher.current`는 **전역**에 선언된 객체의 프로퍼티입니다.
+
+이 `current`가 `dispatcher`에 담길 것입니다. 
+
+⭐ `useState`의 리턴 값의 출저가 전역에서 온다는 점을 보았습니다. 실제로 클로저를 활용해 함수 외부의 값에 접근하는 사실을 알 수 있습니다.
+
+---
+# useState 함수형 인자 - updater
+
+```tsx
+const [count, setCount] = useState(0);
+const handleButtonClick = () => {
+  setCount(count + 1);
+  setCount(count + 1);
+  setCount(count + 1);
+};
+```
+
+위의 코드는 `handleButtonClick` 함수를 실행 시키면 `count`의 결과가 3이 아닌 1이 됩니다.
+
+그럼 다른 방법으로 접근해보겠습니다.
+
+`setState`에서 인자로 함수를 전달되는 함수를 `updater` 함수라고 부릅니다. `updater` 함수를 전달하면 이전 `state` 값에 접근할 수 있습니다.
+
+```tsx
+const [count, setCount] = useState(0);
+const handleButtonClick = () => {
+  setCount((count) => count + 1);
+  setCount((count) => count + 1);
+  setCount((count) => count + 1);
+};
+```
+
+위의 코드의 결과는 3으로 나옵니다.
+
+1. 첫 번째 `setCount` 함수가 호출되고 인자로 `updater` 함수가 전달됩니다. **이때, 리액트는 리렌더링을 미루어 상태가 업데이트되지 않습니다.**
+2. **상태가 업데이트 되지 않은**채 두 번째  `setCount` 함구가 호출되고 인자로 `updater` 함수가 전달됩니다. **첫 번째와 마찬가지로 상태가 업데이트되지 않습니다.**
+3. 세 번째도 반복될 것입니다.
+4. 이벤트 핸들러가 끝나는 시점이 되어 상태 업데이터가 일괄적으로 처리됩니다. **이때, `updater` 함수를 전달하게 되면 항상 최신의 `state`를 참조하여 상태를 업데이트 시키는 것이 보장이 됩니다.**
+
+`setState`에 `updater` 함수를 전달하면 바로 이전 `state` 값, 즉 가장 최신 `state` 값을 참조해 변경할 수 있어 상태의 업데이트가 차례대로 반영되고, 배치 처리되어 일괄적으로 한번에 리렌더링되는 장점이 있습니다.
+
+---
+# 참고
+
+> <a href="https://velog.io/@jjunyjjuny/React-useState%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%A0%EA%B9%8C">[ React ] useState는 어떻게 동작할까</a>
+>
+><a href="https://seokzin.tistory.com/entry/React-useState%EC%9D%98-%EB%8F%99%EC%9E%91-%EC%9B%90%EB%A6%AC%EC%99%80-%ED%81%B4%EB%A1%9C%EC%A0%80">[React] useState의 동작 원리와 클로저</a>
+>
+> <a href="https://ko.legacy.reactjs.org/docs/hooks-rules.html">Hook의 규칙</a>
+> 
+> <a href="https://jaehan.blog/posts/react/useState-%EB%8F%99%EC%9E%91-%EC%9B%90%EB%A6%AC%EC%99%80-%ED%81%B4%EB%A1%9C%EC%A0%80">useState 동작 원리와 클로저</a>
+> 
+> <a href="https://sandwe.tistory.com/m/72">useState Hook, setState가 인자로 함수를 전달받는 이유?</a>
