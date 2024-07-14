@@ -1,6 +1,7 @@
 ---
 layout: post
 related_posts:
+  - /log/etc/2024-02-18-좋은 코드 작성하기.markdown
   - /log/etc/2024-06-09-Vercel 배포 Application error.markdown
 title: 옵시디언 복붙 한 줄 띄워지는 코드 해결
 categories:
