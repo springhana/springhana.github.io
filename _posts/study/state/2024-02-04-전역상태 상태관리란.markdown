@@ -1,0 +1,232 @@
+---
+layout: post
+related_posts:
+  - /study/state/2024-01-21-react query에 대해서.markdown
+  - /study/state/2024-05-26-react query의 mutation사용 후 데이터 업데이트하기.markdown
+title: 전역상태 상태관리란
+categories:
+  - study
+  - state
+image: /assets/img/state/상태관리.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  전역상태 상태관리란
+---
+
+* toc
+{:toc}
+
+토이 프로젝트에서 새로운 전역 상태관리를 사용해보기로 결정되서 이번 기회에 생태관리가 무엇인고 어떤 종류가 있으며 그 종류에 대해 공부하고 기록해보겠습니다.
+
+# 상태관리
+
+## 1) 상태
+>`상태`란, 변화하는 데이터이며 **웹페이지내에서 눈에 보이는 데이터들뿐만 아니라 서버와 주고 받아야 하는 데이터**를 말합니다.
+
+위에서 말한 데이터에는
+
+- UI에 동적으로 표현되는 데이터
+- 사용자에 action에 따라서 변경될 수 있는 컴포넌트 부분
+- 자바스크립트 객체
+
+등등을 말합니다.
+
+## 2) 상태의 종류
+
+### 지역 상태
+**지역 상태(local state)**는 **특정 컴포넌트 안에서만 관리**되는 상태를 뜻합니다.
+
+- ex) `input`, `selectbox` 등에서 사용자의 입력값을 받는 경우
+
+### 컴포넌트 간 상태
+**컴포넌트 간 상태(cross components state)**는 **여러가지 컴포넌트에서 관리되는 상태**를 나타냅니다. 다수의 컴포넌트에서 쓰이고, 또 영향을 미치는 상태를 말합니다.
+
+- 상위 컴포넌트에서 하위 컴포넌트로 `props`를 넘겨줘 해당 컴포넌트까지 전달되록하는 `props drilling` 가 필요합니다.
+
+### 전역 상태
+**전역 상태(global state)**는 프로젝트 전체에 영향을 끼치는 상태입니다. 
+
+- 이 또한 Prop Drilling 방식을 활용해서 부모에서 자식으로 데이터를 전달한다.
+
+- - -
+
+# 상태관리
+>`상태관리`란, 변화하는 데이터를 **설계된 UI, UX에 맞게 설계하고 구현하는 일**이며, 또한 **네트워크를 통해 서버로 전달되는 클라이언트의 요청에 따라 변화하는 상태를 관리**하는 일입니다.
+
+상태관리를 통해 데이터가 변경될 때마다 데이터에 관련된 DOM을 일일히 찾아서 조작하지 않아도 되며 전체 데이터의 형태와 리스트를 한 곳에서 효율적으로 관리할 수 있습니다.
+
+
+- React에서의 상태관리
+  > 어떤 값이 동적으로 변하면, 동적으로 뱐화된 값이 DOM에 반영되는 즉, 애플리케이션 렌더링에 영향을 주는 이러한 변하는 값을 React에서는 `useState`와 `useReducer`라는 `Hook`을 통해 관리할 수 있습니다.
+
+## 1) 필요성
+상태 관리가 왜 필요한 이유는 서로 다른 두 컴포넌트에 같은 데이터가 필요한 경우 각 컴포넌트가 부모 자식 관계로 되어 있지 않은 이상, **각 컴포넌트 간의 직접적인 데이터 전달이 어렵습니다.**
+
+데이터를 부모 컴포넌트로 보내고 다시 그 데이터가 필요한 컴포넌트로 전달해야 하는데, 이러한 `props drilling`이 많아지면 `props`를 추적하기 어려워집니다.
+
+따라서 각 어플리케이션에 **알맞은** 상태관리 툴을 선택해 상태를 잘 관리하는 것이 중요합니다.
+
+- - -
+
+# 전역 상태 관리 라이브러리
+
+전역 상태 관리 라이브러리는 
+
+- `Context API`
+- `Redux`
+- `Recoil`
+- `Mobx`
+- `Zustand`
+
+등등 있습니다.
+
+이 블로그에서는 `ContextAPI`만 사용법을 설명해주고 다른 상태관리들은 따로 정리 할 것입니다.
+
+## 1) Context API
+>React에서 자체적으로 전역 상태를 관리 할 수 있는 `Context API`를 제공해줍니다.
+>
+><a href="https://ko.legacy.reactjs.org/docs/context.html">공식문서</a>
+
+`Context API`를 이용하면, 트리 단계마다 명시적으로 props를 넘겨주지 않아도 많은 컴포넌트가 이러한 값을 공유하도록 할 수 있습니다.
+
+### 구성
+
+`Context` : 전역 상태를 저장하는 곳
+
+- Context 내부에 Provider와 Consumer이 정의되어있고, Consumer는 Context를 통해서 상태에 접근이 가능합니다. 
+
+
+`Provider` : 전역 상태를 제공하는 역할
+
+- Context에 상태를 제공해서 다른 컴포넌트가 상태에 접근할 수 있도록 도와줍니다.
+- 제공된 상태에 접근하기 위해서는 Provider 하위에 컴포넌트가 포함되어 있어야 합니다.
+
+따라서 모든 컴포넌트에 접근 가능하도록 Root component (index.js / app.js) 에서 Provider를 정의합니다.
+
+`Consumer` : 제공받은 전역 상태를 받아서 사용하는 역할
+
+- Context는 Consumer 사이에 있는 첫 객체를 Context에 인자로 전달하기 때문에 빈 객체 작성 후 JSX를 작성해야 합니다.
+
+### 사용하기
+
+```js
+import {createContext} from 'react';
+
+const UserContext = createContext(null);
+```
+
+`createContext` 함수를 불러와서 Context를 만들어줍니다.
+
+```js
+import { useState, useContext } from 'react';
+
+const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
+};
+
+const UserInfo = () => {
+  const { user } = useContext(UserContext);
+  if (!user) return <div>사용자 정보가 없습니다.</div>;
+  return <div>{user.username}</div>;
+};
+
+function App() {
+  return (
+    <UserProvider>
+    	<UserInfo  />
+    </UserProvider>
+  );
+```
+Context 객체 안에 Provider라는 컴포넌트가 있습니다.
+
+만약 컴포넌트로 만들어서 사용하게 되면 루트 트리에서 Provider를 사용한 컴포넌트로 감싸줍니다.
+
+컴포넌트 간에 공유하고자 하는 값을 value라는 props로 설정하면 자식 컴포넌트들에서 해당 값에 접근할 수 있다.
+
+## 2) Redux
+>`Redux`는 전역 상태 관리를 위한 도구로, 어플리케이션 전체에 대한 중앙 저장소 역할을 합니다. 
+>
+><a href="https://ko.redux.js.org/introduction/getting-started/">공식문서</a>
+
+- `Redux`는 `Store`라는 state 저장 공간을 두어, 여러 컴포넌트가 하나의 store를 참조하는 방식으로 전역상태를 관리합니다. 
+- `Redux`의 경우 자체적으로 리렌더링과 관련된 부분에 최적화가 적용되어 있기 때문에, 부분적인 리렌더링이 발생하며 `Context API`에서는 제공할 수 없는 다양한 기능들을 미들웨어(thunk, saga, devTools 등등)를 사용해 관리할 수 있습니다.
+- 모든 상태 업데이트를 액션으로 정의하고, 액션 정보에 기반하여 Reducer에서 상태를 업데이트하는 이 간단명료한 발상 덕분에, 상태를 더욱 쉽게 예측 가능하게 하여 유지보수 측면에 긍정적인 효과가 있습니다.
+
+### 구성
+
+`Store` : 전역 상태를 저장하는 공간, 자바스크립트 객체 형태로 저장
+
+-  `Reducer`를 통해서만 접근
+- Redux에서는 `Store`는 **1개만 존재**할 수 있습니다.
+
+
+`Action` :  `Reducer`에게 보내는 Store에 대한 행동을 정의하는 자바스크립트 객체
+
+- 상태에 어떤 변화가 필요할 때, 액션을 발생시킵니다.
+- `Action`을 `Reducer`에게 전달하기 위해서는 dispatch 메소드를 사용해야한다.
+
+`Reducer` : 이전 상태와 액션을 받아, 다음 상태를 반환하는 역할을 하는 순수 함수
+
+- `Reducer`를 통해서만 전역 상태를 변경하고 업데이트할 수 있습니다.
+
+>**순수함수란?**
+>다른 외부의 상태를 변경하지 않으면서도, 어떤 동일한 인자에 대해 항상 동일한 값을 리턴하는 함수
+
+## 3) Recoil
+>`Recoil`은 페이스북에서 만든 새로운 React를 위한 상태 관리 라이브러리입니다.
+
+- `Recoil`을 사용하면 atoms(공유 상태)에서 selectors(순수함수)를 거쳐 React 컴포넌트로 내려가는 data-flow graph를 만들 수 있습니다.
+
+### 구성
+
+`Atoms` : 상태의 단위
+
+- 값이 업데이트되면 값을 구독한 컴포넌트는 다시 렌더링 됩니다.
+- `Atoms`는 atom함수를 사용해 생성할 수 있습니다.
+- 컴포넌트에서 atom을 읽고 사용하려면 `useRecoilState`라는 Hook을 사용해야 합니다.
+
+`Selectors` : `Atoms`나 다른 `Selectors`를 입력으로 받아들이는 순수 함수
+
+- 상위의 `Atoms` 또는 `Selectors`가 업데이트 되면 하위의 selector 함수도 다시 실행됩니다.
+- 최소한의 상태 집합만 `Atoms`에 저장하고, 다른 모든 파생되는 데이터는 `Selectors`를 통해 계산함으로써 쓸모 없는 상태의 보존을 방지할 수 있다.
+
+## 4) MobX
+>`MobX`란 또 다른 상태 관리 라이브러리이다. 
+
+- 기본적으로 객체지향 느낌이 강하며 (Redux와 달리) Component와 State를 연결하는 번잡한 보일러플레이트 코드들을 데코레이터
+
+### 구성
+`Actions` : Observable state에 저장되어 있는 데이터들을 변환시키는 액션 함수
+
+`Observable state` : 관찰되고 있는 데이터 값들이 저장되어 있는 장소
+
+`Compute values` : `Observable state`에 저장되어 있는 데이터가 변화되는 것을 알아채면 렌더링 같은 side effects trigger를 전달
+
+`Side effects` : 렌더링 같은 `side effect`가 실행되고, 실행된 `side effects`들은 다시 액션 함수가 실행되도록 이벤트 전달
+
+## 5) Zustand
+>`Zustand`란 상태라는 뜻을 가진 독일어이며 또 다른 전역 상태 관리 라이브러리입니다.
+
+- 단순화된 Flux 원리를 사용하는 작고 빠르며 확장 가능한 상태 관리 솔루션입니다.
+- Hooks에 기반해 편리한 API를 제공한다.
+
+### 구성
+
+`create` :  `create`함수를 사용하여 상태 관리를 위한 store를 생성
+
+`set` : `set` 함수는 상태를 업데이트 하는 메소드
+
+- `set`함수를 통해 이전 상태를 받아 새로운 상태를 설정할 수 있습니다.
+
+- - -
+
+# 참고
+
+다양한 전역 상태 관리 라이브러리를 알아봤는데 경험으로는 redux는 설정이 어려웠고 recoil과 mobx는 못 사용했으며 zustand는 redux에 비해 엄청 쉬워서 zustand로 새롭게 리펙토링을 해볼 예정이다.
+
+> <a href="https://velog.io/@hyerin0930/React-%EC%83%81%ED%83%9C%EA%B4%80%EB%A6%AC%EC%99%80-%EC%A0%84%EC%97%AD%EC%83%81%ED%83%9C%EA%B4%80%EB%A6%AC-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC">[React] 상태관리와 전역상태관리 라이브러리</a>
+><a href="https://maeng2418.github.io/react/state_management/">React 상태관리</a>
+><a href="https://joonfluence.tistory.com/473">[FE] 프론트엔드에서의 상태관리란 무엇인가? (1) 등장배경과 정의</a>
+<a href="https://mingule.tistory.com/74">React에서 상태관리하기 (feat. Context API, Redux, React Query)</a>
+
