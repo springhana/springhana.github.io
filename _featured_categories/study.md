@@ -16,6 +16,7 @@ sitemap: false
 - [React]{:.heading.flip-title} --- 리엑트
 - [ReactNative]{:.heading.flip-title} --- 리액트 네이티브
 - [Next]{:.heading.flip-title} --- 넥스트
+- [State]{:.heading.flip-title} --- 상태 관리
 - [HTML]{:.heading.flip-title} --- HTML
 - [CSS]{:.heading.flip-title} --- CSS
 - [ComputerScience]{:.heading.flip-title} --- 컴퓨터 지식
@@ -25,6 +26,7 @@ sitemap: false
 [React]: /react/
 [ReactNative]: /react-native/
 [Next]: /next/
+[State]: /state/
 [HTML]: /html/
 [CSS]: /css/
 [ComputerScience]: /computerscience/

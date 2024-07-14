@@ -62,6 +62,8 @@ menu:
         url: /react-native/
       - title: NEXT
         url: /next/
+      - title: STATE
+        url: /state/
       - title: HTML
         url: /html/
       - title: CSS
