@@ -1,0 +1,45 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-11-PCCE 기출문제 7번 - 가습기.markdown
+  - _posts/coding/programmers/2024-07-11-대소문자 바꿔서 출력하기.markdown
+title: 덧셈식 출력하기
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/덧셈식 출력하기 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - 덧셈식 출력하기
+---
+
+* toc
+{:toc}
+
+# 덧셈식 출력하기
+
+# 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181947">덧셈식 출력하기</a>
+
+<img src="/assets/img/coding/프로그래머스/덧셈식 출력하기 문제.png" />
+
+# 풀이
+
+```python
+a, b = map(int, input().strip().split(' '))
+print(str(a) + " + " + str(b) + " = " + str(a + b))
+```
+
+기본 중에 기본인 문제이지만 다양한 방법으로 풀 수 있다.
+
+위와 같이 num 타입으로 된 변수를 str로 변환해서 출력하는 방법도 있고 밑에 같이 푸는 방법도 있다.
+
+```python
+a, b = map(int, input().strip().split(' '))
+print(f"{a} + {b} = {a + b}")
+```
+
+더 짧고 간단하게 `f` 스트링을 사용해주면 된다.
+
