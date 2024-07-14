@@ -1,0 +1,406 @@
+---
+layout: post
+related_posts:
+  - /log/etc/2024-05-14-옵시디언 복사 붙여넣기.markdown
+title: EC2 배포하기
+categories:
+  - log
+  - etc
+image: /assets/img/etc/aws/AWS.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+  Nest 프로젝트 EC2 배포하기
+---
+
+* toc
+{:toc}
+
+Nest로 개발한 서버를 배포해볼려고 합니다. AWS EC2에 배포를 해보겠습니다.
+
+# AWS EC2 인스턴스 생성
+
+먼저 EC2로 이동합니다.
+
+<img src="/assets/img/etc/aws/인스턴스 경로.png" alt="ec2 이미지" />
+
+이동을 하셨으면 생성을 해보겠습니다.
+
+> 저는 **Ubunut** 환경과 **프리티어**계정을 사용했습니다.
+
+<img src="/assets/img/etc/aws/EC2 인스턴스 시작.png" alt="ec2 이미지" />
+
+인스턴스 시작 버튼을 눌러줍니다.
+
+그럼 여러 항목들이 보이는데 저희가 작성할 부분은 다음과 같습니다.
+
+## 이름 및 태그
+
+<img src="/assets/img/etc/aws/EC2 이름 및 태그.png" alt="ec2 이미지" />
+
+## 애플리케이션 및 OS 이미지
+
+<img src="/assets/img/etc/aws/인스턴스 생성 애플리케이션 이미지 및 OS.png" alt="ec2 이미지" />
+
+여기서 **Ubunut** 환경을 선택해줍니다.
+
+그리고 Amazon Machine Image(AM) 항목에서 프리 티어 사용가능한 설정을 선택해줍니다.
+
+## 키 페어 생성
+
+<img src="/assets/img/etc/aws/EC2 키 페어 생성.png" alt="ec2 이미지" />
+
+키 페어 이름을 적어주시고 파일 형식은 `.pem`을 선택해서 생성해줍니다.
+
+그럼 파일 하나를 다운로드 하는데 **프로젝트 루티에 위치해줍니다.**
+
+⭐ **여기서 중요한 것은 절대로 `.pem` 키를 깃허브같이 공개된 곳에 올리시면 안됩니다.**
+
+### gitignore 추가
+
+그리고 깃허브에 실수로 안올라가게 `.gitignore`에 추가해줍니다.
+
+```.gitignore
+키 페어 이름.pem
+```
+
+## 생성
+
+<img src="/assets/img/etc/aws/EC2 인스턴스 시작.png" alt="ec2 이미지" />
+
+그리고 생성을 해줍니다.
+
+인스턴스를 생성 해주셨다면 이제 AWS로부터 IP를 할당받게 되는데 IP를 설정해줍니다.
+
+---
+
+# AWS EC2 인스턴스 설정
+
+IP 설정을 하는 이유는 인스턴스를 실행할 때마다 아이피 주소가 변경이 됩니다.
+
+그럼 서버 주소가 변경이 되서 서버를 호출할때 문제가 됩니다.
+
+그래서 IP 설정을 하는데 탄력적 IP를 생성해서 설정을 해줄겁니다.
+
+## 탄력적 IP
+
+### 탄력적 IP란?
+
+인터넷을 통해 접속할 수 있는 고정적인 공인 IP 주소를 할당받게 해줍니다.
+
+<img src="/assets/img/etc/aws/EC2 좌측 메뉴.png" alt="ec2 이미지" />
+
+좌측 메뉴에서 네트워크 및 보안에서 **탄력적 IP**를 선택해줍니다.
+
+<img src="/assets/img/etc/aws/EC2 IP 주소 할당.png" alt="ec2 이미지" />
+
+그리고 탄력적 IP 주소 할당을 선택해줍니다.
+
+<img src="/assets/img/etc/aws/EC2 IP 주소 생성.png" alt="ec2 이미지" />
+
+위의 이미지 처럼 뜨는데 아무 항목도 누르지 마시고 바로 할당 버튼을 눌러서 생성해줍니다.
+
+<img src="/assets/img/etc/aws/EC2 IP 주소 연결.png" alt="ec2 이미지" />
+
+그럼 이제 IP 주소가 생성이 되는데 들어가셔서 연결 버튼을 눌러줍니다.
+
+<img src="/assets/img/etc/aws/탄력적 IP 주소 연결.png" alt="ec2 이미지" />
+
+연결을 눌러주시면 이런 화면이 뜨는데 **인스턴스 선택**을 눌러주시면 해당 인스턴스가 생성이 됩니다.
+
+눌러주시고 연결 버튼을 눌러줍니다.
+
+- 인스턴스 화면에서 탄력적 IP로 할당받았던 IP가 퍼블릭 IPv4 주소로 설정이 되었는지 확인해줍니다.
+
+## 보안 그룹
+
+이제 보안 그룹을 설정해줍니다.
+
+여기서는 사용할 PORT를 설정해준다고 보면 될 것같습니다.
+
+<img src="/assets/img/etc/aws/EC2 인스턴스 보안.png" alt="ec2 이미지" />
+
+해당 인스턴스에 들어가서 탭 중에서 보안을 눌러줍니다.
+
+<img src="/assets/img/etc/aws/EC2 보안그룹 이동.png" alt="ec2 이미지" />
+
+그리고 보안 그룹을 선택해줍니다.
+
+<img src="/assets/img/etc/aws/EC2 보안.png" alt="ec2 이미지" />
+
+그리고 인바이드 규칙 편집을 눌러줍니다.
+
+<img src="/assets/img/etc/aws/EC2 보안 그룹 편집.png" alt="ec2 이미지" />
+
+그러면 해당 보안을 추가하거나 수정을 할 수 있는데 추가를 해줍니다.
+
+- **3030**은 프로젝트에서 사용하는 PORT 번호입니다.
+- **0.0.0.0/0**은 모든 IPv4 주소의 접속을 허용합니다.
+- **::/0**은 모든 IPv6 주소의 접속을 허용합니다.
+- **ssh**는 원격 호스트에 접속하기 위해 사용되는 **보안 프로토콜** 입니다. (기본값 22번)
+
+그리고 다시 인스턴스로 넘어가서 추가가 잘 되어있는지 확인해줍니다.
+
+- **인바운드**
+	- 기본적으로 설정한 포트 외 모든 포트를 닫습니다.
+	- 클라이언트가 서버의 데이터 접속(생성, 수정, 삭제)하기 위해 해당 클라이언트의 포트를 허용하는 규칙입니다.
+
+- **아웃바운드**
+	- 기본적으로 모든 포트에게 허용되어 있습니다.
+	- 인바운드 규칙에 허용된 포트가 아웃바운드 규칙에 허용되지 않으면 데이터를 응답받지 못합니다.
+
+---
+
+# AWS EC2 서버 배포하기
+
+저는 **window** 환경에서 배포를 했습니다.
+
+## 접속
+
+<img src="/assets/img/etc/aws/EC2 연결.png" alt="ec2 이미지" />
+
+인스턴스에 들어오시면 연결이라는 버튼을 눌러줍니다.
+
+<img src="/assets/img/etc/aws/인스턴스에 연결.png" alt="ec2 이미지" />
+
+그럼 이런 연결 버튼이 보이는데 **SSH 클라이언트**를 눌러서 확인해줍니다.
+
+그리고 `ssh -i .pem` 부분을 복사해주셔야 서버를 연결할 수 있습니다.
+
+<img src="/assets/img/etc/aws/우분투 연결 1.png" alt="ec2 이미지" />
+
+그리고 터미널에 붙여넣기해서 서버를 연결시켜줍니다.
+
+<img src="/assets/img/etc/aws/우분투 연결.png" alt="ec2 이미지" />
+
+그러면 이런 에러를 볼 수 있습니다. `.pem`키에서 오류가 뜨는데 설정을 하나 해주셔야 합니다. 
+
+- `.pem`키는 프로젝트 루트에 존재해야 합니다.
+
+그럼 설정을 해보겠습니다.
+
+### .pem 키 설정하기
+
+- Mac
+
+먼저 Mac같은 경우는 엄처 간단합니다.
+
+```null
+chmode 400 키 이름.pem
+```
+
+끝입니다...
+
+그러면 Window 같은 경우는 어떨까요?
+
+- Window
+
+Window같은 경우는 조금 귀찮습니다.
+
+<img src="/assets/img/etc/aws/프로젝트 경로.png" alt="ec2 이미지" />
+
+프로젝트에서 `.pem` 키를 찾습니다.
+
+그리고 마우스 오른쪽 클릭을 눌러주고 **속성**으로 들어가줍니다.
+
+<img src="/assets/img/etc/aws/EC2 프로젝트 pem 속성.png" alt="ec2 이미지" />
+
+그리고 **보안**을 선택해서 **고급**을 눌러줍니다.
+
+<img src="/assets/img/etc/aws/pem 고급.png" alt="ec2 이미지" />
+
+새로 뜬 고급 보안 설정에서 `상속 사용 안함` 버튼 클릭해줍니다.
+
+이 때 **현재 상속된 사용 권한을 어떻게 하시겠습니까?** 라고 묻는 것에 **개체에서 상속된 사용 권한을 모두 제거합니다.** 를 누르면 됩니다.
+
+<img src="/assets/img/etc/aws/pem 보안 고급.png" alt="ec2 이미지" />
+
+그리고 상속 사용 버튼 위에 있는 **추가**를 눌러서 **보안 주체** 클릭해줍니다.
+
+선택할 개체 이름을 입력하시오에, 본인의 윈도우 계정이름을 적습니다. 
+
+- 만약, **마이크로소프트 계정**이라면 **해당 메일 주소**를 적는다, 적고 난 뒤에, 확인 클릭해줍니다.
+
+기본 권한에는 **읽기 및 실행**과 **읽기**를 선택해줍니다.
+
+그리고 `ssh -i .pem` 부분을 다시 연결해줍니다.
+
+<img src="/assets/img/etc/aws/서버 연결.png" alt="ec2 이미지" />
+
+그러면 이렇게 접속이 성공하게 됩니다.
+
+## 설치
+
+먼저 서버를 배포하기 전에 해줄 것이 있습니다.
+
+**node**, **npm**, **pm2**를 설치해주셔야 됩니다.
+
+- 에러 방지를 위해 밑에 것들을 설치해줍니다.
+
+```bash
+sudo apt-get update 
+sudo apt-get install -y build-essential
+sudo apt-get install curl
+```
+
+- `sudo apt-get update`는 운영체제에서 사용 가능한 패키지들과 그 버전에 대한 정보를 업데이트하는 명령어 입니다.
+- `sudo apt-get install -y build-essential`는 **build-essential**을 설치해줍니다.
+- `sudo apt-get install curl`는 CURL을 설치해줍니다.
+
+그리고 node를 1번 또는 2번으로 설치해줍니다.
+
+1. 특정 버전 설치 `ex)` Node.js v14.x
+```bash
+curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+2. LTS 버전 설치
+```bash
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+저는 2번 방법으로 설치를 해주겠습니다.
+
+설치를 했으면 버전 확인하며 잘 설치됬는지 확인해준다.
+
+<img src="/assets/img/etc/aws/우분투 버전.png" alt="ec2 이미지" />
+
+```bash
+node -v
+npm -v
+```
+
+그리고 **pm2**를 설치해줍니다.
+
+```bash
+npm i pm2 -g
+```
+
+## 배포
+
+이제 배포를 해봅시다.
+
+먼저 `package.json`에서 설정을 해주셔야 됩니다.
+
+위에서 설치한 `pm2`를 추가해줘야 합니다.
+
+```json
+"script": {
+  "start:prod": "pm2 start node dist/main",
+}
+```
+
+이렇게 설정을 해줍니다.
+
+그리고 깃허브에 배포를 해준 후에 가져와줍니다.
+
+```bash
+git clone 프로젝트 리포지토리
+```
+
+가져와준 후 `node_modules`를 설치해줍니다.
+
+```bash
+npm install
+```
+
+만약 `.env`을 사용하고 있다면 따로 우분투 환경에서 추가해주셔야 합니다.
+
+```bash
+vim .env
+```
+
+`.env` 파일이 없다면 자동으로 생성됩니다.
+
+`vim`에서는 다음과 같이 모드를 선택할 수 있습니다.
+
+`esc`나 `ctrl + c`로 전환이 가능하다.
+
+- `i` : 입력모드로 전환
+- `:q` : 종료
+- `:q!` : 저장하지 않고 강제로 종료
+- `:wq` : 저장하고 종료
+
+`:` 콜론을 신경 써서 입력해줍니다.
+
+그리고 `ls -a`를 사용해서 `env`파일이 생성됬는지 확인해줍니다.
+
+- 숨긴 파일도 볼 수 있는 명령어 입니다.
+
+## 실행
+
+위의 `package.json`에 설정해준 명령어를 사용해 줍니다.
+
+```bash
+npm run start:prod
+```
+
+⭐ 이러면 **무중단**으로 서비스를 배포할 수 있습니다.
+
+서비스가 잘 실행되고 있나 다음 명령어로 확인해줍니다.
+
+```bash
+pm2 list
+```
+
+## 종료
+
+서버를 종료하고 싶다면 `pm2`를 종료시키면 됩니다.
+
+```bash
+pm2 kill
+```
+
+## 오류 해결?
+
+저 같은 경우는 다음과 같은 오류가 발생했습니다.
+
+`/home/ubuntu` 경로가 없는데 다른 강의나 블로그를 찾아봐도 따로 만드는 것은 아닌거 같은데 찾을 수 없다고 나옵니다.
+
+```base
+ubuntu@ip-172-31-81-156:~/ilneung_server$ npm run start:prod
+
+> ilneung_server@0.0.1 start:prod
+> pm2 start node dist/main
+
+[PM2] Applying action restartProcessId on app [node](ids: [ 0 ])
+[PM2] [node](0) ✓
+[PM2] Process successfully started
+[PM2][ERROR] Script not found: /home/ubuntu/ilneung_server/dist/main
+```
+
+만약 위와 같이 오류가 난다면 `package.json` 다음과 같이 변경해줍니다.
+
+```json
+"script": {
+  "start:prod": "pm2 start node dist/main.js",
+}
+```
+
+# AWS EC2 서버 연결하기
+
+이제 배포도 실행도 했으니 서버 연결을 해보겠습니다.
+
+<img src="/assets/img/etc/aws/서버 연결 주소.png" alt="ec2 이미지" />
+
+**퍼블릭 IPv4주소**와 **퍼블릭 IPv4 DNS**를 사용해서 서버를 연결해줍니다.
+
+- `http://퍼블릭 IPv4 주소:PORT 번호`
+- `http://퍼블릭 IPv4 DNS:PORT 번호`
+
+여기서 **PORT번호**는 위에 보안에서 설정해준 PORT 번호를 적어주시면 됩니다.
+
+- 저는 따로 `https`를 등록하지 않았기 때문에 `http`로 연결해줍니다.
+
+---
+
+서버 배포를 해보았는데 첫 EC2 배포를 해보았습니다. 이제 프론트에서 만든 Next 프로젝트도 해볼 수 있을 것 같습니다.
+
+# 참고
+
+> <a href="https://velog.io/@mintmin0320/Nest.js-%EC%84%9C%EB%B2%84-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B02-%ED%84%B0%EB%AF%B8%EB%84%90%EC%97%90%EC%84%9C-%EC%84%9C%EB%B2%84-%EC%8B%A4%ED%96%89%ED%95%98%EA%B8%B0">[Nest] 서버 배포하기(2) - 터미널에서 서버 실행하기/a>
+> 
+> <a href="https://velog.io/@montoseon/EC2%EC%97%90-.env-%ED%8C%8C%EC%9D%BC-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0-%ED%84%B0%EB%AF%B8%EB%84%90">EC2에 .env 파일 추가하기 (터미널)</a>
+> 
+> 맛집 지도앱 만들기 (React Native + Nest.JS) 강의 - 배포하기 (AWS EC2 +RDS)
