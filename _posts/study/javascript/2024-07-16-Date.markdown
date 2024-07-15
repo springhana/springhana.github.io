@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-07-15-Math.markdown
+  - _posts/study/javascript2024-07-16-RegExp.markdown
 title: Date
 categories:
   - study
