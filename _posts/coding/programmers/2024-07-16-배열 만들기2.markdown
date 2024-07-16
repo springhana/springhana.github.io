@@ -1,0 +1,49 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-16-수열과 구간 쿼리 3.markdown
+title: 배열 만들기 2
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/배열 만들기 2 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - 배열 만들기 2
+---
+
+* toc
+{:toc}
+
+# 배열 만들기 2
+
+# 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181921">배열 만들기 2</a>
+
+<img src="/assets/img/coding/프로그래머스/배열 만들기 2 문제.png" />
+
+# 풀이
+
+```python
+def solution(l, r):
+    answer = []
+    for i in range(l, r+1):
+        if all(num in ["0", "5"] for num in str(i)):
+            answer.append(i)
+
+    if len(answer) == 0:
+        answer.append(-1)
+            
+    return answer
+```
+
+
+시작은 `l`이며 끝인 `r` 만큼 `for`문을 사용해서 반복문 돌려준다.
+
+`all` 함수는 특정 조건을 만족하는지 확인하기 위해 모든 요소를 검사하는데 `for num in str(i)` 먼저 순서가 돌아가고 거기서 `num in ["0", "5"]`에서 0과 5로만 이루어졌는지 검사를 하고 배열에 추가를 합니다.
+
+- 만약 배열에 아무것도 없다면 -1을 추가해서 출력합니다.
+
+
