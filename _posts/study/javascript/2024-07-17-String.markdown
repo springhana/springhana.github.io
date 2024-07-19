@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-07-16-RegExp.markdown
+  - _posts/study/javascript/2024-07-19- 7번째 데이터 타입 Symbol.markdown
 title: String
 categories:
   - study
