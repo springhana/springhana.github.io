@@ -2,6 +2,7 @@
 layout: post
 related_posts: 
   - _posts/coding/programmers/2024-07-16-수열과 구간 쿼리 3.markdown
+  - _posts/coding/programmers/2024-07-19-문자열 여러 번 뒤집기.markdown
 title: 배열 만들기 2
 categories:
   - coding
