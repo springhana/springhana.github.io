@@ -1,0 +1,117 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-19-문자열 여러 번 뒤집기.markdown
+  - _posts/coding/programmers/2024-07-19-세로 읽기.markdown
+title: 접두사인지 확인하기
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/접두사인지 확인하기 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - 접두사인지 확인하기
+---
+
+* toc
+{:toc}
+
+# 접두사인지 확인하기
+
+# 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181906">접두사인지 확인하기</a>
+
+어떤 문자열에 대해서 접두사는 특정 인덱스까지의 문자열을 의미합니다. 예를 들어, "banana"의 모든 접두사는 "b", "ba", "ban", "bana", "banan", "banana"입니다.  
+문자열 `my_string`과 `is_prefix`가 주어질 때, `is_prefix`가 `my_string`의 접두사라면 1을, 아니면 0을 return 하는 solution 함수를 작성해 주세요.
+
+---
+
+##### 제한사항
+
+[](https://github.com/springhana/CodingTest_python/edit/master/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4/0/181906.%E2%80%85%EC%A0%91%EB%91%90%EC%82%AC%EC%9D%B8%EC%A7%80%E2%80%85%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0/README.md#%EC%A0%9C%ED%95%9C%EC%82%AC%ED%95%AD)
+
+- 1 ≤ `my_string`의 길이 ≤ 100
+- 1 ≤ `is_prefix`의 길이 ≤ 100
+- `my_string`과 `is_prefix`는 영소문자로만 이루어져 있습니다.
+
+---
+
+##### 입출력 예
+
+[](https://github.com/springhana/CodingTest_python/edit/master/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4/0/181906.%E2%80%85%EC%A0%91%EB%91%90%EC%82%AC%EC%9D%B8%EC%A7%80%E2%80%85%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0/README.md#%EC%9E%85%EC%B6%9C%EB%A0%A5-%EC%98%88)
+
+|my_string|is_prefix|result|
+|---|---|---|
+|"banana"|"ban"|1|
+|"banana"|"nan"|0|
+|"banana"|"abcd"|0|
+|"banana"|"bananan"|0|
+
+---
+
+##### 입출력 예 설명
+
+[](https://github.com/springhana/CodingTest_python/edit/master/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4/0/181906.%E2%80%85%EC%A0%91%EB%91%90%EC%82%AC%EC%9D%B8%EC%A7%80%E2%80%85%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0/README.md#%EC%9E%85%EC%B6%9C%EB%A0%A5-%EC%98%88-%EC%84%A4%EB%AA%85)
+
+입출력 예 #1
+
+- 예제 1번에서 `is_prefix`가 `my_string`의 접두사이기 때문에 1을 return 합니다.
+
+입출력 예 #2
+
+- 예제 2번에서 `is_prefix`가 `my_string`의 접두사가 아니기 때문에 0을 return 합니다.
+
+입출력 예 #3
+
+- 예제 3번에서 `is_prefix`가 `my_string`의 접두사가 아니기 때문에 0을 return 합니다.
+
+입출력 예 #4
+
+- 예제 4번에서 `is_prefix`가 `my_string`의 접두사가 아니기 때문에 0을 return 합니다.
+# 풀이
+
+```python
+def solution(my_string, is_prefix):
+    answer = 0
+    my_prefix = []
+    for i in range(len(my_string)):
+        my_prefix.append(my_string[:i])
+    
+    if is_prefix in my_prefix:
+        answer = 1
+        
+    return answer
+```
+
+접두사를 `my_prefix`에 담아서 주어진 접두사가 포함되있는지 검색해야 풀었다.
+
+그런데 다른 분의 풀이를 봤는데 이런 함수도 있구나를 알게되었다.
+
+## startswith
+
+`startswith`는 문자열 함수 중 하나로, 문자열이 사용자가 지정하는 특정 문자로 시작하는지 확인하는 함수이다.
+
+- 반환값은 `true` 혹은 `false`이다.
+
+```python
+def solution(my_string, is_prefix):
+    return int(my_string.startswith(is_prefix))
+```
+
+`startswith`를 사용하면 쉽게 접두사인지 알 수 있다.
+
+반대로 접미사인지 쉽게 확인하는 방법도 있다.
+## endswith
+
+`endswith`는 문자열 함수 중 하나로, 현재 문자열이 사용자가 지정하는 특정 문자로 끝나는지 확인하는 함수이다.
+
+- 반환값은 `true` 혹은 `false`이다.
+
+```python
+def solution(my_string, is_suffix):
+    return int(my_string.endswith(is_suffix))
+```
+
+`endswith`를 사용하면 쉽게 접미사인지 알 수 있다.
