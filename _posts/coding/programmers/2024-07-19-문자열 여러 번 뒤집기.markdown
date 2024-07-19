@@ -2,6 +2,7 @@
 layout: post
 related_posts: 
   - _posts/coding/programmers/2024-07-16-배열 만들기2.markdown
+  - _posts/coding/programmers/2024-07-19-접두사인지 확인하기.markdown
 title: 문자열 여러 번 뒤집기
 categories:
   - coding
