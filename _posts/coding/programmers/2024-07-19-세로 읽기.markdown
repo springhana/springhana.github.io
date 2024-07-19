@@ -1,0 +1,99 @@
+---
+layout: post
+related_posts: 
+  - _posts/coding/programmers/2024-07-19-접두사인지 확인하기.markdown
+title: 세로 읽기
+categories:
+  - coding
+  - programmers
+image: /assets/img/coding/프로그래머스/세로 읽기 썸네일.png
+permalink: '/:categories/:year/:month/:day/:title/'
+description: >
+
+ 프로그래머스 파이썬 - 세로 읽기
+---
+
+* toc
+{:toc}
+
+# 세로 읽기
+
+# 문제
+
+> <a href="https://school.programmers.co.kr/learn/courses/30/lessons/181904">세로 읽기</a>
+
+문자열 `my_string`과 두 정수 `m`, `c`가 주어집니다. `my_string`을 한 줄에 `m` 글자씩 가로로 적었을 때 왼쪽부터 세로로 `c`번째 열에 적힌 글자들을 문자열로 return 하는 solution 함수를 작성해 주세요.
+
+---
+
+##### 제한사항
+
+[](https://github.com/springhana/CodingTest_python/edit/master/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4/0/181904.%E2%80%85%EC%84%B8%EB%A1%9C%E2%80%85%EC%9D%BD%EA%B8%B0/README.md#%EC%A0%9C%ED%95%9C%EC%82%AC%ED%95%AD)
+
+- `my_string`은 영소문자로 이루어져 있습니다.
+- 1 ≤ `m` ≤ `my_string`의 길이 ≤ 1,000
+- `m`은 `my_string` 길이의 약수로만 주어집니다.
+- 1 ≤ `c` ≤ `m`
+
+---
+
+##### 입출력 예
+
+[](https://github.com/springhana/CodingTest_python/edit/master/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4/0/181904.%E2%80%85%EC%84%B8%EB%A1%9C%E2%80%85%EC%9D%BD%EA%B8%B0/README.md#%EC%9E%85%EC%B6%9C%EB%A0%A5-%EC%98%88)
+
+|my_string|m|c|result|
+|---|---|---|---|
+|"ihrhbakrfpndopljhygc"|4|2|"happy"|
+|"programmers"|1|1|"programmers"|
+
+---
+
+##### 입출력 예 설명
+
+[](https://github.com/springhana/CodingTest_python/edit/master/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4/0/181904.%E2%80%85%EC%84%B8%EB%A1%9C%E2%80%85%EC%9D%BD%EA%B8%B0/README.md#%EC%9E%85%EC%B6%9C%EB%A0%A5-%EC%98%88-%EC%84%A4%EB%AA%85)
+
+입출력 예 #1
+
+- 예제 1번의 `my_string`을 한 줄에 4 글자씩 쓰면 다음의 표와 같습니다.
+    
+    |1열|2열|3열|4열|
+    |---|---|---|---|
+    |i|h|r|h|
+    |b|a|k|r|
+    |f|p|n|d|
+    |o|p|l|j|
+    |h|y|g|c|
+    
+    2열에 적힌 글자를 세로로 읽으면 happy이므로 "happy"를 return 합니다.
+    
+
+입출력 예 #2
+
+- 예제 2번의 `my_string`은 `m`이 1이므로 세로로 "programmers"를 적는 것과 같고 따라서 1열에 적힌 글자를 세로로 읽으면 programmers입니다. 따라서 "programmers"를 return 합니다.
+
+# 풀이
+
+```python
+import math
+
+def solution(my_string, m, c):
+    answer = ''
+    arr = []
+    for i in range(math.ceil(len(my_string) // m)):
+        arr.append(list(my_string[i * m: i * m + m]))
+    
+    for i in arr:
+        answer += i[c-1]
+    return answer
+```
+
+주어진 `m`과 문자열 길이를 나누고 그 값에서 반올림을 한 값을 `for`문으로 반복문을 사용해서 문제 나온것처럼 2차 배열로 만들어서 출력을 했다.
+
+그런데 다른 분의 풀이를 봤는데 참 어렵게 푼 것 같다.
+
+```python
+def solution(my_string, m, c):
+    return s[c-1::m]
+```
+
+생각을 해보면 파이썬에서는 시작 위치는 `c` 부터하는데 인덱스는 0부터 시작하니 -1을 해주고 `m` 칸씩 띄워서 풀면 된다.
