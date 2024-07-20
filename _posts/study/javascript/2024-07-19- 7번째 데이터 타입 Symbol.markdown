@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-07-17-String.markdown
+  - _posts/study/javascript/2024-07-20- 이터러블.markdown
 title: 7번째 데이터 타입 Symbol
 categories:
   - study
