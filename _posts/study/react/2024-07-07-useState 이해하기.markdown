@@ -1,7 +1,7 @@
 ---
 layout: post
 related_posts:
-  - _posts/study/react/2024-04-22-리액트와 상태 관리 라이브러리 (2).markdown
+  - _posts/study/react/2024-07-21-useEffect 이해하기.markdown
 title: useState 이해하기
 categories:
   - study
