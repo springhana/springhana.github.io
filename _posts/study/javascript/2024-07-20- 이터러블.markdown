@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-07-19- 7번째 데이터 타입 Symbol.markdown
+  - _posts/study/javascript/2024-07-21- 스프레드 문법.markdown
 title: 이터러블
 categories:
   - study
