@@ -2,7 +2,6 @@
 layout: post
 related_posts:
   - _posts/study/react/2024-04-18-리액트와 상태 관리 라이브러리 (1).markdown
-  - _posts/study/react/2024-07-07-useState 이해하기 copy.markdown
 title: 리액트와 상태 관리 라이브러리 (2)
 categories:
   - study
