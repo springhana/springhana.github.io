@@ -103,44 +103,6 @@ const [e, f = 10, g = 3] = [1, 2];
 console.log(e, f, g); // 1 2 3
 ```
 
-🎈 배열 디스트럭처링 할당은 배열과 같은 이터러블에서 필요한 요소만 추출하여 변수에 할당하고 싶을 때 유용하다.
-
-```js
-// url을 파싱하여 protocol, host, path 프로퍼티를 갖는 객체를 생성해 반환한다.
-function parseURL(url = '') {
-  // '://' 앞의 문자열(protocol)과 '/' 이전의 '/'으로 시작하지 않는 문자열(host)과 '/' 이후의 문자열(path)을 검색한다.
-  const parsedURL = url.match(/^(\w+):\/\/([^/]+)\/(.*)$/);
-  console.log(parsedURL);
-  /*
-  [
-    'https://developer.mozilla.org/ko/docs/Web/JavaScript',
-    'https',
-    'developer.mozilla.org',
-    'ko/docs/Web/JavaScript',
-    index: 0,
-    input: 'https://developer.mozilla.org/ko/docs/Web/JavaScript',
-    groups: undefined
-  ]
-  */
-
-  if (!parsedURL) return {};
-
-  // 배열 디스트럭처링 할당을 사용하여 이터러블에서 필요한 요소만 추출한다.
-  const [, protocol, host, path] = parsedURL;
-  return { protocol, host, path };
-}
-
-const parsedURL = parseURL('https://developer.mozilla.org/ko/docs/Web/JavaScript');
-console.log(parsedURL);
-/*
-{
-  protocol: 'https',
-  host: 'developer.mozilla.org',
-  path: 'ko/docs/Web/JavaScript'
-}
-*/
-```
-
 배열 디스트럭처링 할당을 위한 변수에 Rest 파라미터와 유사하게 **Rest 요소** `...`을 사용할 수 있다.
 
 - Rest 파라미터와 마찬가지로 반드시 마지막에 위치해야 한다.
