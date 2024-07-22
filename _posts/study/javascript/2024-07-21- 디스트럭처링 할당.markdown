@@ -2,7 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-07-21- 스프레드 문법.markdown
-  - _posts/study/javascript/22024-07-22- Ser과 Map.markdown
+  - _posts/study/javascript/2024-07-22- Set과 Map (1).markdown
 title: 디스트럭처링 할당
 categories:
   - study
