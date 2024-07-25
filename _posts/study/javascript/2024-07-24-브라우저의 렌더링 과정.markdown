@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-07-22- Set과 Map (2).markdown
+  - _posts/study/javascript/2024-07-25-DOM.markdown
 title: 브라우저의 렌더링 과정
 categories:
   - study
