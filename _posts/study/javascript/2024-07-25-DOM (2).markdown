@@ -2,6 +2,7 @@
 layout: post
 related_posts:
   - _posts/study/javascript/2024-07-25-DOM (1).markdown
+  - _posts/study/javascript/2024-07-25-DOM (3).markdown
 title: DOM (2)
 categories:
   - study
